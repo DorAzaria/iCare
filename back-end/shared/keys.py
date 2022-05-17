@@ -1,0 +1,8 @@
+USERNAME = 'username'
+EMAIL = 'email'
+PASSWORD = 'password'
+FIRST_NAME = 'first_name'
+LAST_NAME = 'last_name'
+ERROR_CODE = 'error_code'
+SESSION = 'session_key'
+REGISTRATION_TYPE = 'registration_type'

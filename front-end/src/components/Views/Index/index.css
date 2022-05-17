@@ -1,0 +1,22 @@
+.ViewIndexMainGate {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 0.75rem;
+}
+
+.ViewIndexMainGate_warning {
+  grid-area: 1/1/2/2;
+  align-self: center;
+  justify-self: center;
+
+  font-size: 1.6rem;
+}
+
+.ViewIndexMainGate_navigation {
+  grid-area: 2/1/3/2;
+  align-self: center;
+  justify-self: center;
+}
+
+

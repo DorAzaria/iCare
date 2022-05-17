@@ -1,0 +1,10 @@
+.Button_navigation {
+  background: #180781;
+  border-radius: 8px;
+  color: white;
+
+  padding: 8px;
+
+  text-align: center;
+  text-decoration: none;
+}
