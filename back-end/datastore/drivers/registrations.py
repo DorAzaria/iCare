@@ -9,6 +9,11 @@ TYPES = {
     'parent': 2,
 }
 
+LABELS = {
+    1: 'babysitter',
+    2: 'parent',
+}
+
 def create_registration(data):
 
     username = data[keys.USERNAME]
@@ -35,3 +40,6 @@ def create_registration(data):
     registration.user_number = user_number
     registration.registration_type = registration_type
     registration.save()
+
+def find_registration(user_number):
+    return Registration.objects.get(user_number=user_number)

@@ -7,7 +7,11 @@ import AppContext from '@contexts/App';
 import ShellMainGate from '@components/Shells/MainGate';
 import ShellNavigation from '@components/Shells/Navigation';
 
+import Links from '@shared/Links';
+
 import './index.css';
+
+const MAP_LINKS = Links['MAP_LINKS'];
 
 class ViewIndex extends React.Component {
 
@@ -22,11 +26,15 @@ class ViewIndex extends React.Component {
     // render for when the user is logged in.
     const renderA = () => {
 
+      const { type } = user;
+
       const body = (
         <div>MAIN INDEX LOGGED-IN USER</div>
       );
 
-      return (<ShellNavigation body={ body }/>);
+      const links = MAP_LINKS[type];
+
+      return (<ShellNavigation body={ body } links={ links }/>);
 
     };
 

@@ -16,6 +16,8 @@ import './index.css';
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
 const KEY_LAST_NAME = AppKeys['LAST_NAME'];
+const KEY_NUMBER_USER = AppKeys['NUMBER_USER'];
+const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
 const KEY_PASSWORD = AppKeys['PASSWORD'];
 const KEY_USERNAME = AppKeys['USERNAME'];
 const KEY_SESSION = AppKeys['SESSION'];
@@ -86,13 +88,13 @@ class ViewLogIn extends React.Component {
 
         const loadUser = (response) => () => {
 
-          console.log('app: ', app);
-
-          const keySession = response[KEY_SESSION];
+          const session = response[KEY_SESSION];
           const firstName = response[KEY_FIRST_NAME];
           const lastName = response[KEY_LAST_NAME];
+          const number = response[KEY_NUMBER_USER];
+          const type = response[KEY_REGISTRATION_TYPE];
 
-          const user = { keySession, firstName, lastName };
+          const user = { session, firstName, lastName, number, type };
 
           app.setState({ user: user });
 
@@ -115,7 +117,7 @@ class ViewLogIn extends React.Component {
         const logInTry = () => {
   
           DatabaseDriver.logInUser(request)
-            .then((response) => {
+            .then((response) => { console.log('logIn response: ', response);
   
               const errorCode = response[KEY_ERROR_CODE];
   
@@ -129,7 +131,7 @@ class ViewLogIn extends React.Component {
   
               }
   
-            }).catch((error) => { console.log('log-in error: ', error);
+            }).catch((error) => { console.log('logIn error: ', error);
   
               logInFail();
   

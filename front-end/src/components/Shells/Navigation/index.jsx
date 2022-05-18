@@ -19,11 +19,23 @@ class ShellNavigation extends React.Component {
 
     const { props, context } = this;
 
-    const { body } = props;
+    const { body, links } = props;
 
     const { strings } = context;
 
     const appTitle = strings['TITLE_APP'];
+
+    const navigationLinks = links.map((pair) => {
+
+      const { key, link } = pair;
+
+      const label = strings[key];
+
+      return (
+        <Link key={ key } to={ link }>{ label }</Link>
+      );
+
+    });
 
     return (
       <div className="ShellNavigation">
@@ -31,7 +43,7 @@ class ShellNavigation extends React.Component {
           <Link className="ShellNavigation_headTitle" to="/">{ appTitle }</Link>
         </div>
         <nav className="ShellNavigation_bar">
-          <Link to="/"></Link>    
+          { navigationLinks } 
         </nav>
         <div className="ShellNavigation_body">{ body }</div>
       </div>
@@ -42,7 +54,8 @@ class ShellNavigation extends React.Component {
 }
 
 ShellNavigation.propTypes = {
-  body: PropTypes.element.isRequired
+  body: PropTypes.element.isRequired,
+  links: PropTypes.array,
 };
 
 export default ShellNavigation;

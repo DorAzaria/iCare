@@ -1,6 +1,4 @@
 from django.conf import settings
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -27,25 +25,12 @@ def request_handler(request):
             return error_handler(request)
 
         data = json.load(request)
-        username = data[keys.USERNAME]
-        password = data[keys.PASSWORD]
 
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            session_key = driver_sessions.create_session(username)
-
-            data = {
-                keys.ERROR_CODE: errors.ERROR_NONE,
-                keys.FIRST_NAME: user.first_name,
-                keys.LAST_NAME: user.last_name,
-                keys.SESSION: session_key,
-                keys.USERNAME: user.username,
-            }
-
-            return JsonResponse(data)
+        session_data = driver_sessions.log_in(request, data)
+        if session_data is not None:
+            return JsonResponse(session_data)
 
         return error_handler(request)
 
     except Exception as ex:
-        print(f'exception: { ex }')
         return error_handler(request)
