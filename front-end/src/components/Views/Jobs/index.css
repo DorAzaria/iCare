@@ -1,4 +1,4 @@
-.ViewJobs {
+.ViewJobsParent {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: 1fr;
@@ -7,10 +7,10 @@
   padding: 0.75rem;
 }
 
-.ViewJobs_all {
+.ViewJobsParent_all {
   grid-area: 1/1/2/2;
 }
 
-.ViewJobs_new {
+.ViewJobsParent_new {
   grid-area: 1/2/2/3;
 }

@@ -13,7 +13,7 @@ from shared import errors, keys
 def jobs_array(jobs):
 
     array = []
-    for job in jobs:
+    for job in list(jobs):
 
         number_job = job.id
         title = job.title
@@ -35,13 +35,13 @@ def jobs_array(jobs):
 
 def load_all_jobs():
 
-    all_jobs = Jobs.objects.all(enabled=True)
+    all_jobs = Job.objects.all().filter(enabled=True)
     all_data = jobs_array(all_jobs)
     return all_data
 
 def load_parent_jobs(parent_number):
 
-    parent_jobs = Jobs.objects.get(parent_id=parent_number)
+    parent_jobs = Job.objects.all().filter(parent_id=parent_number)
     parent_data = jobs_array(parent_jobs)
     return parent_data
 
@@ -87,3 +87,4 @@ def save_job(data):
         }
 
         return job_data
+

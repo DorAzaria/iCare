@@ -117,7 +117,7 @@ class ViewLogIn extends React.Component {
         const logInTry = () => {
   
           DatabaseDriver.logInUser(request)
-            .then((response) => { console.log('logIn response: ', response);
+            .then((response) => {
   
               const errorCode = response[KEY_ERROR_CODE];
   
@@ -131,7 +131,7 @@ class ViewLogIn extends React.Component {
   
               }
   
-            }).catch((error) => { console.log('logIn error: ', error);
+            }).catch((error) => {
   
               logInFail();
   

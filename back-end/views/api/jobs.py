@@ -16,20 +16,20 @@ def error_handler(request):
         keys.ERROR_CODE: errors.ERROR_GENERIC,
     }
 
-    return JsonResponse(data)
+    return JsonResponse(data, safe=False)
 
 def get_handler(request):
 
     parent_number = request.GET.get(keys.NUMBER_PARENT, None)
     jobs_data = driver_jobs.load_jobs(parent_number)
-    return JsonResponse(jobs_data)
+    return JsonResponse(jobs_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)
 
     job_data = driver_jobs.save_job(data)
     if job_data is not None:
-        return JsonResponse(job_data)
+        return JsonResponse(job_data, safe=False)
 
     return error_handler(request)
 

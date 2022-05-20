@@ -18,13 +18,14 @@ const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_SESSION = AppKeys['SESSION'];
 const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
+const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
-class ViewJobs extends React.Component {
+class ViewJobsParent extends React.Component {
 
   static contextType = AppContext;
 
@@ -39,6 +40,10 @@ class ViewJobs extends React.Component {
       situation: '',
       jobs: [],
     };
+
+  }
+
+  componentDidMount() {
 
     this.loadJobs();
 
@@ -57,12 +62,12 @@ class ViewJobs extends React.Component {
     };
 
     DatabaseDriver.loadJobs(parameters)
-      .then((jobs) => { console.log('jobs: ', jobs);
+      .then((jobs) => {
 
         this.setState({ jobs: jobs });
 
       })
-      .catch((error) => { console.log('error: ', error);
+      .catch((error) => {
 
 
       });
@@ -80,7 +85,7 @@ class ViewJobs extends React.Component {
     // render for parents
     const renderA = () => {
 
-      const { title, description, timeA, timeB, situation } = state;
+      const { title, description, timeA, timeB, situation, jobs } = state;
 
       const { session } = user;
 
@@ -96,6 +101,41 @@ class ViewJobs extends React.Component {
       const situationFail = strings['MESSAGE_JOBS_FAIL'];
       const situationSuccess = strings['MESSAGE_JOBS_SUCCESS'];
       const situationTry = strings['MESSAGE_JOBS_TRY'];
+
+      const makeJobElement = (job) => {
+
+        const {
+          [KEY_NUMBER_JOB]: key,
+          [KEY_TITLE]: title,
+          [KEY_DESCRIPTION]: description,
+          [KEY_TIME_A]: timeA,
+          [KEY_TIME_B]: timeB,
+        } = job;
+
+        const dateA = new Date(timeA);
+        const dateB = new Date(timeB);
+
+        const labelTimeA = dateA.toISOString();
+        const labelTimeB = dateB.toISOString();
+
+        return (
+          <div key={ key } className="ViewJobsParent_singleJob">
+            <div className="ViewJobsParent_singleJobTitle">
+              <span className="Title_styleB">{ title }</span>
+            </div>
+            <div className="ViewJobsParent_singleJobDescription">
+              <span>{ description }</span>
+            </div>
+            <div className="ViewJobsParent_singleJobTimeA">
+              <span>{ labelTimeA }</span>
+            </div>
+            <div className="ViewJobsParent_singleJobTimeB">
+              <span>{ labelTimeB }</span>
+            </div>
+          </div>
+        );
+
+      };
 
       const setValue = (key) => (event) => {
 
@@ -173,15 +213,20 @@ class ViewJobs extends React.Component {
 
       };
 
+      const elementsJob = jobs.map(makeJobElement);
+
       const body = (
-        <div className="ViewJobs">
-          <div className="ViewJobs_all">
-            <div className="ViewJobs_titleAll">
+        <div className="ViewJobsParent">
+          <div className="ViewJobsParent_all">
+            <div className="ViewJobsParent_titleAll">
               <span className="Title_styleA">{ titleJobsAll }</span>
             </div>
+            <div className="ViewJobsParent_listAll">
+              { elementsJob }
+            </div>
           </div>
-          <div className="ViewJobs_new Layout_lateralColumn">
-            <div className="ViewJobs_titleNew">
+          <div className="ViewJobsParent_new Layout_lateralColumn">
+            <div className="ViewJobsParent_titleNew">
               <span className="Title_styleA">{ titleJobsNew }</span>
             </div>
             <div className="Layout_labeledInput">
@@ -205,7 +250,7 @@ class ViewJobs extends React.Component {
                 <span>{ labelScheduleStart }</span>
               </div>
               <div className="Layout_inputField">
-                <input type="date" onChange={ setTime('timeA') } />
+                <input type="datetime-local" onChange={ setTime('timeA') } />
               </div>
             </div>
             <div className="Layout_labeledInput">
@@ -213,7 +258,7 @@ class ViewJobs extends React.Component {
                 <span>{ labelScheduleEnd }</span>
               </div>
               <div className="Layout_inputField">
-                <input type="date" onNChange={ setTime('timeB') }/>
+                <input type="datetime-local" onNChange={ setTime('timeB') }/>
               </div>
             </div>
             <button className="Button_navigation" onClick={ actionSubmit }>{ labelSubmit }</button>
@@ -231,7 +276,6 @@ class ViewJobs extends React.Component {
     // render for babysitters
     const renderB = () => {
 
-      return (<div>TODO: babysitter</div>);
 
     };
 
@@ -264,4 +308,5 @@ class ViewJobs extends React.Component {
 
 }
 
-export default ViewJobs;
+export default ViewJobsParent;
+

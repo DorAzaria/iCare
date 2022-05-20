@@ -33,4 +33,5 @@ def request_handler(request):
         return error_handler(request)
 
     except Exception as ex:
+        raise ex
         return error_handler(request)

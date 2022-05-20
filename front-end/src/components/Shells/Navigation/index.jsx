@@ -42,7 +42,7 @@ class ShellNavigation extends React.Component {
         <div className="ShellNavigation_head">
           <Link className="ShellNavigation_headTitle" to="/">{ appTitle }</Link>
         </div>
-        <nav className="ShellNavigation_bar">
+        <nav className="ShellNavigation_bar Layout_centralRow">
           { navigationLinks } 
         </nav>
         <div className="ShellNavigation_body">{ body }</div>
