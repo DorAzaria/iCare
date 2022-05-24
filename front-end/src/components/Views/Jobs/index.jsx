@@ -25,7 +25,7 @@ const KEY_TITLE = AppKeys['TITLE'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
-class ViewJobsParent extends React.Component {
+class ViewJobs extends React.Component {
 
   static contextType = AppContext;
 
@@ -55,11 +55,17 @@ class ViewJobsParent extends React.Component {
 
     const { user } = context;
 
-    const { number } = user;
+    const { number, type } = user;
 
-    const parameters = {
-      [KEY_NUMBER_PARENT]: number,
-    };
+    let parameters;
+
+    if (type == 'parent') {
+
+      parameters = {
+        [KEY_NUMBER_PARENT]: number,
+      };
+
+    }
 
     DatabaseDriver.loadJobs(parameters)
       .then((jobs) => {
@@ -276,6 +282,72 @@ class ViewJobsParent extends React.Component {
     // render for babysitters
     const renderB = () => {
 
+      const { jobs } = state;
+
+      const { strings } = context;
+
+      const titleJobsAll = strings['TITLE_JOBS_ALL'];
+
+      const makeJobElement = (job) => {
+
+        const {
+          [KEY_NUMBER_JOB]: key,
+          [KEY_TITLE]: title,
+          [KEY_DESCRIPTION]: description,
+          [KEY_TIME_A]: timeA,
+          [KEY_TIME_B]: timeB,
+        } = job;
+
+        const dateA = new Date(timeA);
+        const dateB = new Date(timeB);
+
+        const labelTimeA = dateA.toISOString();
+        const labelTimeB = dateB.toISOString();
+
+        return (
+          <div key={ key } className="ViewJobsBabysitter_singleJob">
+            <div className="ViewJobsBabysitter_singleJobTitle">
+              <span className="Title_styleB">{ title }</span>
+            </div>
+            <div className="ViewJobsBabysitter_singleJobDescription">
+              <span>{ description }</span>
+            </div>
+            <div className="ViewJobsBabysitter_singleJobTimeA">
+              <span>{ labelTimeA }</span>
+            </div>
+            <div className="ViewJobsBabysitter_singleJobTimeB">
+              <span>{ labelTimeB }</span>
+            </div>
+          </div>
+        );
+
+      };
+
+      const actionRefresh = () => {
+
+        this.loadJobs();
+
+      };
+
+      const elementsJob = jobs.map(makeJobElement);
+
+      const body = (
+        <div className="ViewJobsBabysitter">
+          <div className="ViewJobsBabysitter_all">
+            <button onClick={ actionRefresh }>REFRESH</button>
+            <div className="ViewJobsBabysitter_titleAll">
+              <span className="Title_styleA">{ titleJobsAll }</span>
+            </div>
+            <div className="ViewJobsBabysitter_listAll">
+              { elementsJob }
+            </div>
+          </div>
+        </div>
+      );
+
+      const links = MAP_LINKS[type];
+
+      return (<ShellNavigation body={ body } links={ links }/>);
 
     };
 
@@ -308,5 +380,4 @@ class ViewJobsParent extends React.Component {
 
 }
 
-export default ViewJobsParent;
-
+export default ViewJobs;

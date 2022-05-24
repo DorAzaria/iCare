@@ -1,12 +1,11 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 
 import json
 
-from datastore.drivers import jobs as driver_jobs
+from datastore.drivers import chats as driver_chats
 
 from shared import errors, keys
 
@@ -20,16 +19,17 @@ def error_handler(request):
 
 def get_handler(request):
 
-    parent_number = request.GET.get(keys.NUMBER_PARENT, None)
-    jobs_data = driver_jobs.load_jobs(parent_number)
-    return JsonResponse(jobs_data, safe=False)
+    session_number = request.GET.get(keys.NUMBER_SESSION, None)
+    chat_number = request.GET.get(keys.NUMBER_CHAT, None)
+    chat_data = driver_chats.load_chat(session_number, chat_number)
+    return JsonResponse(chat_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)
 
-    job_data = driver_jobs.save_job(data)
-    if job_data is not None:
-        return JsonResponse(job_data, safe=False)
+    chat_data = driver_chats.save_chat(data)
+    if chat_data is not None:
+        return JsonResponse(chat_data, safe=False)
 
     return error_handler(request)
 
@@ -44,4 +44,6 @@ def request_handler(request):
             return get_handler(request)
 
     except Exception as ex:
+        print(f'exception: { ex }')
+        raise ex
         return error_handler(request)

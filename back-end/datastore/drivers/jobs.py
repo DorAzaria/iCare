@@ -87,4 +87,3 @@ def save_job(data):
         }
 
         return job_data
-
