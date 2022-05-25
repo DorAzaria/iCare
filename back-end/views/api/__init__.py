@@ -3,13 +3,14 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from . import chat, jobs, log_in, register
+from . import apply, chat, jobs, log_in, register
 
 API_ROUTES = {
     '/api/register': register.request_handler,
     '/api/log-in': log_in.request_handler,
     '/api/jobs': jobs.request_handler,
     '/api/chat': chat.request_handler,
+    '/api/apply': apply.request_handler,
 }
 
 def request_handler(request):

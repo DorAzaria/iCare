@@ -21,8 +21,18 @@ def error_handler(request):
 def get_handler(request):
 
     parent_number = request.GET.get(keys.NUMBER_PARENT, None)
-    jobs_data = driver_jobs.load_jobs(parent_number)
-    return JsonResponse(jobs_data, safe=False)
+    job_number = request.GET.get(keys.NUMBER_JOB, None)
+
+    if parent_number is not None:
+        jobs_data = driver_jobs.load_jobs(parent_number)
+        return JsonResponse(jobs_data, safe=False)
+
+    if job_number is not None:
+        job_data = driver_jobs.load_single_job(job_number)
+        return JsonResponse(job_data, safe=False)
+
+    all_data = driver_jobs.load_jobs()
+    return JsonResponse(all_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)

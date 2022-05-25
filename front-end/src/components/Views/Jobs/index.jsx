@@ -304,6 +304,8 @@ class ViewJobs extends React.Component {
         const labelTimeA = dateA.toISOString();
         const labelTimeB = dateB.toISOString();
 
+        const applyLink = `/apply?${ KEY_NUMBER_JOB }=${ key }`;
+
         return (
           <div key={ key } className="ViewJobsBabysitter_singleJob">
             <div className="ViewJobsBabysitter_singleJobTitle">
@@ -318,6 +320,7 @@ class ViewJobs extends React.Component {
             <div className="ViewJobsBabysitter_singleJobTimeB">
               <span>{ labelTimeB }</span>
             </div>
+            <Link to={ applyLink } className="Button_navigation">APPLY</Link>
           </div>
         );
 

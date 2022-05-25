@@ -89,11 +89,25 @@ const loadJobs = async (parameters) => {
     'headers': headers,
   });
 
-  const text = await response.text(); console.log('loadJobs text:\n', text);
-  return JSON.parse(text);
-
   return await response.json();
 
+};
+
+const applyUser = async (request) => {
+
+  const body = JSON.stringify(request);
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch('/api/apply', {
+    'method': 'POST',
+    'headers': headers,
+    'body': body,
+  });
+
+  return await response.json();
 
 };
 
@@ -102,6 +116,7 @@ const DatabaseDriver = Object.freeze({
   logInUser,
   saveJob,
   loadJobs,
+  applyUser,
 });
 
 export default DatabaseDriver;
