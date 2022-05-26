@@ -18,6 +18,10 @@ const LINKS_PARENT = [
     key: 'LABEL_SCHEDULE',
     link: '/schedule',
   },
+  {
+    key: 'LABEL_REQUESTS',
+    link: '/requests',
+  },
 ];
 
 const MAP_LINKS = {
