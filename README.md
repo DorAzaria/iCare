@@ -2,7 +2,7 @@
 
 ## An example scenario
 ![](https://github.com/DorAzaria/iCare/blob/main/images/download.png?raw=true)
-
+ 
 
 ## Visual Demo
 
