@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 from django.contrib.auth.models import User
 
+=======
+>>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
 from datastore.models.applications import Application
 from datastore.models.jobs import Job
 
 from shared import errors, keys
 
+<<<<<<< HEAD
 from datastore.drivers import jobs as driver_jobs
 
 def single_application(application):
@@ -26,6 +30,8 @@ def single_application(application):
 
     return data
 
+=======
+>>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
 def save_application(data):
 
     babysitter_id = data[keys.NUMBER_USER]
@@ -47,6 +53,7 @@ def save_application(data):
 def load_applications(parent_id):
 
     related_jobs = Job.objects.all().filter(parent_id=parent_id)
+<<<<<<< HEAD
 
     data_jobs = []
 
@@ -65,3 +72,9 @@ def load_applications(parent_id):
         data_jobs.append(data_job)
 
     return data_jos
+=======
+    array_job_numbers = [job.id for job in related_jobs]
+    
+
+    pass
+>>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365

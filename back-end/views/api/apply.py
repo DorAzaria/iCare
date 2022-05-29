@@ -18,6 +18,7 @@ def error_handler(request):
 
     return JsonResponse(data, safe=False)
 
+<<<<<<< HEAD
 def get_handler(request):
 
     parent_number = request.GET.get(keys.NUMBER_PARENT, None)
@@ -28,6 +29,8 @@ def get_handler(request):
 
     return error_handler(request)
 
+=======
+>>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
 def post_handler(request):
     data = json.load(request)
 
@@ -41,9 +44,12 @@ def request_handler(request):
 
     try:
 
+<<<<<<< HEAD
         if request.method == 'GET':
             return get_handler(request)
 
+=======
+>>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
         if request.method == 'POST':
             return post_handler(request)
 
