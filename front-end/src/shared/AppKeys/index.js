@@ -30,6 +30,10 @@ const NUMBER_USER = 'number_user';
 
 const COVER_LETTER = 'cover_letter';
 
+const APPLICATIONS = 'applications';
+
+const NUMBER_APPLICATION = 'number_application';
+
 const AppKeys = Object.freeze({
   USERNAME,
   PASSWORD,
@@ -47,6 +51,8 @@ const AppKeys = Object.freeze({
   NUMBER_PARENT,
   NUMBER_USER,
   COVER_LETTER,
+  APPLICATIONS,
+  NUMBER_APPLICATION,
 });
 
 export default AppKeys;

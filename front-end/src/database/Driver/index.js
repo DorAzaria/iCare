@@ -89,7 +89,6 @@ const loadJobs = async (parameters) => {
     'headers': headers,
   });
 
-<<<<<<< HEAD
   return await response.json();
 
 };
@@ -108,16 +107,13 @@ const applyUser = async (request) => {
     'body': body,
   });
 
-=======
->>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
   return await response.json();
 
 };
 
-<<<<<<< HEAD
 const loadApplications = async (parameters) => {
 
-  let url = '/api/applications';
+  let url = '/api/apply';
 
   if (parameters) {
 
@@ -125,17 +121,11 @@ const loadApplications = async (parameters) => {
     url = `${ url }?${ searchParams }`;
 
   }
-=======
-const applyUser = async (request) => {
-
-  const body = JSON.stringify(request);
->>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
 
   const headers = {
     'Content-Type': 'application/json',
   };
 
-<<<<<<< HEAD
   const response = await fetch(url, {
     'method': 'GET',
     'headers': headers,
@@ -144,14 +134,6 @@ const applyUser = async (request) => {
   const text = await response.text(); console.log('text: ', text);
   return JSON.parse(text);
 
-=======
-  const response = await fetch('/api/apply', {
-    'method': 'POST',
-    'headers': headers,
-    'body': body,
-  });
-
->>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
   return await response.json();
 
 };
@@ -162,10 +144,7 @@ const DatabaseDriver = Object.freeze({
   saveJob,
   loadJobs,
   applyUser,
-<<<<<<< HEAD
   loadApplications,
-=======
->>>>>>> f90934e74bea4c80cdfc1ca59ce3985dc9d34365
 });
 
 export default DatabaseDriver;
