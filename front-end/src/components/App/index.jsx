@@ -14,6 +14,7 @@ import ViewJobs from '@components/Views/Jobs';
 import ViewRegister from '@components/Views/Register';
 import ViewApply from '@components/Views/Apply';
 import ViewRequests from '@components/Views/Requests';
+import ViewChat from '@components/Views/Chat';
 
 import './index.css';
 
@@ -37,6 +38,7 @@ class App extends React.Component {
     const viewRegister = <ViewRegister/>;
     const viewApply = <ViewApply/>;
     const viewRequests = <ViewRequests/>;
+    const viewChat = <ViewChat/>;
 
     return (
       <AppContext.Provider value={ appContext }>
@@ -50,6 +52,7 @@ class App extends React.Component {
                 <Route path="/jobs" element={ viewJobs }/>
                 <Route path="/apply" element={ viewApply }/>
                 <Route path="/requests" element={ viewRequests }/>
+                <Route path="/chat" element={ viewChat }/>
               </Routes>
             </BrowserRouter>
           </div>

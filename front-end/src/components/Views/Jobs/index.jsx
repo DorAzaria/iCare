@@ -6,6 +6,8 @@ import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
 
+import PartialJobPost from '@components/Partials/JobPost';
+
 import DatabaseDriver from '@database/Driver';
 
 import AppKeys from '@shared/AppKeys';
@@ -110,36 +112,7 @@ class ViewJobs extends React.Component {
 
       const makeJobElement = (job) => {
 
-        const {
-          [KEY_NUMBER_JOB]: key,
-          [KEY_TITLE]: title,
-          [KEY_DESCRIPTION]: description,
-          [KEY_TIME_A]: timeA,
-          [KEY_TIME_B]: timeB,
-        } = job;
-
-        const dateA = new Date(timeA);
-        const dateB = new Date(timeB);
-
-        const labelTimeA = dateA.toISOString();
-        const labelTimeB = dateB.toISOString();
-
-        return (
-          <div key={ key } className="ViewJobsParent_singleJob">
-            <div className="ViewJobsParent_singleJobTitle">
-              <span className="Title_styleB">{ title }</span>
-            </div>
-            <div className="ViewJobsParent_singleJobDescription">
-              <span>{ description }</span>
-            </div>
-            <div className="ViewJobsParent_singleJobTimeA">
-              <span>{ labelTimeA }</span>
-            </div>
-            <div className="ViewJobsParent_singleJobTimeB">
-              <span>{ labelTimeB }</span>
-            </div>
-          </div>
-        );
+        return (<PartialJobPost job={ job }/>);
 
       };
 
@@ -292,34 +265,13 @@ class ViewJobs extends React.Component {
 
         const {
           [KEY_NUMBER_JOB]: key,
-          [KEY_TITLE]: title,
-          [KEY_DESCRIPTION]: description,
-          [KEY_TIME_A]: timeA,
-          [KEY_TIME_B]: timeB,
         } = job;
-
-        const dateA = new Date(timeA);
-        const dateB = new Date(timeB);
-
-        const labelTimeA = dateA.toISOString();
-        const labelTimeB = dateB.toISOString();
 
         const applyLink = `/apply?${ KEY_NUMBER_JOB }=${ key }`;
 
         return (
-          <div key={ key } className="ViewJobsBabysitter_singleJob">
-            <div className="ViewJobsBabysitter_singleJobTitle">
-              <span className="Title_styleB">{ title }</span>
-            </div>
-            <div className="ViewJobsBabysitter_singleJobDescription">
-              <span>{ description }</span>
-            </div>
-            <div className="ViewJobsBabysitter_singleJobTimeA">
-              <span>{ labelTimeA }</span>
-            </div>
-            <div className="ViewJobsBabysitter_singleJobTimeB">
-              <span>{ labelTimeB }</span>
-            </div>
+          <div key={ key } className="ViewJobsBabysitter_jobEntry">
+            <PartialJobPost job={ job }/>
             <Link to={ applyLink } className="Button_navigation">APPLY</Link>
           </div>
         );

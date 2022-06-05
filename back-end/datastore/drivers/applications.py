@@ -46,7 +46,9 @@ def save_application(data):
 
 def load_applications(parent_id):
 
-    related_jobs = Job.objects.all().filter(parent_id=parent_id)
+    related_jobs = Job.objects.all().filter(
+        parent_id=parent_id,
+        )
 
     data_jobs = []
 

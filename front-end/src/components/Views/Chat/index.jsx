@@ -31,7 +31,7 @@ const KEY_TITLE = AppKeys['TITLE'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
-class ViewRequests extends React.Component {
+class ViewChat extends React.Component {
 
   static contextType = AppContext;
 
@@ -47,7 +47,7 @@ class ViewRequests extends React.Component {
 
   componentDidMount() {
 
-    this.loadApplications();
+    // this.loadApplications();
 
   }
 
@@ -82,7 +82,7 @@ class ViewRequests extends React.Component {
 
   }
 
-  render () {
+  render () { return (<div>CHAT PAGE</div>);
 
     const { context, state } = this;
 
@@ -136,20 +136,20 @@ class ViewRequests extends React.Component {
         const elementsApplication = applications.map(makeApplicationElement);
 
         return (
-          <div key={ key } className="ViewRequestsParent_singleJob">
-            <div className="ViewRequestsParent_singleJobTitle">
+          <div key={ key } className="ViewChatParent_singleJob">
+            <div className="ViewChatParent_singleJobTitle">
               <span className="Title_styleB">{ title }</span>
             </div>
-            <div className="ViewRequestsParent_singleJobDescription">
+            <div className="ViewChatParent_singleJobDescription">
               <span>{ description }</span>
             </div>
-            <div className="ViewRequestsParent_singleJobTimeA">
+            <div className="ViewChatParent_singleJobTimeA">
               <span>{ labelTimeA }</span>
             </div>
-            <div className="ViewRequestsParent_singleJobTimeB">
+            <div className="ViewChatParent_singleJobTimeB">
               <span>{ labelTimeB }</span>
             </div>
-            <div className="ViewRequestsParent_applications">
+            <div className="ViewChatParent_applications">
               { elementsApplication }
             </div>
           </div>
@@ -166,13 +166,13 @@ class ViewRequests extends React.Component {
       const elementsJobApplication = applications.map(makeJobApplicationsElement);
 
       const body = (
-        <div className="ViewRequestsParent">
-          <div className="ViewRequestsParent_all">
+        <div className="ViewChatParent">
+          <div className="ViewChatParent_all">
             <button onClick={ actionRefresh }>REFRESH</button>
-            <div className="ViewRequestsParent_titleAll">
+            <div className="ViewChatParent_titleAll">
               <span className="Title_styleA">{ titleJobsAll }</span>
             </div>
-            <div className="ViewRequestsParent_listAll">
+            <div className="ViewChatParent_listAll">
               { elementsJobApplication }
             </div>
           </div>
@@ -219,4 +219,4 @@ class ViewRequests extends React.Component {
 
 }
 
-export default ViewRequests;
+export default ViewChat;

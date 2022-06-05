@@ -5,6 +5,7 @@ import { Link, Navigate } from 'react-router-dom';
 import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
+import PartialJobPost from '@components/Partials/JobPost';
 import ComponentHelpers from '@components/Helpers';
 
 import DatabaseDriver from '@database/Driver';
@@ -190,35 +191,10 @@ class ViewApply extends React.Component {
   
       };
 
-      const {
-        [KEY_NUMBER_JOB]: key,
-        [KEY_TITLE]: title,
-        [KEY_DESCRIPTION]: description,
-        [KEY_TIME_A]: timeA,
-        [KEY_TIME_B]: timeB,
-      } = job;
-
-      const dateA = new Date(timeA);
-      const dateB = new Date(timeB);
-
-      const labelTimeA = dateA.toISOString();
-      const labelTimeB = dateB.toISOString();
-
       const body = (
         <div className="ViewApplyBabysitter">
-          <div className="ViewApplyBabysitter_singleJob">
-            <div className="ViewApplyBabysitter_singleJobTitle">
-              <span className="Title_styleB">{ title }</span>
-            </div>
-            <div className="ViewApplyBabysitter_singleJobDescription">
-              <span>{ description }</span>
-            </div>
-            <div className="ViewApplyBabysitter_singleJobTimeA">
-              <span>{ labelTimeA }</span>
-            </div>
-            <div className="ViewApplyBabysitter_singleJobTimeB">
-              <span>{ labelTimeB }</span>
-            </div>
+          <div className="ViewApplyBabysitter_jobEntry">
+            <PartialJobPost job={ job }/>
           </div>
           <div className="ViewApplyBabysitter_application">
             <h3>APPLICATION</h3>
