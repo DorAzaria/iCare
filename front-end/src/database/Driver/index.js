@@ -131,8 +131,50 @@ const loadApplications = async (parameters) => {
     'headers': headers,
   });
 
+  return await response.json();
+
+};
+
+const loadChat = async (parameters) => {
+
+  let url = '/api/chat';
+
+  if (parameters) {
+
+    const searchParams = queryLine(parameters);
+    url = `${ url }?${ searchParams }`;
+
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(url, {
+    'method': 'GET',
+    'headers': headers,
+  });
+
   const text = await response.text(); console.log('text: ', text);
   return JSON.parse(text);
+
+  return await response.json();
+
+};
+
+const saveMessage = async (request) => {
+
+  const body = JSON.stringify(request);
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch('/api/chat', {
+    'method': 'POST',
+    'headers': headers,
+    'body': body,
+  });
 
   return await response.json();
 
@@ -145,6 +187,8 @@ const DatabaseDriver = Object.freeze({
   loadJobs,
   applyUser,
   loadApplications,
+  loadChat,
+  saveMessage,
 });
 
 export default DatabaseDriver;

@@ -5,7 +5,8 @@ import { Link, Navigate } from 'react-router-dom';
 import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
-import PartialChatRequest from '@components/Partials/ChatRequest';
+import PartialMessageBox from '@components/Partials/MessageBox';
+import ComponentHelpers from '@components/Helpers';
 
 import DatabaseDriver from '@database/Driver';
 
@@ -15,16 +16,25 @@ import Links from '@shared/Links';
 
 import './index.css';
 
+const { withSearchParams } = ComponentHelpers;
+
+const KEY_APPLICATION = AppKeys['APPLICATION'];
 const KEY_APPLICATIONS = AppKeys['APPLICATIONS'];
+const KEY_CONTENTS = AppKeys['CONTENTS'];
 const KEY_COVER_LETTER = AppKeys['COVER_LETTER'];
 const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
 const KEY_LAST_NAME = AppKeys['LAST_NAME'];
 const KEY_SESSION = AppKeys['SESSION'];
+const KEY_MESSAGES = AppKeys['MESSAGES'];
 const KEY_NUMBER_APPLICATION = AppKeys['NUMBER_APPLICATION'];
+const KEY_NUMBER_AUTHOR = AppKeys['NUMBER_AUTHOR'];
+const KEY_NUMBER_CHAT = AppKeys['NUMBER_CHAT'];
 const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
+const KEY_NUMBER_USER = AppKeys['NUMBER_USER'];
+const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
@@ -40,39 +50,35 @@ class ViewChat extends React.Component {
 
     this.state = {
       situation: '',
+      contents: '',
       applications: [],
+      chat: null,
     };
 
   }
 
   componentDidMount() {
 
-    // this.loadApplications();
+    this.loadChat();
 
   }
 
-  loadApplications () {
+  loadChat () {
 
-    const { context } = this;
+    const { context, props } = this;
 
-    const { user } = context;
+    const { searchParams } = props;
 
-    const { number, type } = user;
+    const numberApplication = searchParams.get(KEY_APPLICATION);
 
-    let parameters;
+    const parameters = {
+      [KEY_NUMBER_APPLICATION]: numberApplication,
+    };
 
-    if (type == 'parent') {
+    DatabaseDriver.loadChat(parameters)
+      .then((chat) => {
 
-      parameters = {
-        [KEY_NUMBER_PARENT]: number,
-      };
-
-    }
-
-    DatabaseDriver.loadApplications(parameters)
-      .then((applications) => {
-
-        this.setState({ applications: applications });
+        this.setState({ chat: chat });
 
       })
       .catch((error) => {
@@ -82,99 +88,140 @@ class ViewChat extends React.Component {
 
   }
 
-  render () { return (<div>CHAT PAGE</div>);
+  render () {
 
     const { context, state } = this;
 
     const { strings, user } = context;
 
-    const { situation } = state;
+    const { chat, situation } = state;
+
+    if (!chat) {
+
+      return null;
+
+    }
 
     // render for parents
     const renderA = () => {
 
-      const { applications } = state;
+      const { chat, contents } = state;
 
-      const { strings } = context;
+      const { strings, user } = context;
 
-      const titleJobsAll = strings['TITLE_JOBS_ALL'];
+      // show nothing while chat is not loaded
+      if (!chat) {
 
-      const makeApplicationElement = (application) => {
+        return null;
 
-        const {
-          [KEY_NUMBER_APPLICATION]: numberApplication,
-        } = application;
+      }
 
-        const chatLink = `/chat?application=${ numberApplication }`;
+      const numberAuthor = user.number;
 
-        return (
-          <div key={ numberApplication }>
-            <PartialChatRequest application={ application }/>
-            <Link to={ chatLink } className="Button_navigation">CHAT</Link>
-          </div>
-        );
+      const setValue = (key) => (event) => {
 
+        const element = event.target;
+        const value = element.value;
+        this.setState({ [key]: value });
+  
       };
 
-      const makeJobApplicationsElement = (jobApplication) => {
+      const {
+        [KEY_NUMBER_CHAT]: numberChat,
+        [KEY_TITLE]: title,
+        [KEY_MESSAGES]: messages,
+      } = chat;
+
+      const makeMessageElement = (message) => {
 
         const {
-          [KEY_NUMBER_JOB]: key,
-          [KEY_TITLE]: title,
-          [KEY_DESCRIPTION]: description,
-          [KEY_TIME_A]: timeA,
-          [KEY_TIME_B]: timeB,
-          [KEY_APPLICATIONS]: applications,
-        } = jobApplication;
+          [KEY_NUMBER_AUTHOR]: numberAuthor,
+          [KEY_CONTENTS]: contents,
+        } = message;
 
-        const dateA = new Date(timeA);
-        const dateB = new Date(timeB);
+        const author = numberAuthor === user.number;
 
-        const labelTimeA = dateA.toISOString();
-        const labelTimeB = dateB.toISOString();
-
-        const elementsApplication = applications.map(makeApplicationElement);
-
-        return (
-          <div key={ key } className="ViewChatParent_singleJob">
-            <div className="ViewChatParent_singleJobTitle">
-              <span className="Title_styleB">{ title }</span>
-            </div>
-            <div className="ViewChatParent_singleJobDescription">
-              <span>{ description }</span>
-            </div>
-            <div className="ViewChatParent_singleJobTimeA">
-              <span>{ labelTimeA }</span>
-            </div>
-            <div className="ViewChatParent_singleJobTimeB">
-              <span>{ labelTimeB }</span>
-            </div>
-            <div className="ViewChatParent_applications">
-              { elementsApplication }
-            </div>
-          </div>
-        );
+        return (<PartialMessageBox author={ author } contents={ contents }/>);
 
       };
 
       const actionRefresh = () => {
 
-        this.loadApplications();
+        this.loadChat();
 
       };
 
-      const elementsJobApplication = applications.map(makeJobApplicationsElement);
+      const actionSendMessage = () => {
+
+        const situationFail = strings['SEND_MESSAGE_FAIL'];
+        const situationSuccess = strings['SEND_MESSAGE_SUCCESS'];
+        const situationTry = strings['SEND_MESSAGE_TRY'];
+
+        const sendFail = () => {
+  
+          this.setState({ situation: situationFail });
+  
+        };
+  
+        const sendSuccess = () => {
+  
+          this.setState({ situation: situationSuccess });
+
+          // refreshes the chat screen
+          this.loadChat();
+  
+        };
+
+        const sendTry = () => {
+
+          const parameters = {
+            [KEY_NUMBER_CHAT]: numberChat,
+            [KEY_NUMBER_AUTHOR]: numberAuthor,
+            [KEY_CONTENTS]: contents,
+          };
+  
+          DatabaseDriver.saveMessage(parameters)
+            .then((response) => {
+  
+              const errorCode = response[KEY_ERROR_CODE];
+  
+              if (errorCode !== ErrorCodes['ERROR_NONE']) {
+  
+                sendFail();
+  
+              } else {
+  
+                sendSuccess();
+  
+              }
+  
+            }).catch((error) => {
+  
+              sendFail();
+  
+            });
+  
+        };
+  
+        this.setState({ situation: situationTry }, sendTry);
+
+      };
+
+      const elementMessages = messages.map(makeMessageElement);
 
       const body = (
         <div className="ViewChatParent">
-          <div className="ViewChatParent_all">
-            <button onClick={ actionRefresh }>REFRESH</button>
-            <div className="ViewChatParent_titleAll">
-              <span className="Title_styleA">{ titleJobsAll }</span>
-            </div>
-            <div className="ViewChatParent_listAll">
-              { elementsJobApplication }
-            </div>
+          <button onClick={ actionRefresh }>REFRESH</button>
+          <div className="ViewChatParent_title">
+            <h2>{ title }</h2>
+          </div>
+          <div className="ViewChatParent_messages">
+            { elementMessages }
+          </div>
+          <div className="ViewChatParent_messageBox">
+            <textarea onChange={ setValue('contents') }></textarea>
+            <button onClick={ actionSendMessage }>SEND</button>
+            <div className="ViewChatParent_messageSituation">{ situation }</div>
           </div>
         </div>
       );
@@ -187,6 +234,9 @@ class ViewChat extends React.Component {
 
     // render for babysitters
     const renderB = () => {
+
+      // babysitters do not have a "requests page"
+      return (<Navigate to="/"/>);
 
     };
 
@@ -219,4 +269,4 @@ class ViewChat extends React.Component {
 
 }
 
-export default ViewChat;
+export default withSearchParams(ViewChat);

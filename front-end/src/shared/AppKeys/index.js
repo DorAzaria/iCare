@@ -32,7 +32,17 @@ const COVER_LETTER = 'cover_letter';
 
 const APPLICATIONS = 'applications';
 
+const APPLICATION = 'application';
+
 const NUMBER_APPLICATION = 'number_application';
+
+const MESSAGES = 'messages';
+
+const CONTENTS = 'contents';
+
+const NUMBER_AUTHOR = 'number_author';
+
+const NUMBER_CHAT = 'number_chat';
 
 const AppKeys = Object.freeze({
   USERNAME,
@@ -52,7 +62,12 @@ const AppKeys = Object.freeze({
   NUMBER_USER,
   COVER_LETTER,
   APPLICATIONS,
+  APPLICATION,
   NUMBER_APPLICATION,
+  MESSAGES,
+  CONTENTS,
+  NUMBER_AUTHOR,
+  NUMBER_CHAT,
 });
 
 export default AppKeys;

@@ -171,7 +171,7 @@ class ViewApply extends React.Component {
   
               }
   
-            }).catch((error) => { console.log('error: ', error);
+            }).catch((error) => {
   
               applyFail();
   

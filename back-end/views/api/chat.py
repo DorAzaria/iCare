@@ -19,19 +19,20 @@ def error_handler(request):
 
 def get_handler(request):
 
-    session_number = request.GET.get(keys.NUMBER_SESSION, None)
-    chat_number = request.GET.get(keys.NUMBER_CHAT, None)
-    chat_data = driver_chats.load_chat(session_number, chat_number)
+    application_number = request.GET.get(keys.NUMBER_APPLICATION, None)
+    chat_data = driver_chats.load_chat(application_number)
     return JsonResponse(chat_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)
 
-    chat_data = driver_chats.save_chat(data)
-    if chat_data is not None:
-        return JsonResponse(chat_data, safe=False)
+    driver_chats.save_message(data)
 
-    return error_handler(request)
+    data = {
+        keys.ERROR_CODE: errors.ERROR_NONE,
+    }
+
+    return JsonResponse(data)
 
 def request_handler(request):
 

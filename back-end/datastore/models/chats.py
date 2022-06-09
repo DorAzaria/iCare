@@ -1,5 +1,9 @@
 from django.db import models
 
 class Chat(models.Model):
-    job_id = models.IntegerField()
-    babysitter_id = models.IntegerField()
+    application_id = models.IntegerField()
+
+class Message(models.Model):
+    chat_id = models.IntegerField()
+    author_id = models.IntegerField()
+    contents = models.TextField()
