@@ -23,8 +23,9 @@ const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
 const KEY_LAST_NAME = AppKeys['LAST_NAME'];
 const KEY_SESSION = AppKeys['SESSION'];
 const KEY_NUMBER_APPLICATION = AppKeys['NUMBER_APPLICATION'];
-const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
+const KEY_NUMBER_USER =  AppKeys['NUMBER_USER'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
+const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
@@ -59,15 +60,10 @@ class ViewRequests extends React.Component {
 
     const { number, type } = user;
 
-    let parameters;
-
-    if (type == 'parent') {
-
-      parameters = {
-        [KEY_NUMBER_PARENT]: number,
-      };
-
-    }
+    const parameters = {
+      [KEY_NUMBER_USER]: number,
+      [KEY_REGISTRATION_TYPE]: type,
+    };
 
     DatabaseDriver.loadApplications(parameters)
       .then((applications) => {
@@ -187,6 +183,14 @@ class ViewRequests extends React.Component {
 
     // render for babysitters
     const renderB = () => {
+
+      const body = (
+        <div>Babysitter</div>
+      );
+
+      const links = MAP_LINKS[type];
+
+      return (<ShellNavigation body={ body } links={ links }/>);
 
     };
 

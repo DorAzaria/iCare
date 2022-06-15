@@ -20,10 +20,15 @@ def error_handler(request):
 
 def get_handler(request):
 
-    parent_number = request.GET.get(keys.NUMBER_PARENT, None)
+    number_user = request.GET.get(keys.NUMBER_USER, None)
+    registration_type = request.GET.get(keys.REGISTRATION_TYPE, None)
 
-    if parent_number is not None:
-        applications_data = driver_applications.load_applications(parent_number)
+    if number_user is not None and registration_type is not None:
+        applications_data = driver_applications.load_applications(
+            number_user,
+            registration_type,
+        )
+
         return JsonResponse(applications_data, safe=False)
 
     return error_handler(request)

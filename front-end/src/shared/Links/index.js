@@ -4,8 +4,8 @@ const LINKS_BABYSITTER = [
     link: '/jobs',
   },
   {
-    key: 'LABEL_SCHEDULE',
-    link: '/schedule',
+    key: 'LABEL_REQUESTS',
+    link: '/requests',
   },
 ];
 
@@ -13,10 +13,6 @@ const LINKS_PARENT = [
   {
     key: 'LABEL_JOBS',
     link: '/jobs',
-  },
-  {
-    key: 'LABEL_SCHEDULE',
-    link: '/schedule',
   },
   {
     key: 'LABEL_REQUESTS',

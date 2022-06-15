@@ -44,11 +44,11 @@ def save_application(data):
 
     return application_data
 
-def load_applications(parent_id):
+def load_applications_parent(parent_id):
 
     related_jobs = Job.objects.all().filter(
         parent_id=parent_id,
-        )
+    )
 
     data_jobs = []
 
@@ -67,3 +67,19 @@ def load_applications(parent_id):
         data_jobs.append(data_job)
 
     return data_jobs
+
+def load_applications_babysitter(babysitter_id):
+
+    applications = Application.objects.all().filter(
+        babysitter_id=babysitter_id,
+    )
+
+    pass
+
+def load_applications(number_user, registration_type):
+
+    if registration_type == 'parent':
+        return load_applications_parent(number_user)
+
+    if registration_type == 'babysitter':
+        return load_applications_babysitter(number_user)
