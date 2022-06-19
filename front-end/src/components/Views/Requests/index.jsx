@@ -6,6 +6,7 @@ import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
 import PartialChatRequest from '@components/Partials/ChatRequest';
+import PartialJobPost from '@components/Partials/JobPost';
 
 import DatabaseDriver from '@database/Driver';
 
@@ -115,36 +116,15 @@ class ViewRequests extends React.Component {
       const makeJobApplicationsElement = (jobApplication) => {
 
         const {
-          [KEY_NUMBER_JOB]: key,
-          [KEY_TITLE]: title,
-          [KEY_DESCRIPTION]: description,
-          [KEY_TIME_A]: timeA,
-          [KEY_TIME_B]: timeB,
+          [KEY_NUMBER_APPLICATION]: key,
           [KEY_APPLICATIONS]: applications,
         } = jobApplication;
-
-        const dateA = new Date(timeA);
-        const dateB = new Date(timeB);
-
-        const labelTimeA = dateA.toISOString();
-        const labelTimeB = dateB.toISOString();
 
         const elementsApplication = applications.map(makeApplicationElement);
 
         return (
-          <div key={ key } className="ViewRequestsParent_singleJob">
-            <div className="ViewRequestsParent_singleJobTitle">
-              <span className="Title_styleB">{ title }</span>
-            </div>
-            <div className="ViewRequestsParent_singleJobDescription">
-              <span>{ description }</span>
-            </div>
-            <div className="ViewRequestsParent_singleJobTimeA">
-              <span>{ labelTimeA }</span>
-            </div>
-            <div className="ViewRequestsParent_singleJobTimeB">
-              <span>{ labelTimeB }</span>
-            </div>
+          <div key={ key } className="ViewRequestsParent_singleApplication">
+            <PartialJobPost job={ jobApplication }/>
             <div className="ViewRequestsParent_applications">
               { elementsApplication }
             </div>

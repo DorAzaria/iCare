@@ -2,6 +2,8 @@ import React from 'react';
 
 import AppKeys from '@shared/AppKeys';
 
+import './index.css';
+
 const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_SESSION = AppKeys['SESSION'];

@@ -1,0 +1,44 @@
+.PartialJobPost_singleJob {
+  border: 1px solid black;
+}
+
+.PartialJobPost_singleJobDescription,
+.PartialJobPost_singleJobTitle,
+.PartialJobPost_singleJobTimeA,
+.PartialJobPost_singleJobTimeB {
+  position: relative;
+  border: 1px solid black;
+  margin: 1.25rem .5rem .5rem .5rem;
+  padding: 1.25rem .75rem .75rem .75rem;
+}
+
+.PartialJobPost_singleJobTitle::after,
+.PartialJobPost_singleJobDescription::after,
+.PartialJobPost_singleJobTimeA::after,
+.PartialJobPost_singleJobTimeB::after {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(.75rem, -50%);
+
+  background: white;
+  border: 1px solid black;
+  padding: 0.25rem;
+}
+
+.PartialJobPost_singleJobTitle::after {
+  content: "TITLE";
+}
+
+.PartialJobPost_singleJobDescription::after {
+  content: "DESCRIPTION";
+}
+
+.PartialJobPost_singleJobTimeA::after {
+  content: "SCHEDULE START";
+}
+
+.PartialJobPost_singleJobTimeB::after {
+  content: "SCHEDULE END";
+}
