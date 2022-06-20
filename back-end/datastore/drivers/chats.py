@@ -6,6 +6,19 @@ from datastore.models.jobs import Job
 
 from shared import errors, keys
 
+def existing_chat(application_id):
+
+    chat_entry = None
+
+    try:
+
+        chat_entry = Chat.objects.get(application_id=application_id)
+
+    except Chat.DoesNotExist:
+        pass
+
+    return chat_entry
+
 def find_chat(application_id):
 
     chat_entry = None

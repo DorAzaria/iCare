@@ -5,7 +5,6 @@ import { Link, Navigate } from 'react-router-dom';
 import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
-import PartialMessageBox from '@components/Partials/MessageBox';
 import ComponentHelpers from '@components/Helpers';
 
 import DatabaseDriver from '@database/Driver';
@@ -102,8 +101,8 @@ class ViewChat extends React.Component {
 
     }
 
-    // render for parents
-    const renderA = () => {
+    // render for both parents and babysitters
+    const renderCommon = () => {
 
       const { chat, contents } = state;
 
@@ -116,7 +115,7 @@ class ViewChat extends React.Component {
 
       }
 
-      const numberAuthor = user.number;
+      const { number: numberUser, type } = user;
 
       const setValue = (key) => (event) => {
 
@@ -139,9 +138,23 @@ class ViewChat extends React.Component {
           [KEY_CONTENTS]: contents,
         } = message;
 
-        const author = numberAuthor === user.number;
+        let className;
 
-        return (<PartialMessageBox author={ author } contents={ contents }/>);
+        if (numberAuthor == numberUser) {
+
+          className = "ViewChat_messageAuthor";
+
+        } else {
+
+          className = "ViewChat_messageOther";
+
+        }
+
+        return (
+          <div className={ className }>
+            <span>{ contents }</span>
+          </div>
+        );
 
       };
 
@@ -176,7 +189,7 @@ class ViewChat extends React.Component {
 
           const parameters = {
             [KEY_NUMBER_CHAT]: numberChat,
-            [KEY_NUMBER_AUTHOR]: numberAuthor,
+            [KEY_NUMBER_AUTHOR]: numberUser,
             [KEY_CONTENTS]: contents,
           };
   
@@ -210,18 +223,18 @@ class ViewChat extends React.Component {
       const elementMessages = messages.map(makeMessageElement);
 
       const body = (
-        <div className="ViewChatParent">
+        <div className="ViewChat">
           <button onClick={ actionRefresh }>REFRESH</button>
-          <div className="ViewChatParent_title">
+          <div className="ViewChat_title">
             <h2>{ title }</h2>
           </div>
-          <div className="ViewChatParent_messages">
+          <div className="ViewChat_messages">
             { elementMessages }
           </div>
-          <div className="ViewChatParent_messageBox">
+          <div className="ViewChat_messageBox">
             <textarea onChange={ setValue('contents') }></textarea>
             <button onClick={ actionSendMessage }>SEND</button>
-            <div className="ViewChatParent_messageSituation">{ situation }</div>
+            <div className="ViewChat_messageSituation">{ situation }</div>
           </div>
         </div>
       );
@@ -232,14 +245,6 @@ class ViewChat extends React.Component {
 
     };
 
-    // render for babysitters
-    const renderB = () => {
-
-      // babysitters do not have a "requests page"
-      return (<Navigate to="/"/>);
-
-    };
-
     // render redirection if the user is not logged in
     if (!user) {
 
@@ -247,23 +252,7 @@ class ViewChat extends React.Component {
 
     }
 
-    const { type } = user;
-
-    switch (type) {
-
-      case 'parent': {
-
-        return renderA();
-
-      }
-
-      case 'babysitter': {
-
-        return renderB();
-
-      }
-
-    }
+    return renderCommon();
 
   }
 

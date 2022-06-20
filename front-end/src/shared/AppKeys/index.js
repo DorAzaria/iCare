@@ -44,6 +44,8 @@ const NUMBER_AUTHOR = 'number_author';
 
 const NUMBER_CHAT = 'number_chat';
 
+const JOB = 'job';
+
 const AppKeys = Object.freeze({
   USERNAME,
   PASSWORD,
@@ -68,6 +70,7 @@ const AppKeys = Object.freeze({
   CONTENTS,
   NUMBER_AUTHOR,
   NUMBER_CHAT,
+  JOB,
 });
 
 export default AppKeys;

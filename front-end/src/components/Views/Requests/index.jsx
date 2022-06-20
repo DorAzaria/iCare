@@ -22,8 +22,10 @@ const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
 const KEY_LAST_NAME = AppKeys['LAST_NAME'];
+const KEY_JOB = AppKeys['JOB'];
 const KEY_SESSION = AppKeys['SESSION'];
 const KEY_NUMBER_APPLICATION = AppKeys['NUMBER_APPLICATION'];
+const KEY_NUMBER_CHAT = AppKeys['NUMBER_CHAT'];
 const KEY_NUMBER_USER =  AppKeys['NUMBER_USER'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
@@ -164,8 +166,65 @@ class ViewRequests extends React.Component {
     // render for babysitters
     const renderB = () => {
 
+      const { applications } = state;
+
+      const { strings } = context;
+
+      const titleJobsAll = strings['TITLE_JOBS_ALL'];
+
+      const makeJobApplicationElement = (jobApplication) => {
+
+        const {
+          [KEY_JOB]: job,
+          [KEY_NUMBER_APPLICATION]: key,
+          [KEY_NUMBER_CHAT]: numberChat,
+        } = jobApplication;
+
+        let chatLink = null;
+
+        if (numberChat) {
+
+          const link = `/chat?application=${ key }`;
+          chatLink = (<Link to={ link } className="Button_navigation">CHAT</Link>);
+
+        } else {
+
+          chatLink = (<button className="Button_disabled">NO CHAT YET</button>);
+
+        }
+
+        return (
+          <div key={ key } className="ViewRequestsBabysitter_singleApplication">
+            <PartialJobPost job={ job }/>
+            <div className="ViewRequestsBabysitter_applications">
+              <PartialChatRequest application={ jobApplication }/>
+              { chatLink }
+            </div>
+          </div>
+        );
+
+      };
+
+      const actionRefresh = () => {
+
+        this.loadApplications();
+
+      };
+
+      const elementsJobApplication = applications.map(makeJobApplicationElement);
+
       const body = (
-        <div>Babysitter</div>
+        <div className="ViewRequestsBabysitter">
+          <div className="ViewRequestsBabysitter_all">
+            <button onClick={ actionRefresh }>REFRESH</button>
+            <div className="ViewRequestsBabysitter_titleAll">
+              <span className="Title_styleA">{ titleJobsAll }</span>
+            </div>
+            <div className="ViewRequestsBabysitter_listAll">
+              { elementsJobApplication }
+            </div>
+          </div>
+        </div>
       );
 
       const links = MAP_LINKS[type];

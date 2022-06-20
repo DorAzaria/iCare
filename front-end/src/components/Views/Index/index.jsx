@@ -29,7 +29,7 @@ class ViewIndex extends React.Component {
       const { type } = user;
 
       const body = (
-        <div>MAIN INDEX LOGGED-IN USER</div>
+        <div></div>
       );
 
       const links = MAP_LINKS[type];

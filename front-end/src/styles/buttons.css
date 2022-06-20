@@ -8,3 +8,14 @@
   text-align: center;
   text-decoration: none;
 }
+
+.Button_disabled {
+  background: #4F4F4F;
+  border-radius: 8px;
+  color: white;
+
+  padding: 8px;
+
+  text-align: center;
+  text-decoration: none;
+}

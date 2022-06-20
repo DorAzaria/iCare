@@ -153,10 +153,7 @@ const loadChat = async (parameters) => {
   const response = await fetch(url, {
     'method': 'GET',
     'headers': headers,
-  });
-
-  const text = await response.text(); console.log('text: ', text);
-  return JSON.parse(text);
+  }); const json = await response.json(); console.log('chat: ', json); return json;
 
   return await response.json();
 

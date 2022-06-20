@@ -45,6 +45,4 @@ def request_handler(request):
             return get_handler(request)
 
     except Exception as ex:
-        print(f'exception: { ex }')
-        raise ex
         return error_handler(request)

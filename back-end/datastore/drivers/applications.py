@@ -5,6 +5,7 @@ from datastore.models.jobs import Job
 
 from shared import errors, keys
 
+from datastore.drivers import chats as driver_chats
 from datastore.drivers import jobs as driver_jobs
 
 def single_application(application):
@@ -74,7 +75,24 @@ def load_applications_babysitter(babysitter_id):
         babysitter_id=babysitter_id,
     )
 
-    pass
+    data_applications = []
+
+    for application in applications:
+        data = single_application(application)
+
+        job_id = application.job_id
+        job = driver_jobs.load_single_job(job_id)
+        data[keys.JOB] = job
+
+        application_id = application.id
+        chat_entry = driver_chats.existing_chat(application_id)
+        if chat_entry is not None:
+            number_chat = chat_entry.id
+            data[keys.NUMBER_CHAT] = number_chat
+
+        data_applications.append(data)
+
+    return data_applications
 
 def load_applications(number_user, registration_type):
 
