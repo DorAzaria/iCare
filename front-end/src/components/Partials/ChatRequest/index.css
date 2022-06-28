@@ -25,7 +25,9 @@
 .PartialChatRequest_lastName,
 .PartialChatRequest_coverLetter {
   position: relative;
-  border: 1px solid black;
+  background: #9887F9;
+  border: 3px solid #5847C1;
+  border-radius: 1.25rem;
   margin: 1.25rem .5rem .5rem .5rem;
   padding: 1.25rem .75rem .75rem .75rem;
   min-width: 150px;
@@ -41,7 +43,7 @@
   transform: translate(.75rem, -50%);
 
   background: white;
-  border: 1px solid black;
+  border: 3px solid #5847C1;
   padding: 0.25rem;
 }
 

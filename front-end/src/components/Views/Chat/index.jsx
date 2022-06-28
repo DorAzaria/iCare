@@ -225,16 +225,18 @@ class ViewChat extends React.Component {
       const body = (
         <div className="ViewChat">
           <button onClick={ actionRefresh }>REFRESH</button>
-          <div className="ViewChat_title">
-            <h2>{ title }</h2>
-          </div>
-          <div className="ViewChat_messages">
-            { elementMessages }
-          </div>
-          <div className="ViewChat_messageBox">
-            <textarea onChange={ setValue('contents') }></textarea>
-            <button onClick={ actionSendMessage }>SEND</button>
-            <div className="ViewChat_messageSituation">{ situation }</div>
+          <div className="ViewChat_container">
+            <div className="ViewChat_title">
+              <h2>{ title }</h2>
+            </div>
+            <div className="ViewChat_messages">
+              { elementMessages }
+            </div>
+            <div className="ViewChat_messageBox">
+              <textarea onChange={ setValue('contents') }></textarea>
+              <button onClick={ actionSendMessage }>SEND</button>
+              <div className="ViewChat_messageSituation">{ situation }</div>
+            </div>
           </div>
         </div>
       );
