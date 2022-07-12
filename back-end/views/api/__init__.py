@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from . import apply, chat, jobs, log_in, register
+from . import apply, chat, jobs, log_in, register, users, reviews, comments, replys, votes, watches, filter
 
 API_ROUTES = {
     '/api/register': register.request_handler,
@@ -11,6 +11,16 @@ API_ROUTES = {
     '/api/jobs': jobs.request_handler,
     '/api/chat': chat.request_handler,
     '/api/apply': apply.request_handler,
+    '/api/users':users.request_handler,
+    '/api/reviews':reviews.request_handler,
+    '/api/comments':comments.request_handler,
+    '/api/replys':replys.request_handler,
+    '/api/votes':votes.request_handler,
+    '/api/watches':watches.request_handler,
+    '/api/filter_sitters':filter.request_sitters_handler,
+    '/api/filter_jobs':filter.request_jobs_handler,
+    
+    '/api/filter_parents':filter.request_parents_handler,
 }
 
 def request_handler(request):

@@ -1,0 +1,80 @@
+.PartialSitter_singleSitter {
+  border: 3px solid #CECECE;
+  border-radius: 1rem;
+  padding: 1rem;
+
+}
+
+.PartialSitter_singleSitterName,
+.PartialSitter_singleSitterAge,
+.PartialSitter_singleSitterPrice,
+.PartialSitter_singleSitterGender,
+.PartialSitter_singleSitterSkills,
+.PartialSitter_singleSitterExp,
+.PartialSitter_singleSitterShortInfo,
+.PartialSitter_singleSitterLoc,
+.PartialSitter_singleSitterRating {
+  position: relative;
+  background: #E1E1E1;
+  border: 3px solid #CECECE;
+  margin: 1.25rem .5rem .5rem .5rem;
+  padding: 1rem .5rem .5rem .5rem;
+  border-radius: .75rem;
+}
+
+.PartialSitter_singleSitterName::after,
+.PartialSitter_singleSitterAge::after,
+.PartialSitter_singleSitterPrice::after,
+.PartialSitter_singleSitterGender::after,
+.PartialSitter_singleSitterSkills::after,
+.PartialSitter_singleSitterExp::after,
+.PartialSitter_singleSitterShortInfo::after,
+.PartialSitter_singleSitterLoc::after,
+.PartialSitter_singleSitterRating::after {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(.75rem, -50%);
+
+  background: white;
+  border: 3px solid #CECECE;
+  padding: 0rem;
+}
+
+.PartialSitter_singleSitterName::after {
+  content: "NAME";
+}
+
+.PartialSitter_singleSitterAge::after {
+  content: "AGE";
+}
+
+.PartialSitter_singleSitterPrice::after {
+  content: "PRICE";
+}
+
+.PartialSitter_singleSitterGender::after {
+  content: "GENDER";
+}
+
+.PartialSitter_singleSitterSkills::after {
+  content: "SKILLS";
+}
+
+
+.PartialSitter_singleSitterExp::after {
+  content: "EDUCATION & EXPERIENCED YEARS";
+}
+
+.PartialSitter_singleSitterShortInfo::after {
+  content: "SHORT INFORMATION";
+}
+
+.PartialSitter_singleSitterLoc::after {
+  content: "LOCATION";
+}
+
+.PartialSitter_singleSitterRating::after {
+  content: "RATING";
+}

@@ -1,4 +1,13 @@
 .ViewRequestsParent_singleApplication {
   margin: .75rem;
-  max-width: 75vw;
+}
+
+.ViewRequests_addNewJob {
+  border-radius: 5;
+  border:'1px solid black';
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.Layout_inputField {
+  width:'100%';
 }

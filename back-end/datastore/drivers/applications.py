@@ -11,12 +11,12 @@ from datastore.drivers import jobs as driver_jobs
 def single_application(application):
 
     number_application = application.id
-    babysitter_id = application.babysitter_id
+    from_id = application.from_id
     cover_letter = application.cover_letter
 
-    babysitter = User.objects.get(id=babysitter_id)
-    first_name = babysitter.first_name
-    last_name = babysitter.last_name
+    app_master = User.objects.get(id=from_id)
+    first_name = app_master.first_name
+    last_name = app_master.last_name
 
     data = {
         keys.NUMBER_APPLICATION: number_application,
@@ -29,12 +29,12 @@ def single_application(application):
 
 def save_application(data):
 
-    babysitter_id = data[keys.NUMBER_USER]
+    from_id = data[keys.NUMBER_USER]
     job_id = data[keys.NUMBER_JOB]
     cover_letter = data[keys.COVER_LETTER]
 
     application = Application()
-    application.babysitter_id = babysitter_id
+    application.from_id = from_id
     application.job_id = job_id
     application.cover_letter = cover_letter
     application.save()
@@ -45,10 +45,10 @@ def save_application(data):
 
     return application_data
 
-def load_applications_parent(parent_id):
+def load_posted_jobs(from_id):
 
     related_jobs = Job.objects.all().filter(
-        parent_id=parent_id,
+        from_id=from_id,
     )
 
     data_jobs = []
@@ -69,12 +69,10 @@ def load_applications_parent(parent_id):
 
     return data_jobs
 
-def load_applications_babysitter(babysitter_id):
-
+def load_applied_jobs(from_id):
     applications = Application.objects.all().filter(
-        babysitter_id=babysitter_id,
+        from_id=from_id,
     )
-
     data_applications = []
 
     for application in applications:
@@ -91,13 +89,11 @@ def load_applications_babysitter(babysitter_id):
             data[keys.NUMBER_CHAT] = number_chat
 
         data_applications.append(data)
-
     return data_applications
 
-def load_applications(number_user, registration_type):
-
-    if registration_type == 'parent':
-        return load_applications_parent(number_user)
-
-    if registration_type == 'babysitter':
-        return load_applications_babysitter(number_user)
+def load_applications(number_user):
+    data = {
+        keys.POSTED_JOBS:load_posted_jobs(number_user),
+        keys.APPLIED_JOBS:load_applied_jobs(number_user)}
+    print ( 'final_final', data)
+    return data

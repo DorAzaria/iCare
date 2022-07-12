@@ -20,12 +20,15 @@ def error_handler(request):
 def request_handler(request):
 
     try:
-
+        print ( 'log in...')
         if request.method != 'POST':
             return error_handler(request)
 
-        data = json.load(request)
+        for key in request.session.keys():
+            print ( key )
+            del request.session[key]
 
+        data = json.load(request)
         session_data = driver_sessions.log_in(request, data)
         if session_data is not None:
             return JsonResponse(session_data)
@@ -33,5 +36,4 @@ def request_handler(request):
         return error_handler(request)
 
     except Exception as ex:
-        raise ex
         return error_handler(request)

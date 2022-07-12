@@ -23,8 +23,8 @@ def request_handler(request):
 
     try:
 
-        if request.method != 'POST':
-            return error_handler(request)
+        #if request.method != 'POST':
+            #return error_handler(request)
 
         data = json.load(request)
         session_key = data[keys.SESSION]

@@ -16,14 +16,10 @@ import Links from '@shared/Links';
 
 import './index.css';
 
-const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
-const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
-const KEY_SESSION = AppKeys['SESSION'];
 const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
-const KEY_TIME_A = AppKeys['TIME_A'];
-const KEY_TIME_B = AppKeys['TIME_B'];
-const KEY_TITLE = AppKeys['TITLE'];
+const KEY_CHECK_FAMILY = AppKeys['CHECK_FAMILY'];
+const KEY_CHECK_SITTER = AppKeys['CHECK_SITTER'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
@@ -35,12 +31,9 @@ class ViewJobs extends React.Component {
     super(props);
 
     this.state = {
-      title: '',
-      description: '',
-      timeA: 0,
-      timeB: 0,
-      situation: '',
       jobs: [],
+      checkFamily:false,
+      checkSitter:false
     };
 
   }
@@ -82,218 +75,100 @@ class ViewJobs extends React.Component {
 
   }
 
+  filterJobs() {
+    const { state } = this;
+    const {checkFamily, checkSitter} = state;
+
+    const parameters = {
+      [KEY_CHECK_FAMILY]: checkFamily,
+      [KEY_CHECK_SITTER]:checkSitter,
+    };
+
+    DatabaseDriver.filterJobs(parameters)
+      .then((jobs) => {
+        console.log ( jobs);
+        this.setState({ jobs: jobs });
+      })
+      .catch((error) => {
+
+
+      });      
+  }  
+
   render () {
 
     const { context, state } = this;
 
     const { strings, user } = context;
+    
+    const {checkFamily, checkSitter} = state;
+    
+    const actionFilter = () => {
+      this.filterJobs();
+    }
 
-    const { situation } = state;
+    const changeCheckValue = ( key) => ( event) => {
+      const element = event.target;
+      const value = element.checked;
+      this.setState ( {[key]: value});
+    }
 
+    const filterJobDiv = 
+    <div>
+      <div>
+        <input type="checkbox"
+          checked={checkFamily}
+          onChange = { changeCheckValue('checkFamily')}
+        />
+        <span style = {{color:'blue', display:'inline-block'}}> Jobs Created By Familiy/Parents </span>
+      </div>
+      <div>
+        <input type="checkbox"
+         checked = { checkSitter}
+         onChange = { changeCheckValue('checkSitter')}
+        />
+        <span style = {{color:'blue', display:'inline-block'}}> Jobs Created By Babby Sitter/Nannies </span>
+      </div>            
+      <div style ={{float:'right'}}>
+        <button className="Button_navigation" onClick={ actionFilter }>FILTER</button>
+      </div> 
+    </div>    
     // render for parents
     const renderA = () => {
 
-      const { title, description, timeA, timeB, situation, jobs } = state;
-
-      const { session } = user;
+      const {jobs } = state;
 
       const titleJobsAll = strings['TITLE_JOBS_ALL'];
-      const titleJobsNew = strings['TITLE_JOBS_NEW'];
-
-      const labelDescription = strings['LABEL_DESCRIPTION'];
-      const labelScheduleStart = strings['LABEL_SCHEDULE_START'];
-      const labelScheduleEnd = strings['LABEL_SCHEDULE_END'];
-      const labelSubmit = strings['LABEL_SUBMIT'];
-      const labelTitle = strings['LABEL_TITLE'];
-
-      const situationFail = strings['MESSAGE_JOBS_FAIL'];
-      const situationSuccess = strings['MESSAGE_JOBS_SUCCESS'];
-      const situationTry = strings['MESSAGE_JOBS_TRY'];
+      
 
       const makeJobElement = (job) => {
-
-        return (<PartialJobPost job={ job }/>);
-
-      };
-
-      const setValue = (key) => (event) => {
-
-        const element = event.target;
-        const value = element.value;
-        this.setState({ [key]: value });
-  
-      };
-
-      const setTime = (key) => (event) => {
-
-        const element = event.target;
-        const date = element.valueAsDate;
-
-        if (date) {
-
-          const time = date.getTime();
-          this.setState({ [key]: time });
-
-        }
-
-      };
-
-      const actionSubmit = () => {
-
-        const request = {
-          [KEY_SESSION]: session,
-          [KEY_TITLE]: title,
-          [KEY_DESCRIPTION]: description,
-          [KEY_TIME_A]: timeA,
-          [KEY_TIME_B]: timeB,
-        };
-  
-        const jobsFail = () => {
-  
-          this.setState({ situation: situationFail });
-  
-        };
-  
-        const jobsSuccess = (response) => {
-  
-          this.setState({ situation: situationSuccess });
-
-          // reload jobs to refresh "all jobs" list
-          this.loadJobs();
-  
-        };
-  
-        const jobsTry = () => {
-  
-          DatabaseDriver.saveJob(request)
-            .then((response) => {
-  
-              const errorCode = response[KEY_ERROR_CODE];
-  
-              if (errorCode !== ErrorCodes['ERROR_NONE']) {
-  
-                jobsFail();
-  
-              } else {
-  
-                jobsSuccess(response);
-  
-              }
-  
-            }).catch((error) => {
-  
-              jobsFail();
-  
-            });
-  
-        };
-  
-        this.setState({ situation: situationTry }, jobsTry);
-
-      };
-
-      const elementsJob = jobs.map(makeJobElement);
-
-      const body = (
-        <div className="ViewJobsParent">
-          <div className="ViewJobsParent_all">
-            <div className="ViewJobsParent_titleAll">
-              <span className="Title_styleA">{ titleJobsAll }</span>
-            </div>
-            <div className="ViewJobsParent_listAll">
-              { elementsJob }
-            </div>
-          </div>
-          <div className="ViewJobsParent_new Layout_lateralColumn">
-            <div className="ViewJobsParent_titleNew">
-              <span className="Title_styleA">{ titleJobsNew }</span>
-            </div>
-            <div className="Layout_labeledInput">
-              <div className="Layout_inputLabel">
-                <span>{ labelTitle }</span>
-              </div>
-              <div className="Layout_inputField">
-                <input type="text" onChange={ setValue('title') } />
-              </div>
-            </div>
-            <div className="Layout_labeledInput">
-              <div className="Layout_inputLabel">
-                <span>{ labelDescription }</span>
-              </div>
-              <div className="Layout_inputField">
-                <textarea onChange={ setValue('description') }></textarea>
-              </div>
-            </div>
-            <div className="Layout_labeledInput">
-              <div className="Layout_inputLabel">
-                <span>{ labelScheduleStart }</span>
-              </div>
-              <div className="Layout_inputField">
-                <input type="datetime-local" onChange={ setTime('timeA') } />
-              </div>
-            </div>
-            <div className="Layout_labeledInput">
-              <div className="Layout_inputLabel">
-                <span>{ labelScheduleEnd }</span>
-              </div>
-              <div className="Layout_inputField">
-                <input type="datetime-local" onNChange={ setTime('timeB') }/>
-              </div>
-            </div>
-            <button className="Button_navigation" onClick={ actionSubmit }>{ labelSubmit }</button>
-            <div class="Layout_alwaysFilled">{ situation }</div>
-          </div>
-        </div>
-      );
-
-      const links = MAP_LINKS[type];
-
-      return (<ShellNavigation body={ body } links={ links }/>);
-
-    };
-
-    // render for babysitters
-    const renderB = () => {
-
-      const { jobs } = state;
-
-      const { strings } = context;
-
-      const titleJobsAll = strings['TITLE_JOBS_ALL'];
-
-      const makeJobElement = (job) => {
-
         const {
           [KEY_NUMBER_JOB]: key,
         } = job;
 
         const applyLink = `/apply?${ KEY_NUMBER_JOB }=${ key }`;
-
+        const detailLink = `/job-detail?${ KEY_NUMBER_JOB }=${ key }`;
         return (
-          <div key={ key } className="ViewJobsBabysitter_jobEntry">
+          <div  key={ key } className="ViewJobsBabysitter_jobEntry">
             <PartialJobPost job={ job }/>
             <Link to={ applyLink } className="Button_navigation">APPLY</Link>
+            <Link style = {{marginLeft:'20px'}} to={ detailLink } className="Button_navigation">Detail</Link>
           </div>
+        
         );
 
       };
 
-      const actionRefresh = () => {
-
-        this.loadJobs();
-
-      };
-
-      const elementsJob = jobs.map(makeJobElement);
+     const elementsJob = jobs.map(makeJobElement);
 
       const body = (
-        <div className="ViewJobsBabysitter">
-          <div className="ViewJobsBabysitter_all">
-            <button onClick={ actionRefresh }>REFRESH</button>
-            <div className="ViewJobsBabysitter_titleAll">
+        <div className="ViewJobsParent">
+          <div className="ViewJobsParent_all">
+            {filterJobDiv}
+            <div className="ViewJobsParent_titleAll">
               <span className="Title_styleA">{ titleJobsAll }</span>
             </div>
-            <div className="ViewJobsBabysitter_listAll">
+            <div className="ViewJobsParent_listAll">
               { elementsJob }
             </div>
           </div>
@@ -325,7 +200,7 @@ class ViewJobs extends React.Component {
 
       case 'babysitter': {
 
-        return renderB();
+        return renderA();
 
       }
 

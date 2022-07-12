@@ -107,13 +107,6 @@ class ViewApply extends React.Component {
 
     const { job, situation } = state;
 
-    // render for parents
-    const renderA = () => {
-
-      return (<Navigate to="/"/>);
-
-    };
-
     // render for babysitters
     const renderB = () => {
 
@@ -226,7 +219,7 @@ class ViewApply extends React.Component {
 
       case 'parent': {
 
-        return renderA();
+        return renderB();
 
       }
 

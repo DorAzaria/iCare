@@ -5,6 +5,7 @@ class Job(models.Model):
     description = models.TextField()
     time_a = models.BigIntegerField()
     time_b = models.BigIntegerField()
-    parent_id = models.IntegerField()
+    from_id = models.IntegerField()
+    user_type = models.TextField()
     enabled = models.BooleanField()
     post_time = models.BigIntegerField()

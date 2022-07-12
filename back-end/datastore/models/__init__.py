@@ -1,1 +1,1 @@
-from . import registrations, sessions
+from . import registrations, sessions, reviews, comments, replys, votes, watches

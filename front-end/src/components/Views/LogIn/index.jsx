@@ -115,10 +115,11 @@ class ViewLogIn extends React.Component {
         };
   
         const logInTry = () => {
-  
+          console.log ( 'trying log in');
           DatabaseDriver.logInUser(request)
             .then((response) => {
-  
+              console.log ( 'response');
+              console.log ( response);
               const errorCode = response[KEY_ERROR_CODE];
   
               if (errorCode !== ErrorCodes['ERROR_NONE']) {
@@ -165,7 +166,7 @@ class ViewLogIn extends React.Component {
             </div>
           </div>
           <button className="Button_navigation" onClick={ actionSubmit }>{ labelLogIn }</button>
-          <div class="Layout_alwaysFilled">{ situation }</div>
+          <div className="Layout_alwaysFilled">{ situation }</div>
         </div>
       );
 
@@ -178,7 +179,6 @@ class ViewLogIn extends React.Component {
       return renderA();
 
     } else { // not logged-in
-
       return renderB();
 
     }

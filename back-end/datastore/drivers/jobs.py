@@ -49,16 +49,16 @@ def load_all_jobs():
     all_data = jobs_array(all_jobs)
     return all_data
 
-def load_parent_jobs(parent_number):
+def load_user_jobs(from_number):
 
-    parent_jobs = Job.objects.all().filter(parent_id=parent_number)
-    parent_data = jobs_array(parent_jobs)
-    return parent_data
+    user_jobs = Job.objects.all().filter(from_id=from_number)
+    user_data = jobs_array(user_jobs)
+    return user_data
 
-def load_jobs(parent_number=None):
+def load_jobs(from_number=None):
 
-    if parent_number is not None:
-        return load_parent_jobs(parent_number)
+    if from_number is not None:
+        return load_user_jobs(from_number)
 
     return load_all_jobs()
 
@@ -69,31 +69,40 @@ def save_job(data):
     session = Session.objects.get(key=session_key)
     user = User.objects.get(username=session.user)
     registration = Registration.objects.get(user_number=user.id)
-
     registration_type = registration.registration_type
 
-    # only parents can write job posts
-    if registration_type == driver_registration.TYPES['parent']:
-        title = data[keys.TITLE]
-        description = data[keys.DESCRIPTION]
-        time_a = data[keys.TIME_A]
-        time_b = data[keys.TIME_B]
-        parent_id = user.id
-        post_time = int(time.time() * 1000)
+    title = data[keys.TITLE]
+    description = data[keys.DESCRIPTION]
+    time_a = data[keys.TIME_A]
+    time_b = data[keys.TIME_B]
+    from_id = user.id
+    post_time = int(time.time() * 1000)
 
-        job = Job()
-        job.title = title
-        job.description = description
-        job.time_a = time_a
-        job.time_b = time_b
-        job.parent_id = parent_id
-        job.enabled = True
-        job.post_time = post_time
-        job.save()
+    job = Job()
+    job.title = title
+    job.description = description
+    job.time_a = time_a
+    job.time_b = time_b
+    job.from_id = from_id
+    job.user_type = registration_type
+    job.enabled = True
+    job.post_time = post_time
+    job.save()
 
-        job_data = {
-            keys.NUMBER_JOB: job.id,
-            keys.ERROR_CODE: errors.ERROR_NONE,
-        }
+    job_data = {
+        keys.NUMBER_JOB: job.id,
+        keys.ERROR_CODE: errors.ERROR_NONE,
+    }
+    print ( 'job_data', job_data)
+    return job_data
 
-        return job_data
+def filter_jobs(check_family, check_sitter):
+    job_data = Job.objects.all()
+    print ( 'filtering job')
+    print ( job_data[0].user_type)
+    if check_family == 'false':
+        job_data = job_data.filter(user_type = 1)
+    if check_sitter == 'false':
+        job_data = job_data.filter(user_type = 2)
+    job_data = jobs_array(job_data)
+    return job_data

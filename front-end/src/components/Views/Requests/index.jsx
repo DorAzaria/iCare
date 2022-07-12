@@ -32,6 +32,8 @@ const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
+const KEY_APPLIED_JOBS = AppKeys['APPLIED_JOBS']
+const KEY_POSTED_JOBS = AppKeys['POSTED_JOBS']
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
@@ -43,8 +45,13 @@ class ViewRequests extends React.Component {
     super(props);
 
     this.state = {
+      title: '',
+      description: '',
+      timeA: 0,
+      timeB: 0,
       situation: '',
-      applications: [],
+      posted_jobs: [],
+      applied_jobs:[]
     };
 
   }
@@ -69,10 +76,10 @@ class ViewRequests extends React.Component {
     };
 
     DatabaseDriver.loadApplications(parameters)
-      .then((applications) => {
-
-        this.setState({ applications: applications });
-
+      .then((data) => {
+        console.log ( data)
+        this.setState({ applied_jobs: data[KEY_APPLIED_JOBS] });
+        this.setState({ posted_jobs: data[KEY_POSTED_JOBS] });
       })
       .catch((error) => {
 
@@ -87,27 +94,152 @@ class ViewRequests extends React.Component {
 
     const { strings, user } = context;
 
-    const { situation } = state;
+    const { title, description, timeA, timeB, situation } = state;
+
+    const { session } = user;
+
+    const titleJobsNew = strings['TITLE_JOBS_NEW'];
+
+    const labelDescription = strings['LABEL_DESCRIPTION'];
+    const labelScheduleStart = strings['LABEL_SCHEDULE_START'];
+    const labelScheduleEnd = strings['LABEL_SCHEDULE_END'];
+    const labelSubmit = strings['LABEL_SUBMIT'];
+    const labelTitle = strings['LABEL_TITLE'];
+
+    const situationFail = strings['MESSAGE_JOBS_FAIL'];
+    const situationSuccess = strings['MESSAGE_JOBS_SUCCESS'];
+    const situationTry = strings['MESSAGE_JOBS_TRY'];
+    
+    const setValue = (key) => (event) => {
+
+      const element = event.target;
+      const value = element.value;
+      this.setState({ [key]: value });
+
+    };
+
+    const setTime = (key) => (event) => {
+
+      const element = event.target;
+      const date = element.valueAsDate;
+
+      if (date) {
+
+        const time = date.getTime();
+        this.setState({ [key]: time });
+
+      }
+
+    };
+
+    const actionSubmit = () => {
+
+      const request = {
+        [KEY_SESSION]: session,
+        [KEY_TITLE]: title,
+        [KEY_DESCRIPTION]: description,
+        [KEY_TIME_A]: timeA,
+        [KEY_TIME_B]: timeB,
+      };
+
+      const jobsFail = () => {
+
+        this.setState({ situation: situationFail });
+
+      };
+
+      const jobsSuccess = (response) => {
+
+        this.setState({ situation: situationSuccess });
+
+        // reload jobs to refresh "all jobs" list
+        this.loadJobs();
+
+      };
+
+      const jobsTry = () => {
+
+        DatabaseDriver.saveJob(request)
+          .then((response) => {
+            console.log ( 'Saving Job Response');
+            console.log ( response);
+            const errorCode = response[KEY_ERROR_CODE];
+
+            if (errorCode === ErrorCodes['ERROR_NONE']) {
+
+              jobsFail();
+
+            } else {
+
+              jobsSuccess(response);
+
+            }
+
+          }).catch((error) => {
+
+            jobsFail();
+
+          });
+
+      };
+
+      this.setState({ situation: situationTry }, jobsTry);
+
+    };
+
+    const addNewJobDiv = 
+      <div className="ViewRequests_addNewJob">
+        <div className="ViewJobsParent_titleNew">
+          <span className="Title_styleA">{ titleJobsNew }</span>
+        </div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span style = {{color:'blue'}}>{ labelTitle }: </span>
+            <input style = {{width:'100%'}} type="text" onChange={ setValue('title') } />
+          </div>
+        </div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span style = {{color:'blue'}} >{ labelDescription }: </span>
+          </div>
+          <textarea style = {{width:'100%'}}onChange={ setValue('description') }></textarea>
+        </div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span style = {{color:'blue'}}>{ labelScheduleStart }: </span>
+            <input style = {{width:'100%'}} type="datetime-local" onChange={ setTime('timeA') } />
+          </div>
+        </div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span style = {{color:'blue'}}>{ labelScheduleEnd }: </span>
+            <input style = {{width:'100%'}}type="datetime-local" onChange={ setTime('timeB') }/>
+          </div>
+        </div>
+        <button className="Button_navigation" onClick={ actionSubmit }>{ labelSubmit }</button>
+        <div className="Layout_alwaysFilled">{ situation }</div>
+      </div>
 
     // render for parents
     const renderA = () => {
 
-      const { applications } = state;
+      const { posted_jobs, applied_jobs } = state;
 
       const { strings } = context;
 
-      const titleJobsAll = strings['TITLE_JOBS_ALL'];
+      const titlePostedJobs = strings['TITLE_POSTED_JOBS'];
+      const titleAppliedJobs = strings['TITLE_APPLIED_JOBS'];
 
-      const makeApplicationElement = (application) => {
+      const makePostedJobElement = (application) => {
 
         const {
           [KEY_NUMBER_APPLICATION]: numberApplication,
-        } = application;
+        } = posted_jobs;
 
         const chatLink = `/chat?application=${ numberApplication }`;
-
+        const posted_key = 'posted_job_' + numberApplication;
         return (
-          <div key={ numberApplication }>
+          <div key={ posted_key }>
             <PartialChatRequest application={ application }/>
             <Link to={ chatLink } className="Button_navigation">CHAT</Link>
           </div>
@@ -115,17 +247,17 @@ class ViewRequests extends React.Component {
 
       };
 
-      const makeJobApplicationsElement = (jobApplication) => {
+      const makePostedJobsElement = (jobApplication) => {
 
         const {
           [KEY_NUMBER_APPLICATION]: key,
           [KEY_APPLICATIONS]: applications,
         } = jobApplication;
 
-        const elementsApplication = applications.map(makeApplicationElement);
-
+        const elementsApplication = applications.map(makePostedJobElement);
+        const application_key = 'application_' + key;
         return (
-          <div key={ key } className="ViewRequestsParent_singleApplication">
+          <div key={ application_key } className="ViewRequestsParent_singleApplication">
             <PartialJobPost job={ jobApplication }/>
             <div className="ViewRequestsParent_applications">
               { elementsApplication }
@@ -135,44 +267,7 @@ class ViewRequests extends React.Component {
 
       };
 
-      const actionRefresh = () => {
-
-        this.loadApplications();
-
-      };
-
-      const elementsJobApplication = applications.map(makeJobApplicationsElement);
-
-      const body = (
-        <div className="ViewRequestsParent">
-          <div className="ViewRequestsParent_all">
-            <button onClick={ actionRefresh }>REFRESH</button>
-            <div className="ViewRequestsParent_titleAll">
-              <span className="Title_styleA">{ titleJobsAll }</span>
-            </div>
-            <div className="ViewRequestsParent_listAll">
-              { elementsJobApplication }
-            </div>
-          </div>
-        </div>
-      );
-
-      const links = MAP_LINKS[type];
-
-      return (<ShellNavigation body={ body } links={ links }/>);
-
-    };
-
-    // render for babysitters
-    const renderB = () => {
-
-      const { applications } = state;
-
-      const { strings } = context;
-
-      const titleJobsAll = strings['TITLE_JOBS_ALL'];
-
-      const makeJobApplicationElement = (jobApplication) => {
+      const makeAppliedJobElement = (jobApplication) => {
 
         const {
           [KEY_JOB]: job,
@@ -192,9 +287,10 @@ class ViewRequests extends React.Component {
           chatLink = (<button className="Button_disabled">NO CHAT YET</button>);
 
         }
+        const applied_job_key = 'applied_job_' + key;
 
         return (
-          <div key={ key } className="ViewRequestsBabysitter_singleApplication">
+          <div key={ applied_job_key } className="ViewRequestsBabysitter_singleApplication">
             <PartialJobPost job={ job }/>
             <div className="ViewRequestsBabysitter_applications">
               <PartialChatRequest application={ jobApplication }/>
@@ -203,27 +299,33 @@ class ViewRequests extends React.Component {
           </div>
         );
 
-      };
+      };      
 
       const actionRefresh = () => {
 
         this.loadApplications();
 
       };
-
-      const elementsJobApplication = applications.map(makeJobApplicationElement);
+      console.log ( posted_jobs)
+      const elementsPostedJob = posted_jobs.map(makePostedJobsElement);
+      const elementsAppliedJob = applied_jobs.map(makeAppliedJobElement);
 
       const body = (
-        <div className="ViewRequestsBabysitter">
-          <div className="ViewRequestsBabysitter_all">
-            <button onClick={ actionRefresh }>REFRESH</button>
-            <div className="ViewRequestsBabysitter_titleAll">
-              <span className="Title_styleA">{ titleJobsAll }</span>
-            </div>
-            <div className="ViewRequestsBabysitter_listAll">
-              { elementsJobApplication }
-            </div>
+        <div className="ViewRequestsParent">
+          {addNewJobDiv}
+          <button onClick={ actionRefresh }>REFRESH</button>
+          <div className="ViewRequestsParent_titleAll">
+            <span className="Title_styleA">{ titlePostedJobs }</span>
           </div>
+          <div className="ViewRequestsParent_listAll">
+            { elementsPostedJob }
+          </div>
+          <div className="ViewRequestsBabysitter_titleAll">
+              <span className="Title_styleA">{ titleAppliedJobs }</span>
+          </div>
+          <div className="ViewRequestsBabysitter_listAll">
+            { elementsAppliedJob }
+          </div>          
         </div>
       );
 
@@ -252,7 +354,7 @@ class ViewRequests extends React.Component {
 
       case 'babysitter': {
 
-        return renderB();
+        return renderA();
 
       }
 
