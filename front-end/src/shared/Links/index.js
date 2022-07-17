@@ -1,5 +1,9 @@
 const LINKS_BABYSITTER = [
   {
+    key:'LABEL_FAMILIES',
+    link:'/families'
+  },  
+  {
     key: 'LABEL_JOBS',
     link: '/jobs',
   },
@@ -11,6 +15,10 @@ const LINKS_BABYSITTER = [
 
 const LINKS_PARENT = [
   {
+    key:'LABEL_SITTERS',
+    link:'/sitters'
+  },    
+  {
     key: 'LABEL_JOBS',
     link: '/jobs',
   },
@@ -18,6 +26,10 @@ const LINKS_PARENT = [
     key: 'LABEL_REQUESTS',
     link: '/requests',
   },
+  {
+    key:'LABEL_WATCHLIST',
+    link:'/watchlist'
+  },      
 ];
 
 const MAP_LINKS = {

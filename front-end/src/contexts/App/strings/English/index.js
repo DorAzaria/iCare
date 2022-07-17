@@ -96,6 +96,51 @@ const TITLE_REGISTER = 'Register';
 
 const WARNING_NOT_LOGGED = 'YOU ARE NOT LOGGED IN!';
 
+
+//updated 
+
+const LABEL_SITTERS = 'SITTERS';
+const LABEL_WATCHLIST = 'WATCH LIST';
+const LABEL_FAMILIES = 'FAMILIES';
+
+const TITLE_ALL_SITTERS = 'All Sitters'; //all sitters page
+const LABEL_PRICE_RANGE = 'Price Range';
+const LABEL_AGE_RANGE = 'Age Range';
+const LABEL_GENDER = 'Gender';
+const LABEL_CHILD_CARE = 'Child Care';
+const LABEL_SCHOOL_HELP = 'School Help';
+const LABEL_AGE = 'Age';
+const LABEL_PRICE = 'Price';
+const LABEL_SKILLS = 'Skills';
+const LABEL_PROFILE = 'Profile';
+
+//sitter profile
+const TITLE_SITTER_REVIEWS = 'Sitter Reviews';
+const TITLE_SITTER_JOBS = 'Sitter Jobs';
+
+//job detail
+const TITLE_JOB_COMMENTS = 'Job Comments';
+
+//registration
+const LABEL_LOC = 'Location';
+const LABEL_SHORT_INFO = 'Short Information';
+const LABEL_EDUCATION = 'Education';
+const LABEL_EXP_YEARS = 'Experienced Years';
+const LABEL_NUM_OF_CHILDREN = 'Number of Children';
+
+
+//parent profile
+const TITLE_PARENT_REVIEWS = 'Parent Reviews';
+const TITLE_PARENT_JOBS = 'Parent Jobs';
+
+
+const TITLE_ALL_PARENTS = 'All Parents'; //all parents pages
+
+//request page
+const TITLE_APPLIED_JOBS = 'All My Applied Jobs';
+const TITLE_POSTED_JOBS = 'All My Posted Jobs';
+
+
 const StringsEnglish = Object.freeze({
     LABEL_BABYSITTER,
     LABEL_CHATS,
@@ -146,6 +191,40 @@ const StringsEnglish = Object.freeze({
     TITLE_MY_JOBS,
     TITLE_REGISTER,
     WARNING_NOT_LOGGED,
+
+    LABEL_SITTERS,//updated
+    LABEL_WATCHLIST,
+    LABEL_FAMILIES,
+
+    TITLE_ALL_SITTERS, //all sitters page
+    LABEL_PRICE_RANGE,
+    LABEL_AGE_RANGE, 
+    LABEL_GENDER,
+    LABEL_CHILD_CARE,
+    LABEL_SCHOOL_HELP,
+    LABEL_AGE,
+    LABEL_PRICE,
+    LABEL_SKILLS,
+    LABEL_PROFILE,
+
+    LABEL_LOC,
+    LABEL_SHORT_INFO,
+    LABEL_EDUCATION,
+    LABEL_EXP_YEARS,
+    LABEL_NUM_OF_CHILDREN,
+
+    TITLE_SITTER_REVIEWS, //sitter profile page
+    TITLE_SITTER_JOBS, 
+
+    TITLE_JOB_COMMENTS, //job detail
+
+    TITLE_ALL_PARENTS, //parents page
+
+    TITLE_PARENT_REVIEWS, //sitter profile page
+    TITLE_PARENT_JOBS,     
+
+    TITLE_POSTED_JOBS, //request page
+    TITLE_APPLIED_JOBS
 });
 
 export default StringsEnglish;

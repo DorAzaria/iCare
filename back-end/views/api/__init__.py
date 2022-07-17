@@ -19,12 +19,14 @@ API_ROUTES = {
     '/api/watches':watches.request_handler,
     '/api/filter_sitters':filter.request_sitters_handler,
     '/api/filter_jobs':filter.request_jobs_handler,
-    
     '/api/filter_parents':filter.request_parents_handler,
 }
+
+
 
 def request_handler(request):
 
     route_handler = API_ROUTES.get(request.path, None)
     if route_handler is not None:
         return route_handler(request)
+    return None

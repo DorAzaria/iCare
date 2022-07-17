@@ -16,6 +16,16 @@ import ViewApply from '@components/Views/Apply';
 import ViewRequests from '@components/Views/Requests';
 import ViewChat from '@components/Views/Chat';
 
+import ViewSitters from '@components/Views/Sitters';
+import ViewParents from '@components/Views/Parents';
+
+import ViewSitterProfile from '@components/Views/SitterProfile';
+import ViewJobDetail from '@components/Views/JobDetail';
+
+import ViewWatches from '@components/Views/Watches';
+
+import ViewParentProfile from '@components/Views/ParentProfile';
+
 import './index.css';
 
 class App extends React.Component {
@@ -39,6 +49,13 @@ class App extends React.Component {
     const viewApply = <ViewApply/>;
     const viewRequests = <ViewRequests/>;
     const viewChat = <ViewChat/>;
+    const viewWatches = <ViewWatches/>;
+
+    const viewSitters = <ViewSitters/>;
+    const viewParents = <ViewParents/>;
+    const viewSitterProfile = <ViewSitterProfile/>;
+    const viewJobDetail = <ViewJobDetail/>;
+    const viewParentProfile = <ViewParentProfile/>;
 
     return (
       <AppContext.Provider value={ appContext }>
@@ -53,6 +70,13 @@ class App extends React.Component {
                 <Route path="/apply" element={ viewApply }/>
                 <Route path="/requests" element={ viewRequests }/>
                 <Route path="/chat" element={ viewChat }/>
+
+                <Route path="/families" element={ viewParents }/> { /* update from here*/}
+                <Route path="/sitters" element={ viewSitters }/>
+                <Route path="/watchlist" element={ viewWatches }/>
+                <Route path="/sitter-profile" element={ viewSitterProfile }/>
+                <Route path="/job-detail" element={ viewJobDetail }/>
+                <Route path="/parent-profile" element={ viewParentProfile }/>
               </Routes>
             </BrowserRouter>
           </div>

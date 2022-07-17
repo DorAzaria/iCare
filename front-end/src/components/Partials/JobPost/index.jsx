@@ -8,7 +8,6 @@ const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_SESSION = AppKeys['SESSION'];
 const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
-const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
@@ -20,9 +19,11 @@ class PartialJobPost extends React.Component {
     const { props } = this;
 
     const { job } = props;
+    if ( job === null ) {
+      return (<div></div>);
+    }
 
     const {
-      [KEY_NUMBER_JOB]: key,
       [KEY_TITLE]: title,
       [KEY_DESCRIPTION]: description,
       [KEY_TIME_A]: timeA,
@@ -36,7 +37,7 @@ class PartialJobPost extends React.Component {
     const labelTimeB = dateB.toISOString();
 
     return (
-      <div key={ key } className="PartialJobPost_singleJob">
+      <div className="PartialJobPost_singleJob">
         <div className="PartialJobPost_singleJobTitle">
           <span className="Title_styleB">{ title }</span>
         </div>

@@ -70,6 +70,13 @@ def save_review(data):
 
     from_id = user.id
     to_id = data[keys.NUMBER_TO]
+    existing_reviews = Review.objects.all().filter(to_id = to_id).filter(from_id = from_id)
+    if len ( list(existing_reviews)) > 0:
+        review_data = {
+            keys.ERROR_CODE: errors.ERROR_OTHER
+        }
+        return review_data
+
     rating = data[keys.RATING]
     description = data[keys.DESCRIPTION]
     post_time = int(time.time() * 1000)

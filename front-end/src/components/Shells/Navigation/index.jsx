@@ -24,7 +24,7 @@ class ShellNavigation extends React.Component {
     const { strings } = context;
 
     const appTitle = strings['TITLE_APP'];
-
+    console.log ( 'navigation', links)
     const navigationLinks = links.map((pair) => {
 
       const { key, link } = pair;
