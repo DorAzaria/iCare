@@ -11,7 +11,6 @@ import PartialSitter from '@components/Partials/Sitter';
 import DatabaseDriver from '@database/Driver';
 
 import AppKeys from '@shared/AppKeys';
-import ErrorCodes from '@shared/ErrorCodes';
 import Links from '@shared/Links';
 
 import './index.css';
@@ -82,8 +81,6 @@ class ViewSitters extends React.Component {
         };
   
       }
-  
-  
       DatabaseDriver.loadUsers(parameters)
         .then((sitters) => {
           console.log ( sitters);
@@ -110,7 +107,7 @@ class ViewSitters extends React.Component {
         [KEY_GENDER]:gender,
         [KEY_SKILL]:skill
       };
-  
+
       DatabaseDriver.filterSitters(parameters)
         .then((sitters) => {
           console.log ( sitters);
@@ -126,9 +123,8 @@ class ViewSitters extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
+    const { user } = context;
 
-    const { situation } = state;
 
     // render for babysitters
     const renderA = () => {

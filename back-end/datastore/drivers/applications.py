@@ -95,5 +95,4 @@ def load_applications(number_user):
     data = {
         keys.POSTED_JOBS:load_posted_jobs(number_user),
         keys.APPLIED_JOBS:load_applied_jobs(number_user)}
-    print ( 'final_final', data)
     return data

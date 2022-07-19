@@ -4,7 +4,6 @@ import AppKeys from '@shared/AppKeys';
 
 import './index.css';
 
-const KEY_NUMBER_APPLICATION = AppKeys['NUMBER_APPLICATION'];
 const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
 const KEY_LAST_NAME = AppKeys['LAST_NAME'];
 const KEY_COVER_LETTER = AppKeys['COVER_LETTER'];

@@ -11,7 +11,6 @@ import PartialParent from '@components/Partials/Parent';
 import DatabaseDriver from '@database/Driver';
 
 import AppKeys from '@shared/AppKeys';
-import ErrorCodes from '@shared/ErrorCodes';
 import Links from '@shared/Links';
 
 import './index.css';
@@ -107,13 +106,11 @@ class ViewParents extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
-
-    const { situation } = state;
+    const { user } = context;
 
     const renderA = () => {
 
-      const { parents, minAge, maxAge } = state;
+      const { parents} = state;
 
       const { strings } = context;
 

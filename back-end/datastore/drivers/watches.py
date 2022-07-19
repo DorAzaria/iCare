@@ -10,16 +10,12 @@ from datastore.models.sessions import Session
 from shared import errors, keys
 
 def load_watches(from_number):
-    print ( 'loading_watches', from_number)
     watch_list = [-1]
     watches = Watch.objects.all().filter (from_id = from_number)
-    print ( watch_list)
     for watch in list(watches):
         if watch.friend_id not in watch_list:
             watch_list.append ( watch.friend_id)
-    print ( watch_list)
     user_data = driver_registrations.load_users_by_id_list ( watch_list)
-    print ( user_data)
     return user_data
 
 def is_in_watches(from_number, friend_number):

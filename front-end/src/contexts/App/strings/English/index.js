@@ -94,6 +94,8 @@ const TITLE_MY_JOBS = 'My Jobs';
 
 const TITLE_REGISTER = 'Register';
 
+const TITLE_WELCOME = "Welcome to our website we offer blab la bla"
+
 const WARNING_NOT_LOGGED = 'YOU ARE NOT LOGGED IN!';
 
 
@@ -101,6 +103,7 @@ const WARNING_NOT_LOGGED = 'YOU ARE NOT LOGGED IN!';
 
 const LABEL_SITTERS = 'SITTERS';
 const LABEL_WATCHLIST = 'WATCH LIST';
+const LABEL_LOGOUT = 'LOG OUT'
 const LABEL_FAMILIES = 'FAMILIES';
 
 const TITLE_ALL_SITTERS = 'All Sitters'; //all sitters page
@@ -195,6 +198,7 @@ const StringsEnglish = Object.freeze({
     LABEL_SITTERS,//updated
     LABEL_WATCHLIST,
     LABEL_FAMILIES,
+    LABEL_LOGOUT,
 
     TITLE_ALL_SITTERS, //all sitters page
     LABEL_PRICE_RANGE,
@@ -224,7 +228,9 @@ const StringsEnglish = Object.freeze({
     TITLE_PARENT_JOBS,     
 
     TITLE_POSTED_JOBS, //request page
-    TITLE_APPLIED_JOBS
+    TITLE_APPLIED_JOBS,
+
+    TITLE_WELCOME
 });
 
 export default StringsEnglish;

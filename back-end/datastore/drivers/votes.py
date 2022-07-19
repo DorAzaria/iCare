@@ -10,29 +10,21 @@ from shared import errors, keys
 
 def get_votes_len(job_number, from_number=None):
     if from_number is not None:
-        print ( 'inside', from_number)
         vote = Vote.objects.all().filter(job_id = job_number).filter(from_id = from_number)
         return len ( list(vote))
-    print ( 'final', job_number)
     votes = Vote.objects.all().filter(job_id = job_number)
     return len ( list(votes))
 
 def load_votes(job_number, number_from):
-    print ( 'here', job_number, number_from)
 
     votes_all_len = get_votes_len ( job_number)
     votes_user_len = get_votes_len ( job_number, number_from)
-
-
-    print ( 'before define', votes_all_len, votes_user_len)
-
 
     data = {
         keys.VOTES_ALL_LEN : votes_all_len,
         keys.VOTES_USER_LEN : votes_user_len
     }
 
-    print ( 'vote_data', data)    
     return data
 
 

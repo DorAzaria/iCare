@@ -14,6 +14,7 @@ const queryLine = (parameters) => {
   return array.join('&');
 
 };
+const header_url = 'http://localhost:8000'
 
 const registerUser = async (request) => {
   const body = JSON.stringify(request);
@@ -22,7 +23,7 @@ const registerUser = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/register', {
+  const response = await fetch(header_url + '/api/register', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -39,7 +40,7 @@ const logInUser = async (request) => {
   const headers = {
     'Content-Type': 'application/json',
   };
-  const response = await fetch('/api/log-in', {
+  const response = await fetch(header_url + '/api/log-in', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -57,7 +58,7 @@ const saveJob = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/jobs', {
+  const response = await fetch(header_url +'/api/jobs', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -82,7 +83,7 @@ const loadJobs = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -99,7 +100,7 @@ const applyUser = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/apply', {
+  const response = await fetch(header_url +'/api/apply', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -124,7 +125,7 @@ const loadApplications = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -148,7 +149,7 @@ const loadChat = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   }); 
@@ -171,7 +172,7 @@ const saveMessage = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/chat', {
+  const response = await fetch( header_url + '/api/chat', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -199,7 +200,7 @@ const loadUsers = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -217,7 +218,7 @@ const filterSitters = async (parameters) => {
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -225,7 +226,7 @@ const filterSitters = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -239,13 +240,13 @@ const filterSitters = async (parameters) => {
 /*filter job page*/
 const filterJobs = async (parameters) => {
 
-  let url = '/api/filter_jobs';
+  let url ='/api/filter_jobs';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -253,7 +254,7 @@ const filterJobs = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -267,13 +268,13 @@ const filterJobs = async (parameters) => {
 /*All Sitters Page*/
 const filterParents = async (parameters) => {
 
-  let url = '/api/filter_parents';
+  let url ='/api/filter_parents';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -281,7 +282,7 @@ const filterParents = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -294,13 +295,13 @@ const filterParents = async (parameters) => {
 /*All Reviews*/
 const loadReviews = async (parameters) => {
 
-  let url = '/api/reviews';
+  let url ='/api/reviews';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -308,7 +309,7 @@ const loadReviews = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -326,7 +327,7 @@ const saveReview = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/reviews', {
+  const response = await fetch(header_url +'/api/reviews', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -339,13 +340,13 @@ const saveReview = async (request) => {
 /*All Reviews*/
 const loadComments = async (parameters) => {
 
-  let url = '/api/comments';
+  let url ='/api/comments';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -353,7 +354,7 @@ const loadComments = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -371,7 +372,7 @@ const saveComment = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/comments', {
+  const response = await fetch(header_url +'/api/comments', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -391,7 +392,7 @@ const saveReply = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/replys', {
+  const response = await fetch(header_url +'/api/replys', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -403,13 +404,13 @@ const saveReply = async (request) => {
 /*Load Replys*/
 const loadReplys = async (parameters) => {
 
-  let url = '/api/replys';
+  let url ='/api/replys';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -417,7 +418,7 @@ const loadReplys = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -429,13 +430,13 @@ const loadReplys = async (parameters) => {
 /*Load Replys*/
 const loadVotes = async (parameters) => {
 
-  let url = '/api/votes';
+  let url ='/api/votes';
   
 
   if (parameters) {
 
     const searchParams = queryLine(parameters);
-    url = `${ url }?${ searchParams }`;
+    url =`${ url }?${ searchParams }`;
 
   }
 
@@ -443,7 +444,7 @@ const loadVotes = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -461,7 +462,7 @@ const saveVote = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/votes', {
+  const response = await fetch(header_url +'/api/votes', {
     'method': 'POST',
     'headers': headers,
     'body': body,
@@ -488,7 +489,7 @@ const loadWatches = async (parameters) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch(url, {
+  const response = await fetch(header_url + url, {
     'method': 'GET',
     'headers': headers,
   });
@@ -507,7 +508,7 @@ const saveWatch = async (request) => {
     'Content-Type': 'application/json',
   };
 
-  const response = await fetch('/api/watches', {
+  const response = await fetch(header_url +'/api/watches', {
     'method': 'POST',
     'headers': headers,
     'body': body,

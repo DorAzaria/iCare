@@ -20,12 +20,10 @@ def error_handler(request):
 def request_handler(request):
 
     try:
-        print ( 'log in...')
         if request.method != 'POST':
             return error_handler(request)
 
         for key in request.session.keys():
-            print ( key )
             del request.session[key]
 
         data = json.load(request)

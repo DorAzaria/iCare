@@ -19,7 +19,6 @@ def error_handler(request):
 
 def get_handler(request):
     number_from = request.GET.get(keys.NUMBER_FROM, None)
-    print ( 'get_handler', number_from)
     all_data = driver_watches.load_watches(number_from)
     return JsonResponse(all_data, safe=False)
 

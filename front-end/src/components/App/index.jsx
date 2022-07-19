@@ -26,6 +26,8 @@ import ViewWatches from '@components/Views/Watches';
 
 import ViewParentProfile from '@components/Views/ParentProfile';
 
+import ViewLogOut from '@components/Views/LogOut';
+
 import './index.css';
 
 class App extends React.Component {
@@ -56,6 +58,7 @@ class App extends React.Component {
     const viewSitterProfile = <ViewSitterProfile/>;
     const viewJobDetail = <ViewJobDetail/>;
     const viewParentProfile = <ViewParentProfile/>;
+    const viewLogOut = <ViewLogOut/>;
 
     return (
       <AppContext.Provider value={ appContext }>
@@ -63,20 +66,22 @@ class App extends React.Component {
           <div className="App_layerBase">
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={ viewIndex }/>
-                <Route path="/register" element={ viewRegister }/>
-                <Route path="/log-in" element={ viewLogIn }/>
-                <Route path="/jobs" element={ viewJobs }/>
-                <Route path="/apply" element={ viewApply }/>
-                <Route path="/requests" element={ viewRequests }/>
-                <Route path="/chat" element={ viewChat }/>
+                <Route path="/" element={ viewIndex } exact/>
+                <Route path="/sitters" element={ viewSitters }  exact/>
+                <Route path="/register" element={ viewRegister }  exact/>
+                <Route path="/log-in" element={ viewLogIn }  exact/>
+                <Route path="/jobs" element={ viewJobs }  exact/>
+                <Route path="/apply" element={ viewApply }  exact/>
+                <Route path="/requests" element={ viewRequests }  exact/>
+                <Route path="/chat" element={ viewChat }  exact/>
 
-                <Route path="/families" element={ viewParents }/> { /* update from here*/}
-                <Route path="/sitters" element={ viewSitters }/>
-                <Route path="/watchlist" element={ viewWatches }/>
-                <Route path="/sitter-profile" element={ viewSitterProfile }/>
-                <Route path="/job-detail" element={ viewJobDetail }/>
-                <Route path="/parent-profile" element={ viewParentProfile }/>
+                <Route path="/families" element={ viewParents }  exact/> { /* update from here*/}
+                
+                <Route path="/watchlist" element={ viewWatches }  exact/>
+                <Route path="/sitter-profile" element={ viewSitterProfile }  exact/>
+                <Route path="/job-detail" element={ viewJobDetail }  exact/>
+                <Route path="/parent-profile" element={ viewParentProfile }  exact/>
+                <Route path="/log-out" element={ viewLogOut } exact/>
               </Routes>
             </BrowserRouter>
           </div>

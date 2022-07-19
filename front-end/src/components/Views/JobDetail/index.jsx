@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -66,7 +66,7 @@ class ViewJobDetail extends React.Component {
 
   loadJob () {
 
-    const { context, props } = this;
+    const { props } = this;
 
     const { searchParams } = props;
 
@@ -143,6 +143,7 @@ class ViewJobDetail extends React.Component {
         this.setState({ comments: comments });
         let reply_contents = []
         for ( let _ of comments) {
+          console.log ( _);
           reply_contents.add('');
         }
         this.setState ( {reply_contents:reply_contents})
@@ -360,9 +361,7 @@ class ViewJobDetail extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
-
-    const { situation } = state;
+    const { user } = context;
 
     const setValue = (key) => (event) => {
       const element = event.target;

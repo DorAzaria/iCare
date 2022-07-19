@@ -2,13 +2,13 @@ from django.contrib.auth.models import User
 
 import time
 
-from datastore.drivers import registrations as driver_registration
-
 from datastore.models.jobs import Job
 from datastore.models.registrations import Registration
 from datastore.models.sessions import Session
 
 from shared import errors, keys
+
+
 
 def single_job(job):
 
@@ -18,12 +18,18 @@ def single_job(job):
     time_a = job.time_a
     time_b = job.time_b
 
+    from_id = job.from_id
+    job_user = Registration.objects.get(user_number=from_id)
+    job_user_type = job_user.registration_type
+
+
     data = {
         keys.NUMBER_JOB: number_job,
         keys.TITLE: title,
         keys.DESCRIPTION: description,
         keys.TIME_A: time_a,
         keys.TIME_B: time_b,
+        keys.REGISTRATION_TYPE: job_user_type
     }
 
     return data
@@ -93,13 +99,10 @@ def save_job(data):
         keys.NUMBER_JOB: job.id,
         keys.ERROR_CODE: errors.ERROR_NONE,
     }
-    print ( 'job_data', job_data)
     return job_data
 
 def filter_jobs(check_family, check_sitter):
     job_data = Job.objects.all()
-    print ( 'filtering job')
-    print ( job_data[0].user_type)
     if check_family == 'false':
         job_data = job_data.filter(user_type = 1)
     if check_sitter == 'false':

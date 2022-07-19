@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -26,7 +26,6 @@ const { withSearchParams } = ComponentHelpers;
 const KEY_NUMBER_USER = AppKeys['NUMBER_USER']
 const KEY_NUMBER_TO = AppKeys['NUMBER_TO']
 const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT']
-const KEY_NUMBER_FRIEND = AppKeys['NUMBER_FRIEND']
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 
 const KEY_NUMBER_REVIEW = AppKeys['NUMBER_REVIEW']
@@ -54,7 +53,11 @@ class ViewParentProfile extends React.Component {
       situation: '',
       sitter: null,
       reviews:[],
-      jobs:[]
+      jobs:[],
+      reviewStatus:'',
+      startPage:0,
+      curPage:0,
+      nPage:1      
     };
 
   }
@@ -67,7 +70,7 @@ class ViewParentProfile extends React.Component {
 
   loadSitter () {
 
-    const { context, props } = this;
+    const { props } = this;
 
     const { searchParams } = props;
 
@@ -148,10 +151,7 @@ class ViewParentProfile extends React.Component {
     const { props, context } = this;
     const { searchParams } = props;
     const {description, rating} = this.state;
-    const { strings, user } = context;
-
-    const situationFail = strings['MESSAGE_JOBS_FAIL'];
-    const situationSuccess = strings['MESSAGE_JOBS_SUCCESS'];
+    const { user } = context;
 
     const number_to = searchParams.get(KEY_NUMBER_USER);
 
@@ -164,15 +164,18 @@ class ViewParentProfile extends React.Component {
       [KEY_RATING]:rating
     };
 
-    const reviewFail = () => {
-  
-      this.setState({ situation: situationFail });
-  
+    const reviewFail = (errorCode) => {
+      if ( errorCode === ErrorCodes['ERROR_GENERIC']) {
+        this.setState({ reviewStatus: 'You have failed to leave review owing to network problem' });
+      }
+      else {
+        this.setState({ reviewStatus: 'You have already left review to the parents' });
+      }  
     };
   
     const reviewSuccess = (response) => {
   
-      this.setState({ situation: situationSuccess });
+      this.setState({ reviewStatus: 'You have successfully left review to the parents' });
   
       // reload jobs to refresh "all jobs" list
       this.loadReviews();
@@ -187,7 +190,7 @@ class ViewParentProfile extends React.Component {
 
       if (errorCode !== ErrorCodes['ERROR_NONE']) {
 
-        reviewFail();
+        reviewFail(errorCode);
 
       } else {
 
@@ -197,7 +200,7 @@ class ViewParentProfile extends React.Component {
 
     }).catch((error) => {
 
-      reviewFail();
+      reviewFail(ErrorCodes['ERROR_GENERIC']);
 
     });
 
@@ -208,9 +211,7 @@ class ViewParentProfile extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
-
-    const { situation } = state;
+    const { user } = context;
 
     const setValue = (key) => (event) => {
 
@@ -242,10 +243,67 @@ class ViewParentProfile extends React.Component {
       return (<PartialReview key = {key_review} review={ review }/>);
     }
 
+    const makePageElement = (page) => {
+      let key_page = 'page_' + page['number'];
+      if ( page['number'] === page['current']) {
+        return (<a key = {key_page} 
+          href = "#foo"
+          className = 'active' 
+          onClick = {()=>currentPage(page['number'])}>
+          {page['number'] + 1}
+        </a>);
+      }
+      else {
+        return (<a key = {key_page} 
+          href = "#foo"
+          onClick = {()=>currentPage(page['number'])}>
+          {page['number'] + 1}
+        </a>);
+      }
+
+    } 
+
+    const addPage = (n)=>{
+      let { startPage, curPage, nPage} = state;
+      curPage += n;
+      if (curPage < 0 ) {
+        curPage = 0;
+      }
+      if ( curPage >= nPage ) {
+        curPage = nPage - 1;
+      }
+      if ( curPage < startPage ) {
+        startPage = curPage;
+      }
+      if ( curPage > startPage + 4) {
+        startPage = curPage - 4;
+      }
+      this.setState ({startPage:startPage});
+      this.setState ({curPage:curPage});
+    }
+
+    const currentPage = (curPage)=> {
+      let { startPage, nPage} = state;
+      if (curPage < 0 ) {
+        curPage = 0;
+      }
+      if ( curPage >= nPage ) {
+        curPage = nPage - 1;
+      }
+      if ( curPage < startPage ) {
+        startPage = curPage;
+      }
+      if ( curPage > startPage + 4) {
+        startPage = curPage - 4;
+      }
+      this.setState ({startPage:startPage});
+      this.setState ({curPage:curPage});      
+    }    
+
     // render for babysitters from the parent
     const renderA = () => {
 
-      const { reviews, sitter, jobs } = state;
+      const { reviews, sitter, jobs, reviewStatus, startPage, curPage, nPage } = state;
 
       const { strings } = context;
 
@@ -253,8 +311,26 @@ class ViewParentProfile extends React.Component {
       const titleParentReviews = strings['TITLE_PARENT_REVIEWS'];
       const titleParentJobs = strings['TITLE_PARENT_JOBS'];
       
+      let pageReviews = [];
+      let startReview = curPage*5;
+      let endReview = startReview + 5;
+      if ( endReview > reviews.length) {
+        endReview = reviews.length;
+      }
+      for ( let i = startReview; i < endReview; i++) {
+        pageReviews.push ( reviews[i]);
+      }
+      const elementsReview= pageReviews.map(makeReviewElement);
 
-      const elementsReview= reviews.map(makeReviewElement);
+
+      let endPage = startPage + 5;
+      if ( endPage >= nPage ) endPage = nPage;
+      let pages = []
+      for ( let i = startPage; i < endPage; i++) {
+        pages.push ( {'number':i, 'current':curPage});
+      }
+      let elementsPage = pages.map ( makePageElement);
+
       const elementsJob = jobs.map(makeJobElement);
 
 
@@ -273,6 +349,7 @@ class ViewParentProfile extends React.Component {
                 <option value = "4">4</option>
                 <option value = "5">5</option>
               </select>
+              <span style = {{color:'red'}}>{reviewStatus}</span>
               <textarea style = {{width:'100%'}} onChange={ setValue('description') }></textarea>
             </div>         
 
@@ -282,6 +359,15 @@ class ViewParentProfile extends React.Component {
             <div className="ViewJobsBabysitter_listAll">
               
               { elementsReview }
+            </div>
+
+            <div className="pagination" style = {{float:'right'}}>
+              <a href = "#foo" onClick = {()=>addPage(-1)}>&laquo;</a>
+              <span>
+                {elementsPage}
+              </span>
+              <a href = "#foo" onClick = {()=>addPage(1)}>&raquo;</a>
+              <span style = {{color:'white'}}>!</span>
             </div>
 
             <div className="ViewJobsBabysitter_titleAll">

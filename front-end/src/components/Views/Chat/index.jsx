@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -18,26 +18,13 @@ import './index.css';
 const { withSearchParams } = ComponentHelpers;
 
 const KEY_APPLICATION = AppKeys['APPLICATION'];
-const KEY_APPLICATIONS = AppKeys['APPLICATIONS'];
 const KEY_CONTENTS = AppKeys['CONTENTS'];
-const KEY_COVER_LETTER = AppKeys['COVER_LETTER'];
-const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
-const KEY_FIRST_NAME = AppKeys['FIRST_NAME'];
-const KEY_LAST_NAME = AppKeys['LAST_NAME'];
-const KEY_SESSION = AppKeys['SESSION'];
 const KEY_MESSAGES = AppKeys['MESSAGES'];
 const KEY_NUMBER_APPLICATION = AppKeys['NUMBER_APPLICATION'];
 const KEY_NUMBER_AUTHOR = AppKeys['NUMBER_AUTHOR'];
 const KEY_NUMBER_CHAT = AppKeys['NUMBER_CHAT'];
-const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
-const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
-const KEY_NUMBER_USER = AppKeys['NUMBER_USER'];
-const KEY_REGISTRATION_TYPE = AppKeys['REGISTRATION_TYPE'];
-const KEY_TIME_A = AppKeys['TIME_A'];
-const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];
-
 const MAP_LINKS = Links['MAP_LINKS'];
 
 class ViewChat extends React.Component {
@@ -64,7 +51,7 @@ class ViewChat extends React.Component {
 
   loadChat () {
 
-    const { context, props } = this;
+    const { props } = this;
 
     const { searchParams } = props;
 
@@ -91,7 +78,7 @@ class ViewChat extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
+    const { user } = context;
 
     const { chat, situation } = state;
 
@@ -140,7 +127,7 @@ class ViewChat extends React.Component {
 
         let className;
 
-        if (numberAuthor == numberUser) {
+        if (numberAuthor === numberUser) {
 
           className = "ViewChat_messageAuthor";
 

@@ -52,7 +52,6 @@ def load_all_replys():
     return all_data
 
 def load_replys(number_comment=None):
-    print ( number_comment)
     if number_comment is not None:
         all_replys = Reply.objects.all().filter(comment_id = number_comment)
         all_data = replys_array(all_replys)

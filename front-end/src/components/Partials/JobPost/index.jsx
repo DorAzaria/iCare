@@ -5,9 +5,6 @@ import AppKeys from '@shared/AppKeys';
 import './index.css';
 
 const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
-const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
-const KEY_SESSION = AppKeys['SESSION'];
-const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
 const KEY_TIME_A = AppKeys['TIME_A'];
 const KEY_TIME_B = AppKeys['TIME_B'];
 const KEY_TITLE = AppKeys['TITLE'];

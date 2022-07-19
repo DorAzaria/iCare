@@ -11,6 +11,10 @@ const LINKS_BABYSITTER = [
     key: 'LABEL_REQUESTS',
     link: '/requests',
   },
+  {
+    key:'LABEL_LOGOUT',
+    link:'/log-out'
+  },  
 ];
 
 const LINKS_PARENT = [
@@ -30,6 +34,10 @@ const LINKS_PARENT = [
     key:'LABEL_WATCHLIST',
     link:'/watchlist'
   },      
+  {
+    key:'LABEL_LOGOUT',
+    link:'/log-out'
+  },
 ];
 
 const MAP_LINKS = {

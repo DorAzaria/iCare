@@ -19,10 +19,7 @@ def error_handler(request):
     return JsonResponse(data, safe=False)
 
 def get_handler(request):
-    print ( request)
     number_user = request.GET.get(keys.NUMBER_USER, None)
-
-    print ( 'here', number_user)
 
     if number_user is not None:
         applications_data = driver_applications.load_applications(

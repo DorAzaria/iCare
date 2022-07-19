@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
 import ShellNavigation from '@components/Shells/Navigation';
 
-import PartialSitter from '@components/Partials/Sitter';
 import PartialSitterProfile from '@components/Partials/SitterProfile';
 import PartialJobPost from '@components/Partials/JobPost';
 import PartialReview from '@components/Partials/Review';
@@ -51,11 +50,15 @@ class ViewSitterProfile extends React.Component {
     this.state = {
       title: '',
       description: '',
-      rating:0,
+      rating:1,
       situation: '',
       sitter: null,
       reviews:[],
-      jobs:[]
+      jobs:[],
+      reviewStatus:'',
+      startPage:0,
+      curPage:0,
+      nPage:1
     };
 
   }
@@ -68,7 +71,7 @@ class ViewSitterProfile extends React.Component {
 
   loadSitter () {
 
-    const { context, props } = this;
+    const { props } = this;
 
     const { searchParams } = props;
 
@@ -107,10 +110,12 @@ class ViewSitterProfile extends React.Component {
 
     DatabaseDriver.loadReviews(parameters)
       .then((reviews) => {
-        console.log ( 'Reviews');
-        console.log ( reviews);
         this.setState({ reviews: reviews });
-
+        this.setState ({startPage:0});
+        this.setState ({curPage:0});
+        let nPage = parseInt((reviews.length + 4)/5);
+        if ( nPage === 0 ) nPage = 1;
+        this.setState ( {nPage:nPage});
       })
       .catch((error) => {
 
@@ -133,8 +138,6 @@ class ViewSitterProfile extends React.Component {
 
     DatabaseDriver.loadJobs(parameters)
       .then((jobs) => {
-        console.log ( 'Jobs');
-        console.log ( jobs);
         this.setState({ jobs: jobs });
 
       })
@@ -151,7 +154,6 @@ class ViewSitterProfile extends React.Component {
     const {description, rating} = this.state;
     const { strings, user } = context;
 
-    const situationFail = strings['MESSAGE_JOBS_FAIL'];
     const situationSuccess = strings['MESSAGE_JOBS_SUCCESS'];
 
     const number_to = searchParams.get(KEY_NUMBER_USER);
@@ -165,9 +167,13 @@ class ViewSitterProfile extends React.Component {
       [KEY_RATING]:rating
     };
 
-    const reviewFail = () => {
-  
-      this.setState({ situation: situationFail });
+    const reviewFail = (errorCode) => {
+      if ( errorCode === ErrorCodes['ERROR_GENERIC']) {
+        this.setState({ reviewStatus: 'You have failed to leave review owing to network problem' });
+      }
+      else {
+        this.setState({ reviewStatus: 'You have already left review to this sitter' });
+      }
   
     };
   
@@ -176,6 +182,7 @@ class ViewSitterProfile extends React.Component {
       this.setState({ situation: situationSuccess });
   
       // reload jobs to refresh "all jobs" list
+      this.setState({ reviewStatus: 'You have successfully left review to the sitter' });
       this.loadReviews();
   
     };
@@ -188,7 +195,7 @@ class ViewSitterProfile extends React.Component {
 
       if (errorCode !== ErrorCodes['ERROR_NONE']) {
 
-        reviewFail();
+        reviewFail(errorCode);
 
       } else {
 
@@ -198,7 +205,7 @@ class ViewSitterProfile extends React.Component {
 
     }).catch((error) => {
 
-      reviewFail();
+      reviewFail(ErrorCodes['ERROR_GENERIC']);
 
     });
 
@@ -209,9 +216,7 @@ class ViewSitterProfile extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
-
-    const { situation } = state;
+    const { user } = context;
 
     const setValue = (key) => (event) => {
 
@@ -294,10 +299,68 @@ class ViewSitterProfile extends React.Component {
       return (<PartialReview key = {key_review} review={ review }/>);
     }
 
+    const makePageElement = (page) => {
+      let key_page = 'page_' + page['number'];
+      if ( page['number'] === page['current']) {
+        return (<a 
+          href="#foo"
+          key = {key_page}
+          className = 'active' 
+          onClick = {()=>currentPage(page['number'])}>
+          {page['number'] + 1}
+        </a>);
+      }
+      else {
+        return (<a 
+          href = "#foo"
+          key = {key_page} onClick = {()=>currentPage(page['number'])}>
+          {page['number'] + 1}
+        </a>);
+      }
+
+    } 
+
+    const addPage = (n)=>{
+      let { startPage, curPage, nPage} = state;
+      curPage += n;
+      if (curPage < 0 ) {
+        curPage = 0;
+      }
+      if ( curPage >= nPage ) {
+        curPage = nPage - 1;
+      }
+      if ( curPage < startPage ) {
+        startPage = curPage;
+      }
+      if ( curPage > startPage + 4) {
+        startPage = curPage - 4;
+      }
+      this.setState ({startPage:startPage});
+      this.setState ({curPage:curPage});
+    }
+
+    const currentPage = (curPage)=> {
+      let { startPage, nPage} = state;
+      if (curPage < 0 ) {
+        curPage = 0;
+      }
+      if ( curPage >= nPage ) {
+        curPage = nPage - 1;
+      }
+      if ( curPage < startPage ) {
+        startPage = curPage;
+      }
+      if ( curPage > startPage + 4) {
+        startPage = curPage - 4;
+      }
+      this.setState ({startPage:startPage});
+      this.setState ({curPage:curPage});      
+    }
+
     // render for babysitters from the parent
     const renderA = () => {
 
-      const { reviews, sitter, jobs } = state;
+      const { reviews, sitter, jobs, reviewStatus, startPage, curPage, nPage } = state;
 
       const { strings } = context;
 
@@ -305,8 +368,26 @@ class ViewSitterProfile extends React.Component {
       const titleSitterReviews = strings['TITLE_SITTER_REVIEWS'];
       const titleSitterJobs = strings['TITLE_SITTER_JOBS'];
       
+      let pageReviews = [];
+      let startReview = curPage*5;
+      let endReview = startReview + 5;
+      if ( endReview > reviews.length) {
+        endReview = reviews.length;
+      }
+      for ( let i = startReview; i < endReview; i++) {
+        pageReviews.push ( reviews[i]);
+      }
+      const elementsReview= pageReviews.map(makeReviewElement);
 
-      const elementsReview= reviews.map(makeReviewElement);
+      let endPage = startPage + 5;
+      if ( endPage >= nPage ) endPage = nPage;
+      let pages = []
+      for ( let i = startPage; i < endPage; i++) {
+        pages.push ( {'number':i, 'current':curPage});
+      }
+      let elementsPage = pages.map ( makePageElement);
+
+
       const elementsJob = jobs.map(makeJobElement);
 
 
@@ -319,13 +400,14 @@ class ViewSitterProfile extends React.Component {
             <div style = {{margin:'10px 2px 10px 2px', border:'1px solid black',borderRadius: '5px'}}>
               <button className='Button_navigation' onClick={ actionSaveReview }>Leave Review</button>
               <span style = {{color:'blue', paddingLeft:'30px'}}>Rating: </span>
-              <select style = {{width:'100px'}} onChange={ setValue('rating') }>
+              <select style = {{width:'100px', marginRight:'20px'}} onChange={ setValue('rating') }>
                 <option value = "1" >1</option>
                 <option value = "2">2</option>
                 <option value = "3">3</option>
                 <option value = "4">4</option>
                 <option value = "5">5</option>
               </select>
+              <span style = {{color:'red'}}>{reviewStatus}</span>
               <textarea style = {{width:'100%'}} onChange={ setValue('description') }></textarea>
             </div>         
 
@@ -336,11 +418,23 @@ class ViewSitterProfile extends React.Component {
               
               { elementsReview }
             </div>
-
-            <div className="ViewJobsBabysitter_titleAll">
-              <span className="Title_styleA">{ titleSitterJobs }</span>
+            <div className="pagination" style = {{float:'right'}}>
+              <a href = "#foo" onClick = {()=>addPage(-1)}>&laquo;</a>
+              <span>
+                {elementsPage}
+              </span>
+              <a href = "#foo" onClick = {()=>addPage(1)}>&raquo;</a>
+              <span style = {{color:'white'}}>!</span>
             </div>
+
+
+
             <div className="ViewJobsBabysitter_listAll">
+            <div className="ViewJobsBabysitter_titleAll" style = {{width:'100%'}}>
+              <p>
+              <span className="Title_styleA">{ titleSitterJobs }</span>
+              </p>
+            </div>              
               { elementsJob }
             </div>            
           </div>

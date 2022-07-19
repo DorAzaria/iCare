@@ -11,10 +11,6 @@ class ShellNavigation extends React.Component {
 
   static contextType = AppContext;
 
-  constructor(props) {
-    super(props);
-  }
-
   render () {
 
     const { props, context } = this;
@@ -23,8 +19,7 @@ class ShellNavigation extends React.Component {
 
     const { strings } = context;
 
-    const appTitle = strings['TITLE_APP'];
-    console.log ( 'navigation', links)
+    //const appTitle = strings['TITLE_APP'];
     const navigationLinks = links.map((pair) => {
 
       const { key, link } = pair;
@@ -40,7 +35,9 @@ class ShellNavigation extends React.Component {
     return (
       <div className="ShellNavigation">
         <div className="ShellNavigation_head">
-          <Link className="ShellNavigation_headTitle" to="/">{ appTitle }</Link>
+          <Link className="ShellNavigation_headTitle" to="/">
+            <img alt = "iCare" src = "logo.jpg" style = {{width:'100px', height:'100px'}}/>
+          </Link>
         </div>
         <nav className="ShellNavigation_bar Layout_centralRow">
           { navigationLinks } 

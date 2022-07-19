@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -19,13 +19,9 @@ import './index.css';
 const { withSearchParams } = ComponentHelpers;
 
 const KEY_COVER_LETTER = AppKeys['COVER_LETTER'];
-const KEY_DESCRIPTION = AppKeys['DESCRIPTION'];
 const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 const KEY_NUMBER_USER = AppKeys['NUMBER_USER'];
-const KEY_TIME_A = AppKeys['TIME_A'];
-const KEY_TIME_B = AppKeys['TIME_B'];
-const KEY_TITLE = AppKeys['TITLE'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
@@ -60,19 +56,9 @@ class ViewApply extends React.Component {
 
   loadJob () {
 
-    const { context, props } = this;
+    const {props } = this;
 
     const { searchParams } = props;
-
-    const { user } = context;
-
-    const { type } = user;
-
-    if (type !== 'babysitter') {
-
-      return;
-
-    }
 
     const key = searchParams.get(KEY_NUMBER_JOB);
 
@@ -101,7 +87,7 @@ class ViewApply extends React.Component {
 
   render () {
 
-    const { context, props, state } = this;
+    const { context, state } = this;
 
     const { strings, user } = context;
 
@@ -214,23 +200,7 @@ class ViewApply extends React.Component {
     }
 
     const { type } = user;
-
-    switch (type) {
-
-      case 'parent': {
-
-        return renderB();
-
-      }
-
-      case 'babysitter': {
-
-        return renderB();
-
-      }
-
-    }
-
+    return renderB();
   }
 
 }

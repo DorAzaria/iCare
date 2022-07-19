@@ -11,17 +11,17 @@ import PartialJobPost from '@components/Partials/JobPost';
 import DatabaseDriver from '@database/Driver';
 
 import AppKeys from '@shared/AppKeys';
-import ErrorCodes from '@shared/ErrorCodes';
 import Links from '@shared/Links';
 
 import './index.css';
 
-const KEY_NUMBER_PARENT = AppKeys['NUMBER_PARENT'];
 const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
 const KEY_CHECK_FAMILY = AppKeys['CHECK_FAMILY'];
 const KEY_CHECK_SITTER = AppKeys['CHECK_SITTER'];
 
 const MAP_LINKS = Links['MAP_LINKS'];
+
+const TYPES = {'parent':2, 'babysitter':1};
 
 class ViewJobs extends React.Component {
 
@@ -32,8 +32,8 @@ class ViewJobs extends React.Component {
 
     this.state = {
       jobs: [],
-      checkFamily:false,
-      checkSitter:false
+      checkFamily:true,
+      checkSitter:true
     };
 
   }
@@ -46,23 +46,7 @@ class ViewJobs extends React.Component {
 
   loadJobs () {
 
-    const { context } = this;
-
-    const { user } = context;
-
-    const { number, type } = user;
-
-    let parameters;
-
-    if (type == 'parent') {
-
-      parameters = {
-        [KEY_NUMBER_PARENT]: number,
-      };
-
-    }
-
-    DatabaseDriver.loadJobs(parameters)
+    DatabaseDriver.loadJobs()
       .then((jobs) => {
 
         this.setState({ jobs: jobs });
@@ -86,7 +70,6 @@ class ViewJobs extends React.Component {
 
     DatabaseDriver.filterJobs(parameters)
       .then((jobs) => {
-        console.log ( jobs);
         this.setState({ jobs: jobs });
       })
       .catch((error) => {
@@ -151,14 +134,17 @@ class ViewJobs extends React.Component {
         return (
           <div  key={ key } className="ViewJobsBabysitter_jobEntry">
             <PartialJobPost job={ job }/>
-            <Link to={ applyLink } className="Button_navigation">APPLY</Link>
+            {
+              (job['registration_type'] !== TYPES[user['type']]) ?
+              (<Link to={ applyLink } className="Button_navigation">APPLY</Link>):("")
+            }
+            
             <Link style = {{marginLeft:'20px'}} to={ detailLink } className="Button_navigation">Detail</Link>
           </div>
         
         );
 
       };
-
      const elementsJob = jobs.map(makeJobElement);
 
       const body = (
@@ -189,22 +175,7 @@ class ViewJobs extends React.Component {
     }
 
     const { type } = user;
-
-    switch (type) {
-
-      case 'parent': {
-
-        return renderA();
-
-      }
-
-      case 'babysitter': {
-
-        return renderA();
-
-      }
-
-    }
+    return renderA();
 
   }
 

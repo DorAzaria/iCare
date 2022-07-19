@@ -17,14 +17,12 @@ LABELS = {
 }
 
 def create_registration(data):
-    print ( 'here', data)
     username = data[keys.USERNAME]
     email = data[keys.EMAIL]
     password = data[keys.PASSWORD]
     first_name = data[keys.FIRST_NAME]
     last_name = data[keys.LAST_NAME]
     registration_type = data[keys.REGISTRATION_TYPE]
-    print ( 'registering', registration_type)
 
     age = data[keys.AGE]
     gender = data[keys.GENDER]
@@ -51,7 +49,6 @@ def create_registration(data):
     registration:Registration = Registration()
     registration.user_number = user_number
     # initialization
-    print ( data)
 
     registration.registration_type = registration_type
     registration.username = username
@@ -187,7 +184,6 @@ def filter_sitters(check_age, min_age, max_age, check_gender, gender, check_skil
     return user_data
 
 def filter_parents(check_children, num_of_children):
-    print ( 'here', check_children, num_of_children)
     user_data = Registration.objects.all().filter ( registration_type = 2)
     if check_children == 'true':
         user_data = user_data.filter(num_of_children = num_of_children)

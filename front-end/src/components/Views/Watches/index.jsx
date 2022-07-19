@@ -11,7 +11,6 @@ import PartialSitter from '@components/Partials/Sitter';
 import DatabaseDriver from '@database/Driver';
 
 import AppKeys from '@shared/AppKeys';
-import ErrorCodes from '@shared/ErrorCodes';
 import Links from '@shared/Links';
 
 import './index.css';
@@ -77,9 +76,7 @@ class ViewWatches extends React.Component {
 
     const { context, state } = this;
 
-    const { strings, user } = context;
-
-    const { situation } = state;
+    const { user } = context;
 
     // render for babysitters
     const renderA = () => {
@@ -104,12 +101,6 @@ class ViewWatches extends React.Component {
             <Link to={ sitterProfileLink } className="Button_navigation">{labelProfile}</Link>
           </div>
         );
-
-      };
-
-      const actionRefresh = () => {
-
-        this.loadWatches();
 
       };
 

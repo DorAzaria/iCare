@@ -20,7 +20,6 @@ def error_handler(request):
 
 def get_handler(request):
     reg_type = request.GET.get(keys.REGISTRATION_TYPE, None)
-    print ( reg_type)
     user_number = request.GET.get(keys.NUMBER_USER, None)
 
     if reg_type is not None:

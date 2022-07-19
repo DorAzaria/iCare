@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Navigate } from 'react-router-dom';
-
 import AppContext from '@contexts/App';
 
 import ShellMainGate  from '@components/Shells/MainGate';
@@ -45,17 +43,6 @@ class ViewLogIn extends React.Component {
 
     const { strings, user, app } = context;
 
-    // render for when the user is logged in.
-    const renderA = () => {
-
-      const body = (
-        <div>YOU ARE ALREADY LOGGED IN!</div>
-      );
-
-      return (<ShellMainGate body={ body }/>);
-
-    };
-
     // render for when the user is not logged in.
     const renderB = () => {
 
@@ -63,7 +50,7 @@ class ViewLogIn extends React.Component {
 
       const setValue = (key) => (event) => {
 
-        const element = event.target;
+      const element = event.target;
         const value = element.value;
         this.setState({ [key]: value });
   
@@ -95,6 +82,7 @@ class ViewLogIn extends React.Component {
           const type = response[KEY_REGISTRATION_TYPE];
 
           const user = { session, firstName, lastName, number, type };
+          sessionStorage.setItem ( 'user', JSON.stringify(user));
 
           app.setState({ user: user });
 
@@ -176,7 +164,8 @@ class ViewLogIn extends React.Component {
 
     if (user) { // logged-in
 
-      return renderA();
+      //return renderA();
+      window.location.href = "/";
 
     } else { // not logged-in
       return renderB();
