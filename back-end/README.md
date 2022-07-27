@@ -19,3 +19,7 @@
    # for creating django super admin.
 
    python manage.py createsuperuser
+
+4. front-end
+   npm install --legacy-peer-deps
+   yarn start

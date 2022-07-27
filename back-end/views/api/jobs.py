@@ -22,7 +22,7 @@ def get_handler(request):
     user_number = request.GET.get(keys.NUMBER_USER, None)
     parent_number = request.GET.get(keys.NUMBER_PARENT, None)
     job_number = request.GET.get(keys.NUMBER_JOB, None)
-    print('=======', user_number)
+    print('===fffff====', user_number)
     if parent_number is not None:
         jobs_data = driver_jobs.load_jobs(parent_number)
         return JsonResponse(jobs_data, safe=False)

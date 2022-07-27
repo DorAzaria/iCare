@@ -107,7 +107,7 @@ def load_applied_jobs(from_id):
         data = single_application(application)
 
         job_id = application.job_id
-        job = driver_jobs.load_single_job(job_id)
+        job = driver_jobs.load_single_job(job_id, from_id)
         data[keys.JOB] = job
 
         application_id = application.id

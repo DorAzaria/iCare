@@ -27,7 +27,8 @@ def single_reply(reply:Reply):
         keys.NUMBER_COMMENT: number_comment,
         keys.DESCRIPTION: description,
         keys.POST_TIME: post_time,
-        keys.NAME_FROM:user_from['username']
+        keys.NAME_FROM:user_from['username'],
+        'reuserAvatar': user_from['userAvatar']
     }
     return data
 
