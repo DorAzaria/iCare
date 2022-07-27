@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -32,16 +32,22 @@ def get_sitters_handler(request):
     return JsonResponse(sitter_data, safe=False)
 
 def get_jobs_handler(request):
-    check_family = request.GET.get(keys.CHECK_FAMILY, None)
-    check_sitter = request.GET.get(keys.CHECK_SITTER, None)
 
-    job_data = driver_jobs.filter_jobs(check_family, check_sitter)
+    location = request.GET.get('location', None)
+    price = request.GET.get('price', None)
+    schedule = request.GET.get('schedule', None)
+    user_number = request.GET.get('user_number', None)
+
+    # check_family = request.GET.get(keys.CHECK_FAMILY, None)
+    # check_sitter = request.GET.get(keys.CHECK_SITTER, None)
+
+    job_data = driver_jobs.filter_jobs(location, price, schedule, user_number)
     return JsonResponse(job_data, safe=False)
 
 def get_parents_handler(request):
     check_children = request.GET.get(keys.CHECK_CHILDREN, None)
     num_of_children = (int)(request.GET.get(keys.NUM_OF_CHILDREN, None))
-
+    
     sitter_data = driver_regs.filter_parents(check_children, num_of_children)
     return JsonResponse(sitter_data, safe=False)
 

@@ -1,12 +1,8 @@
-.ViewSitters {
-  display: grid;
-  grid-auto-flow: row;
-  grid-auto-rows: auto;
-  grid-gap: 0.75rem;
-
-  border: 1px solid black;
-  padding: 0.75rem;
-  margin: 0.75rem;
+.ViewSitterProfile {
+  width:85%;
+  margin-left: auto;
+  margin-right:auto;
+  min-width: 250px;
 }
 
 /* Pagination links */
@@ -26,3 +22,19 @@
 
 /* Add a grey background color on mouse-over */
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.leave-review-div {
+  border-top: 1px solid lightblue;
+  border-left: 1px solid lightblue;
+  border-right: 3px solid lightskyblue;
+  border-bottom: 3px solid lightskyblue;
+  margin-left:auto;
+  margin-right:auto;
+  padding:20px;
+  width:80%;
+  min-width: 400px;
+  height:120px;
+  border-radius: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    
+  margin-top:20px;
+}

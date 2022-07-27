@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import {Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -14,6 +14,8 @@ import AppKeys from '@shared/AppKeys';
 import Links from '@shared/Links';
 
 import './index.css';
+
+import { Button, Row } from 'reactstrap';
 
 const KEY_NUMBER_USER = AppKeys['NUMBER_USER']
 const KEY_REGISTRATION_TYPE  = AppKeys['REGISTRATION_TYPE']
@@ -84,13 +86,13 @@ class ViewParents extends React.Component {
 
     filterParents() {
       const { state } = this;
-      const {check_children, num_Of_children} = state;
+      const {check_children, num_of_children} = state;
 
       const parameters = {
         [KEY_CHECK_CHILDREN]: check_children,
-        [KEY_NUM_OF_CHILDREN]: num_Of_children,
+        [KEY_NUM_OF_CHILDREN]: num_of_children,
       };
-  
+      console.log(parameters)
       DatabaseDriver.filterParents(parameters)
         .then((parents) => {
           console.log ( parents);
@@ -104,6 +106,7 @@ class ViewParents extends React.Component {
 
   render () {
 
+
     const { context, state } = this;
 
     const { user } = context;
@@ -115,7 +118,6 @@ class ViewParents extends React.Component {
       const { strings } = context;
 
       const titleAllParents = strings['TITLE_ALL_PARENTS'];
-      const labelProfile = strings['LABEL_PROFILE'];
 
       const makeParentElement = (parent) => {
 
@@ -123,12 +125,10 @@ class ViewParents extends React.Component {
           [KEY_NUMBER_USER]: key,
         } = parent;
 
-        const parentProfileLink = `/parent-profile?${ KEY_NUMBER_USER }=${ key }`;
-
+        let parent_key = 'parent_' + key;
         return (
-          <div key={ key } className="ViewJobsBabysitter_jobEntry">
+          <div key={ parent_key } className="ViewJobsBabysitter_jobEntry">
             <PartialParent parent={ parent }/>
-            <Link to={ parentProfileLink } className="Button_navigation">{labelProfile}</Link>
           </div>
         );
 
@@ -155,8 +155,8 @@ class ViewParents extends React.Component {
 
       const elementsParent= parents.map(makeParentElement);
       const {check_children} = state;
-      const filterSitterDiv = 
-        <div>
+      const filterParentDiv = 
+        <div className = "filter-parent-div">
           <div>
             <input type="checkbox"
               checked = {check_children}
@@ -177,22 +177,22 @@ class ViewParents extends React.Component {
             </select>
           </div>            
 
-          <div style ={{float:'right'}}>
-            <button className="Button_navigation" onClick={ actionRefresh }>FILTER</button>
+          <div style ={{marginLeft:150, marginTop:20}}>
+            <Button color = "success" onClick={ actionRefresh }>Search Parents</Button>
           </div> 
         </div>
 
       const body = (
         <div className="ViewJobsBabysitter">
-          <div className="ViewJobsBabysitter_all">
+          <div className="container">
             
-            {filterSitterDiv}
+            {filterParentDiv}
             <div className="ViewJobsBabysitter_titleAll">
               <span className="Title_styleA">{ titleAllParents }</span>
             </div>
-            <div className="ViewJobsBabysitter_listAll">
+            <Row lg="2" md ="2" sm ="1" xs = "1">
               { elementsParent }
-            </div>
+            </Row>
           </div>
         </div>
       );

@@ -1,19 +1,19 @@
-.PartialSitter_singleSitter {
+.PartialSitter_singleParentProfile {
   border: 3px solid #CECECE;
   border-radius: 1rem;
   padding: 1rem;
 
 }
 
-.PartialSitter_singleSitterName,
-.PartialSitter_singleSitterNumberOfChildren,
-.PartialSitter_singleSitterPrice,
-.PartialSitter_singleSitterGender,
-.PartialSitter_singleSitterSkills,
-.PartialSitter_singleSitterExp,
-.PartialSitter_singleSitterShortInfo,
-.PartialSitter_singleSitterLoc,
-.PartialSitter_singleSitterRating {
+.PartialSitter_singleParentProfileName,
+.PartialSitter_singleParentProfileNumberOfChildren,
+.PartialSitter_singleParentProfilePrice,
+.PartialSitter_singleParentProfileGender,
+.PartialSitter_singleParentProfileSkills,
+.PartialSitter_singleParentProfileExp,
+.PartialSitter_singleParentProfileShortInfo,
+.PartialSitter_singleParentProfileLoc,
+.PartialSitter_singleParentProfileRating {
   position: relative;
   background: #E1E1E1;
   border: 3px solid #CECECE;
@@ -22,15 +22,15 @@
   border-radius: .75rem;
 }
 
-.PartialSitter_singleSitterName::after,
-.PartialSitter_singleSitterNumberOfChildren::after,
-.PartialSitter_singleSitterPrice::after,
-.PartialSitter_singleSitterGender::after,
-.PartialSitter_singleSitterSkills::after,
-.PartialSitter_singleSitterExp::after,
-.PartialSitter_singleSitterShortInfo::after,
-.PartialSitter_singleSitterLoc::after,
-.PartialSitter_singleSitterRating::after {
+.PartialSitter_singleParentProfileName::after,
+.PartialSitter_singleParentProfileNumberOfChildren::after,
+.PartialSitter_singleParentProfilePrice::after,
+.PartialSitter_singleParentProfileGender::after,
+.PartialSitter_singleParentProfileSkills::after,
+.PartialSitter_singleParentProfileExp::after,
+.PartialSitter_singleParentProfileShortInfo::after,
+.PartialSitter_singleParentProfileLoc::after,
+.PartialSitter_singleParentProfileRating::after {
   white-space: nowrap;
   position: absolute;
   top: 0;
@@ -42,39 +42,39 @@
   padding: 0rem;
 }
 
-.PartialSitter_singleSitterName::after {
+.PartialSitter_singleParentProfileName::after {
   content: "NAME";
 }
 
-.PartialSitter_singleSitterNumberOfChildren::after {
+.PartialSitter_singleParentProfileNumberOfChildren::after {
   content: "NUMBER OF CHILDREN";
 }
 
-.PartialSitter_singleSitterPrice::after {
+.PartialSitter_singleParentProfilePrice::after {
   content: "PRICE";
 }
 
-.PartialSitter_singleSitterGender::after {
+.PartialSitter_singleParentProfileGender::after {
   content: "GENDER";
 }
 
-.PartialSitter_singleSitterSkills::after {
+.PartialSitter_singleParentProfileSkills::after {
   content: "SKILLS";
 }
 
 
-.PartialSitter_singleSitterExp::after {
+.PartialSitter_singleParentProfileExp::after {
   content: "EDUCATION & EXPERIENCED YEARS";
 }
 
-.PartialSitter_singleSitterShortInfo::after {
+.PartialSitter_singleParentProfileShortInfo::after {
   content: "SHORT INFORMATION";
 }
 
-.PartialSitter_singleSitterLoc::after {
+.PartialSitter_singleParentProfileLoc::after {
   content: "LOCATION";
 }
 
-.PartialSitter_singleSitterRating::after {
+.PartialSitter_singleParentProfileRating::after {
   content: "RATING";
 }

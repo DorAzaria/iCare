@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import {Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -13,6 +13,7 @@ import DatabaseDriver from '@database/Driver';
 import AppKeys from '@shared/AppKeys';
 import Links from '@shared/Links';
 
+import { Row, Button } from 'reactstrap';
 import './index.css';
 
 const KEY_NUMBER_USER = AppKeys['NUMBER_USER']
@@ -83,7 +84,7 @@ class ViewSitters extends React.Component {
       }
       DatabaseDriver.loadUsers(parameters)
         .then((sitters) => {
-          console.log ( sitters);
+          console.log (sitters);
           this.setState({ sitters: sitters });
   
         })
@@ -134,20 +135,16 @@ class ViewSitters extends React.Component {
       const { strings } = context;
 
       const titleAllSitters = strings['TITLE_ALL_SITTERS'];
-      const labelProfile = strings['LABEL_PROFILE'];
 
       const makeSitterElement = (sitter) => {
 
         const {
           [KEY_NUMBER_USER]: key,
         } = sitter;
-
-        const sitterProfileLink = `/sitter-profile?${ KEY_NUMBER_USER }=${ key }`;
-
+        let sitter_key = 'sitter_' + key;
         return (
-          <div key={ key } className="ViewJobsBabysitter_jobEntry">
+          <div key={ sitter_key }>
             <PartialSitter sitter={ sitter }/>
-            <Link to={ sitterProfileLink } className="Button_navigation">{labelProfile}</Link>
           </div>
         );
 
@@ -180,60 +177,61 @@ class ViewSitters extends React.Component {
       const elementsSitter= sitters.map(makeSitterElement);
       const {checkAge, checkGender, checkSkill} = state;
       const filterSitterDiv = 
-        <div>
-          <div>
+        <div className = "filter-sitter-div">
+          <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkAge}
               onChange = {checkToggle('checkAge')}
             />
             <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Age Range: </span>
             <span> Min Age</span>
-            <input type = "text" value = {minAge} style = {{width:100}} onChange = {changeFilterValue('minAge')}/>
+            <input type = "text" className='filter_style' value = {minAge} style = {{width:100}} onChange = {changeFilterValue('minAge')}/>
             <span> ~Max Age</span>
-            <input type = "text" value = {maxAge} style = {{width:100}} onChange = {changeFilterValue('maxAge')}/>
+            <input type = "text" className='filter_style' value = {maxAge} style = {{width:100}} onChange = {changeFilterValue('maxAge')}/>
           </div>
-          <div>
+          <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkGender}
               onChange = {checkToggle('checkGender')}
             />
             <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Gender: </span>
-            <select onChange = {selectFilterValue('gender')}>
+            <select onChange = {selectFilterValue('gender')} className='filter_select_style'>
               <option value = "male">Male</option>
               <option value = "female">Female</option>
             </select>
           </div>
-          <div>
+          <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkSkill}
               onChange = {checkToggle('checkSkill')}
             />
             <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Skills: </span>
-            <select onChange={selectFilterValue('skill')}>
+            <select onChange={selectFilterValue('skill')} className='filter_select_style'>
               <option value = "child_care">Child Care</option>
               <option value = "school_help">School Help</option>
             </select>
           </div>            
 
-          <div style ={{float:'right'}}>
-            <button className="Button_navigation" onClick={ actionRefresh }>FILTER</button>
+          <div style ={{marginLeft:250}}>
+            <Button color = "primary" className='btn-sm' onClick={ actionRefresh }>Search Sitter</Button>
           </div> 
         </div>
 
       const body = (
         <div className="ViewJobsBabysitter">
-          <div className="ViewJobsBabysitter_all">
+          <div className="ViewJobsBabysitter_all container">
             
             {filterSitterDiv}
             <div className="ViewJobsBabysitter_titleAll">
               <span className="Title_styleA">{ titleAllSitters }</span>
             </div>
-            <div className="ViewJobsBabysitter_listAll">
+            <Row lg = "2" md = "2" sm = "1" xs = "1">
               { elementsSitter }
-            </div>
+            </Row>
           </div>
         </div>
       );
+
 
       const links = MAP_LINKS[type];
 

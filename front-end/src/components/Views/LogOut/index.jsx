@@ -7,6 +7,7 @@ class ViewLogOut extends React.Component {
     };
 
   }
+  
   render () {
       sessionStorage.clear();
       window.location.href = "/log-in";

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -20,7 +20,6 @@ def error_handler(request):
 
 def get_handler(request):
     number_user = request.GET.get(keys.NUMBER_USER, None)
-
     if number_user is not None:
         applications_data = driver_applications.load_applications(
             number_user
@@ -31,7 +30,6 @@ def get_handler(request):
 
 def post_handler(request):
     data = json.load(request)
-
     apply_data = driver_applications.save_application(data)
     if apply_data is not None:
         return JsonResponse(apply_data, safe=False)
@@ -49,5 +47,5 @@ def request_handler(request):
             return post_handler(request)
 
     except Exception as ex:
-        raise ex
+        print('error:', ex)
         return error_handler(request)

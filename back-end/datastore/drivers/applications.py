@@ -1,12 +1,13 @@
-from django.contrib.auth.models import User
-
 from datastore.models.applications import Application
 from datastore.models.jobs import Job
+from datastore.models.registrations import Registration
+from datastore.models.users import User
 
 from shared import errors, keys
 
 from datastore.drivers import chats as driver_chats
 from datastore.drivers import jobs as driver_jobs
+from notifications.signals import notify
 
 def single_application(application):
 
@@ -14,15 +15,23 @@ def single_application(application):
     from_id = application.from_id
     cover_letter = application.cover_letter
 
-    app_master = User.objects.get(id=from_id)
-    first_name = app_master.first_name
-    last_name = app_master.last_name
+    app_master = Registration.objects.get(user_number=from_id)
+    user_name = app_master.username
+    location = app_master.loc
+    city = app_master.city
+    if app_master.avatar:
+        userAvatar = app_master.avatar.url
+    else:
+        userAvatar = None
 
     data = {
         keys.NUMBER_APPLICATION: number_application,
-        keys.FIRST_NAME: first_name,
-        keys.LAST_NAME: last_name,
+        keys.NUMBER_FROM: from_id,
+        keys.USERNAME: user_name,
         keys.COVER_LETTER: cover_letter,
+        keys.LOCATION: location,
+        'userAvatar': userAvatar,
+        'city': city
     }
 
     return data
@@ -32,12 +41,31 @@ def save_application(data):
     from_id = data[keys.NUMBER_USER]
     job_id = data[keys.NUMBER_JOB]
     cover_letter = data[keys.COVER_LETTER]
+    print ( from_id, job_id)
+    
+    job_applications = Application.objects.all().filter(job_id=job_id)
+    user_numbers = [job_application.from_id for job_application in job_applications]
+    print ( 'saving application')
+    for user_number in user_numbers:
+        if (int)(user_number) == (int)(from_id):
+            application_data = {
+                keys.ERROR_CODE: errors.ERROR_OTHER
+            }
+            return application_data
+
 
     application = Application()
     application.from_id = from_id
     application.job_id = job_id
     application.cover_letter = cover_letter
     application.save()
+
+    #notification send part
+    sender = User.objects.get(id=from_id)
+    description = 'The Your Post was applied by ' + sender.username
+    job_user = Job.objects.get(id=job_id)
+    receiver = User.objects.get(id=job_user.from_id)
+    notify.send(sender, recipient=receiver, verb='Message', level="success", description=description)
 
     application_data = {
         keys.ERROR_CODE: errors.ERROR_NONE,
@@ -57,6 +85,7 @@ def load_posted_jobs(from_id):
     for job_number in job_numbers:
         job = Job.objects.get(id=job_number)
         data_job = driver_jobs.single_job(job)
+        
         job_applications = Application.objects.all().filter(job_id=job_number)
         data_applications = []
         for application in job_applications:
@@ -64,13 +93,12 @@ def load_posted_jobs(from_id):
             data_applications.append(data)
 
         data_job[keys.APPLICATIONS] = data_applications
-
         data_jobs.append(data_job)
 
     return data_jobs
 
 def load_applied_jobs(from_id):
-    applications = Application.objects.all().filter(
+    applications = Application.objects.filter(
         from_id=from_id,
     )
     data_applications = []

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from datastore.models.users import User
 
 import time
 from datastore.models.registrations import Registration
@@ -27,7 +27,7 @@ def save_watch(data):
     session_key = data[keys.SESSION]
 
     session = Session.objects.get(key=session_key)
-    user = User.objects.get(username=session.user)
+    user = User.objects.get(email=session.user)
 
     from_id = user.id
     friend_id = data[keys.NUMBER_FRIEND]

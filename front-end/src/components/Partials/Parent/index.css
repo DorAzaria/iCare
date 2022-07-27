@@ -1,48 +1,7 @@
-.PartialParent_singleParent {
-  border: 3px solid #CECECE;
-  border-radius: 1rem;
-  padding: 1rem;
-}
-
-.PartialParent_singleParentName,
-.PartialParent_singleParentAge,
-.PartialParent_singleParentPrice,
-.PartialParent_singleParentGender {
-  position: relative;
-  background: #E1E1E1;
-  border: 3px solid #CECECE;
-  margin: 1.25rem .5rem .5rem .5rem;
-  padding: 1.25rem .75rem .75rem .75rem;
-  border-radius: .75rem;
-}
-
-.PartialParent_singleParentName::after,
-.PartialParent_singleParentAge::after,
-.PartialParent_singleParentPrice::after,
-.PartialParent_singleParentGender::after {
-  white-space: nowrap;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(.75rem, -50%);
-
-  background: white;
-  border: 3px solid #CECECE;
-  padding: 0.25rem;
-}
-
-.PartialParent_singleParentName::after {
-  content: "NAME";
-}
-
-.PartialParent_singleParentAge::after {
-  content: "AGE";
-}
-
-.PartialParent_singleParentPrice::after {
-  content: "PRICE";
-}
-
-.PartialParent_singleParentGender::after {
-  content: "NUMBER OF CHILDREN";
+.PartialSitter_singleParent {
+  border-left: 1px lightblue solid;
+  border-top: 1px lightblue solid;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }

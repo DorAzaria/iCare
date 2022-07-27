@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
+from datastore.models.users import User
 
 from datastore.models.applications import Application
+from datastore.models.registrations import Registration
 from datastore.models.chats import Chat, Message
 from datastore.models.jobs import Job
 
@@ -39,10 +40,15 @@ def single_message(message):
 
     number_author = message.author_id
     contents = message.contents
-
+    send_user = Registration.objects.get(user_number=number_author)
+    if send_user.avatar:
+        senderAvatar = send_user.avatar.url
+    else:
+        senderAvatar = None
     data = {
         keys.NUMBER_AUTHOR: number_author,
         keys.CONTENTS: contents,
+        'senderAvatar': senderAvatar
     }
 
     return data
@@ -71,17 +77,28 @@ def load_chat(application_id):
     job_id = application.job_id
     job = Job.objects.get(id=job_id)
 
+    from_id = application.from_id
+    app_user = Registration.objects.get(user_number = from_id)
+
     title = job.title
 
     chat_id = chat_entry.id
-    messages = Message.objects.all().filter(chat_id=chat_id)
+    messages = Message.objects.filter(chat_id=chat_id)
     messages = [single_message(x) for x in messages]
+
+    if app_user.avatar:
+        userAvatar =  app_user.avatar.url
+    else:
+        userAvatar = None
 
     data = {
         keys.ERROR_CODE: errors.ERROR_NONE,
         keys.NUMBER_CHAT: chat_id,
         keys.TITLE: title,
         keys.MESSAGES: messages,
+        keys.NUMBER_FROM: from_id,
+        keys.USERNAME: app_user.username,
+        'recevierAvatar': userAvatar
     }
 
     return data

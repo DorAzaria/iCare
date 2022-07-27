@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse

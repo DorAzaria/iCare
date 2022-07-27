@@ -8,8 +8,9 @@ import ShellMainGate from '@components/Shells/MainGate';
 import ShellNavigation from '@components/Shells/Navigation';
 
 import Links from '@shared/Links';
-
+import { Row, Col } from 'reactstrap';
 import './index.css';
+
 
 const MAP_LINKS = Links['MAP_LINKS'];
 
@@ -25,6 +26,7 @@ class ViewIndex extends React.Component {
     };
 
   }
+  
 
 
   render () {
@@ -124,10 +126,17 @@ class ViewIndex extends React.Component {
       const body = (
         <div style = {{marginTop:0}}>
           <h1 style = {{fontSize:30, color:'blue'}}>{ welcome }</h1>          
-          <nav className="ViewIndexMainGate_navigation Layout_centralColumn">
-            <Link className="Button_navigation" to="/register">{ labelRegister }</Link>
-            <Link className="Button_navigation" to="/log-in">{ labelLogIn }</Link>
-          </nav>
+          {/* <nav className="ViewIndexMainGate_navigation Layout_centralColumn">
+            
+            
+          </nav> */}
+          <Row className='mt-5'>
+            <Col sm={12} className="text-center" style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center'}}>
+              <Link className="Button_navigation" style={{minWidth: '150px'}} to="/register">{ labelRegister }</Link>
+              <Link className="Button_navigation" style={{minWidth: '150px'}} to="/log-in">{ labelLogIn }</Link>
+              
+            </Col>
+          </Row>
         </div>
       );
 

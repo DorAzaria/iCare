@@ -6,6 +6,14 @@ const EMAIL = 'email';
 
 const FIRST_NAME = 'first_name';
 
+const PHONE_NUMBER = 'phone_number';
+
+const HOUSE_NUMBER = 'house_number';
+
+const STREET_NAME = 'street_name';
+
+const CITY = 'city';
+
 const LAST_NAME = 'last_name';
 
 const ERROR_CODE = 'error_code';
@@ -97,6 +105,9 @@ const CHECK_CHILDREN = 'check_children';
 const APPLIED_JOBS = 'applied_jobs';
 const POSTED_JOBS = 'posted_jobs';
 
+const IMG_FILE = 'img_file';
+const SERVER_PROFILE_URL = "http://127.0.0.1:8000"
+
 
 
 const AppKeys = Object.freeze({
@@ -105,6 +116,10 @@ const AppKeys = Object.freeze({
   EMAIL,
   FIRST_NAME,
   LAST_NAME,
+  PHONE_NUMBER,
+  HOUSE_NUMBER,
+  STREET_NAME,
+  CITY,
   ERROR_CODE,
   SESSION,
   REGISTRATION_TYPE,
@@ -162,7 +177,11 @@ const AppKeys = Object.freeze({
   CHECK_CHILDREN, //parent filter
 
   APPLIED_JOBS,
-  POSTED_JOBS
+  POSTED_JOBS,
+
+  IMG_FILE,
+
+  SERVER_PROFILE_URL,
 });
 
 export default AppKeys;

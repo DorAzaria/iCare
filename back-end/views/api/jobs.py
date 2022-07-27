@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -19,24 +19,25 @@ def error_handler(request):
     return JsonResponse(data, safe=False)
 
 def get_handler(request):
-
+    user_number = request.GET.get(keys.NUMBER_USER, None)
     parent_number = request.GET.get(keys.NUMBER_PARENT, None)
     job_number = request.GET.get(keys.NUMBER_JOB, None)
-
+    print('=======', user_number)
     if parent_number is not None:
         jobs_data = driver_jobs.load_jobs(parent_number)
         return JsonResponse(jobs_data, safe=False)
 
     if job_number is not None:
-        job_data = driver_jobs.load_single_job(job_number)
+        job_data = driver_jobs.load_single_job(job_number, user_number)
         return JsonResponse(job_data, safe=False)
-
-    all_data = driver_jobs.load_jobs()
+    
+    all_data = driver_jobs.load_filter_jobs(user_number)
+    
     return JsonResponse(all_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)
-
+    
     job_data = driver_jobs.save_job(data)
     if job_data is not None:
         return JsonResponse(job_data, safe=False)

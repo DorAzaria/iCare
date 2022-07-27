@@ -1,5 +1,13 @@
 const LINKS_BABYSITTER = [
   {
+    key:'LABEL_HOME',
+    link:'/'
+  },
+  // {
+  //   key:'LABEL_CHATS',
+  //   link:'/chat'
+  // },
+  {
     key:'LABEL_FAMILIES',
     link:'/families'
   },  
@@ -11,13 +19,17 @@ const LINKS_BABYSITTER = [
     key: 'LABEL_REQUESTS',
     link: '/requests',
   },
-  {
-    key:'LABEL_LOGOUT',
-    link:'/log-out'
-  },  
 ];
 
 const LINKS_PARENT = [
+  {
+    key:'LABEL_HOME',
+    link:'/'
+  },
+  // {
+  //   key:'LABEL_CHATS',
+  //   link:'/chat'
+  // },
   {
     key:'LABEL_SITTERS',
     link:'/sitters'
@@ -34,10 +46,6 @@ const LINKS_PARENT = [
     key:'LABEL_WATCHLIST',
     link:'/watchlist'
   },      
-  {
-    key:'LABEL_LOGOUT',
-    link:'/log-out'
-  },
 ];
 
 const MAP_LINKS = {

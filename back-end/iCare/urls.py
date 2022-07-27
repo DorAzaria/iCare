@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import re_path
+from django.urls import re_path, path, include
+from django.contrib import admin
 
 from shared import names, routes
 from views import api, public
@@ -20,17 +21,18 @@ PATH_API_DISPATCHER = re_path(
     name=names.API_DISPATCHER,
 )
 
-static_urlpatterns = static(
-    settings.STATIC_URL,
-    document_root=settings.STATIC_ROOT
-)
 
 base_urlpatterns = [
     PATH_API_DISPATCHER,
     PATH_GENERAL_REDIRECTOR,
 ]
+import notifications.urls
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+]
 
-urlpatterns = []
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-urlpatterns.extend(static_urlpatterns)
 urlpatterns.extend(base_urlpatterns)

@@ -17,16 +17,13 @@ const queryLine = (parameters) => {
 const header_url = 'http://localhost:8000'
 
 const registerUser = async (request) => {
-  const body = JSON.stringify(request);
-
-  const headers = {
-    'Content-Type': 'application/json',
-  };
+  const fd = new FormData();
+  //fd.append('img_file', img_file)
+  fd.append('data', JSON.stringify(request))
 
   const response = await fetch(header_url + '/api/register', {
     'method': 'POST',
-    'headers': headers,
-    'body': body,
+    'body': fd,
   });
 
   return await response.json();
@@ -51,8 +48,10 @@ const logInUser = async (request) => {
 };
 
 const saveJob = async (request) => {
+  console.log ( request);
 
   const body = JSON.stringify(request);
+  console.log ( body);
 
   const headers = {
     'Content-Type': 'application/json',
@@ -134,6 +133,30 @@ const loadApplications = async (parameters) => {
 
 };
 
+const loadNotifications = async (parameters) => {
+
+  let url = '/api/notification';
+
+  if (parameters) {
+
+    const searchParams = queryLine(parameters);
+    url = `${ url }?${ searchParams }`;
+
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(header_url + url, {
+    'method': 'GET',
+    'headers': headers,
+  });
+
+  return await response.json();
+
+};
+
 const loadChat = async (parameters) => {
 
   let url = '/api/chat';
@@ -187,6 +210,58 @@ const saveMessage = async (request) => {
 const loadUsers = async (parameters) => {
 
   let url = '/api/users';
+  
+
+  if (parameters) {
+
+    const searchParams = queryLine(parameters);
+    url = `${ url }?${ searchParams }`;
+
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(header_url + url, {
+    'method': 'GET',
+    'headers': headers,
+  });
+
+  return await response.json();
+
+};
+
+//loadProfile
+const loadProfile = async (parameters) => {
+
+  let url = '/api/profile';
+  
+
+  if (parameters) {
+
+    const searchParams = queryLine(parameters);
+    url = `${ url }?${ searchParams }`;
+
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const response = await fetch(header_url + url, {
+    'method': 'GET',
+    'headers': headers,
+  });
+
+  return await response.json();
+
+};
+
+/*Logined User Schedule Data*/
+const loadUserSchedule = async (parameters) => {
+
+  let url = '/api/schedule';
   
 
   if (parameters) {
@@ -331,6 +406,20 @@ const saveReview = async (request) => {
     'method': 'POST',
     'headers': headers,
     'body': body,
+  });
+
+  return await response.json();
+
+};
+
+//update Profile
+const updateProfile = async (request, img_file) => {
+  const fd = new FormData();
+  fd.append('img_file', img_file)
+  fd.append('data', JSON.stringify(request))
+  const response = await fetch(header_url + '/api/profile', {
+    'method': 'POST',
+    'body': fd,
   });
 
   return await response.json();
@@ -518,6 +607,19 @@ const saveWatch = async (request) => {
 
 };
 
+const changeHeart = async (request) => {
+  const fd = new FormData();
+  fd.append('data', JSON.stringify(request))
+
+  const response = await fetch(header_url + '/api/heart', {
+    'method': 'POST',
+    'body': fd,
+  });
+
+  return await response.json();
+
+};
+
 
 const DatabaseDriver = Object.freeze({
   registerUser,
@@ -529,19 +631,19 @@ const DatabaseDriver = Object.freeze({
   loadApplications,
   loadChat,
   saveMessage,
-
+  loadUserSchedule,
   loadUsers,
   filterSitters,
-
+  loadProfile,
   loadReviews,
   saveReview,
-
+  updateProfile,
   loadComments,
   saveComment,
-
+  loadNotifications,
   saveReply,
   loadReplys,
-
+  changeHeart,
   loadVotes,
   saveVote,
 

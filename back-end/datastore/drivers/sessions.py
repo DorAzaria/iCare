@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from django.contrib.auth import authenticate
 from django.contrib.sessions.backends.db import SessionStore
 
@@ -32,7 +33,11 @@ def log_in(request, data):
         registration_type = registration.registration_type
         registration_label = driver_registrations.LABELS[registration_type]
         number_user = user.id
-
+        if registration.avatar:
+            userAvatar = registration.avatar.url
+        else:
+            userAvatar = None
+        
         data = {
             keys.ERROR_CODE: errors.ERROR_NONE,
             keys.FIRST_NAME: user.first_name,
@@ -41,6 +46,7 @@ def log_in(request, data):
             keys.USERNAME: user.username,
             keys.REGISTRATION_TYPE: registration_label,
             keys.NUMBER_USER: number_user,
+            'userAvatar': userAvatar
         }
 
         return data

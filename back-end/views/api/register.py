@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -19,20 +19,17 @@ def error_handler(request):
     return JsonResponse(data)
 
 def request_handler(request):
-
-    try:
-        if request.method != 'POST':
-            return error_handler(request)
-
-        data = json.load(request)
-        driver_registrations.create_registration(data)
-
-        data = {
-            keys.ERROR_CODE: errors.ERROR_NONE,
-        }
-
-        return JsonResponse(data)
-
-    except Exception as ex:
-        print(f'exception: {ex}')
+    # try:
+    if request.method != 'POST':
         return error_handler(request)
+
+    #img_file = request.FILES["img_file"]
+    data =  request.POST['data']
+    data = json.loads(data)
+    data = driver_registrations.create_registration(data)
+
+    return JsonResponse(data)
+
+    # except Exception as ex:
+    #     print(f'exception: {ex}')
+    #     return error_handler(request)

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from datastore.models.users import User
 
 import time
 from datastore.models.registrations import Registration
@@ -34,8 +34,8 @@ def save_vote(data):
     session_key = data[keys.SESSION]
 
     session = Session.objects.get(key=session_key)
-    user = User.objects.get(username=session.user)
-
+    user = User.objects.get(email=session.user)
+    
     from_id = user.id
     job_id = data[keys.NUMBER_JOB]
     post_time = int(time.time() * 1000)
@@ -46,8 +46,10 @@ def save_vote(data):
     vote.enabled = True
     vote.post_time = post_time
     vote.save()
-
+    voteCount = Vote.objects.filter(job_id=job_id).count()
+    
     vote_data = {
+        'voteCount': voteCount,
         keys.NUMBER_VOTE: vote.id,
         keys.ERROR_CODE: errors.ERROR_NONE,
     }

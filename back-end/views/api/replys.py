@@ -18,14 +18,12 @@ def error_handler(request):
     return JsonResponse(data, safe=False)
 
 def get_handler(request):
-
     comment_number = request.GET.get(keys.NUMBER_COMMENT, None)
     all_data = driver_replys.load_replys(comment_number)
     return JsonResponse(all_data, safe=False)
 
 def post_handler(request):
     data = json.load(request)
-
     reply_data = driver_replys.save_reply(data)
     if reply_data is not None:
         return JsonResponse(reply_data, safe=False)

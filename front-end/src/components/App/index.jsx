@@ -11,11 +11,14 @@ import AppContext, { defaultContext } from '@contexts/App';
 import ViewIndex from '@components/Views/Index';
 import ViewLogIn from '@components/Views/LogIn';
 import ViewJobs from '@components/Views/Jobs';
-import ViewRegister from '@components/Views/Register';
+import ViewPreRegister from '@components/Views/PreRegister';
+import ViewParentRegister from '@components/Views/Parent-Register';
+import ViewBabySitterRegister from '@components/Views/BabySitter-Register';
+//import ViewRegister from '@components/Views/Register';
 import ViewApply from '@components/Views/Apply';
 import ViewRequests from '@components/Views/Requests';
 import ViewChat from '@components/Views/Chat';
-
+import ViewProfile from '@components/Views/Profile';
 import ViewSitters from '@components/Views/Sitters';
 import ViewParents from '@components/Views/Parents';
 
@@ -29,6 +32,8 @@ import ViewParentProfile from '@components/Views/ParentProfile';
 import ViewLogOut from '@components/Views/LogOut';
 
 import './index.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
 
@@ -47,7 +52,11 @@ class App extends React.Component {
     const viewIndex = <ViewIndex/>;
     const viewLogIn = <ViewLogIn/>;
     const viewJobs = <ViewJobs/>;
-    const viewRegister = <ViewRegister/>;
+    const viewProfile = <ViewProfile/>;
+    //const viewRegister = <ViewRegister/>;
+    const viewPreRegister = <ViewPreRegister/>
+    const viewParentRegister = <ViewParentRegister/>
+    const viewBabySitterRegister = <ViewBabySitterRegister/>
     const viewApply = <ViewApply/>;
     const viewRequests = <ViewRequests/>;
     const viewChat = <ViewChat/>;
@@ -68,7 +77,9 @@ class App extends React.Component {
               <Routes>
                 <Route path="/" element={ viewIndex } exact/>
                 <Route path="/sitters" element={ viewSitters }  exact/>
-                <Route path="/register" element={ viewRegister }  exact/>
+                <Route path="/register" element={ viewPreRegister }  exact/>
+                <Route path="/parent-register" element={ viewParentRegister }  exact/>
+                <Route path="/babysitter-register" element={ viewBabySitterRegister }  exact/>
                 <Route path="/log-in" element={ viewLogIn }  exact/>
                 <Route path="/jobs" element={ viewJobs }  exact/>
                 <Route path="/apply" element={ viewApply }  exact/>
@@ -76,7 +87,7 @@ class App extends React.Component {
                 <Route path="/chat" element={ viewChat }  exact/>
 
                 <Route path="/families" element={ viewParents }  exact/> { /* update from here*/}
-                
+                <Route path="/profile" element={ viewProfile }  exact/>
                 <Route path="/watchlist" element={ viewWatches }  exact/>
                 <Route path="/sitter-profile" element={ viewSitterProfile }  exact/>
                 <Route path="/job-detail" element={ viewJobDetail }  exact/>

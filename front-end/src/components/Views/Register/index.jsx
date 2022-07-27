@@ -9,6 +9,8 @@ import DatabaseDriver from '@database/Driver';
 import AppKeys from '@shared/AppKeys';
 import ErrorCodes from '@shared/ErrorCodes';
 
+import {Button, ButtonGroup, Row, Col } from 'reactstrap';
+
 import './index.css';
 
 const KEY_EMAIL = AppKeys['EMAIL'];
@@ -35,6 +37,7 @@ class ViewRegister extends React.Component {
     super(props);
 
     this.state = {
+      imgSrc:null,
       email: '',
       firstName: '',
       lastName: '',
@@ -53,18 +56,9 @@ class ViewRegister extends React.Component {
 
       num_of_children:0,
 
-      firstNameError:'',
-      lastNameError:'',
-      userNameError:'',
-      emailError:'',
-      pwdError:'',
-      locError:'',
-      shortInfoError:'',
-      ageError:'',
-      educationError:'',
-      expYearsError:'',
-      childrenNumError:''
+      errorMsg:'',
     };
+    this.selectedFile = React.createRef(null);
   }
 
   render () {
@@ -82,7 +76,6 @@ class ViewRegister extends React.Component {
     const labelParent = strings['LABEL_PARENT'];
     const labelPassword = strings['LABEL_PASSWORD'];
     const labelRegister = strings['LABEL_REGISTER'];
-    const labelType = strings['LABEL_TYPE'];
     const labelUsername = strings['LABEL_USERNAME'];
     const labelLoc = strings['LABEL_LOC'];
     const labelShortInfo = strings['LABEL_SHORT_INFO'];
@@ -125,76 +118,70 @@ class ViewRegister extends React.Component {
 
     const actionSubmit = () => {
 
-      let { email, firstName, lastName, username, password, type, loc, short_info, age, gender, education, exp_years, skill, num_of_children } = state;
-      this.setState ( {firstNameError:''});
-      this.setState ( {lastNameError:''});
-      this.setState ( {userNameError:''});
-      this.setState ( {emailError:''});
-      this.setState ( {pwdError:''});
-      this.setState ( {locError:''});
-      this.setState ( {shortInfoError:''});
-      this.setState ( {ageError:''});
-      this.setState ( {educationError:''});
-      this.setState ( {childrenNumError:''});
-
+      let { email,imgSrc, firstName, lastName, username, password, type, loc, short_info, age, gender, education, exp_years, skill, num_of_children } = state;
+      this.setState ( {errorMsg:''});
+      if ( imgSrc == null ) {
+        this.setState ( {errorMsg:'Profile Image Required'});
+        return;        
+      }
       if ( firstName === '') {
-        this.setState ( {firstNameError:' ( Required )'});
+        this.setState ( {errorMsg:'First Name Required'});
         return;        
       }
       if ( lastName === '') {
-        this.setState ( {lastNameError:' ( Required )'});
+        this.setState ( {errorMsg:'Last Name Required'});
         return;        
       }
       if ( username === '') {
-        this.setState ( {userNameError:' ( Required )'});
+        this.setState ( {errorMsg:'Username Required'});
         return;        
       }
 
       if ( email === '') {
-        this.setState ( {emailError:' ( Required )'});
+        this.setState ( {errorMsg:'Email Required'});
         return;        
       }
       if ( email.includes('@') === false) {
-        this.setState ( {emailError:' ( Missing @ )'});
+        this.setState ( {errorMsg:'Email Missing @'});
         return;        
       }
       if ( password.length < 6) {
-        this.setState ( {pwdError:' ( Should be over 6 letters )'});
+        this.setState ( {errorMsg:'Password should be over 6 letters'});
         return;        
       }
       if ( loc === '') {
-        this.setState ( {locError:' ( Required )'});
+        this.setState ( {errorMsg:'Location Required'});
         return;        
       }            
       if ( short_info === '') {
-        this.setState ( {shortInfoError:' ( Required )'});
+        this.setState ( {errorMsg:'Information Required'});
         return;        
       }
       if ( type ==='babysitter') {
         let age_num = Number ( age );
         if ( age_num === Infinity || String(age_num) !== age) {
-          this.setState ( {ageError:' ( Age should be number)'});
+          this.setState ( {errorMsg:'Age should be number'});
           return;
         }
 
         if ( age_num < 19) {
-          this.setState ( {ageError:' ( Should be over 19 )'});
+          this.setState ( {errorMsg:'Age should be older than 19'});
           return;                
         }
 
         if ( education === '') {
-          this.setState ( {educationError:' ( Required )'});
+          this.setState ( {errorMsg:'Education Required'});
           return;        
         }
 
         let years_num = Number ( exp_years );
         if ( years_num === Infinity || String(years_num) !== exp_years) {
-          this.setState ( {expYearsError:' ( Years should be number)'});
+          this.setState ( {errorMsg:'Years should be number'});
           return;
         }
 
         if ( exp_years === 0) {
-          this.setState ( {expYearsError:' ( Should be over 0 )'});
+          this.setState ( {errorMsg:'Years should over than 0'});
         }
         num_of_children = 0;
       }
@@ -205,11 +192,11 @@ class ViewRegister extends React.Component {
         
         let num_of_children_num = Number(num_of_children);
         if ( num_of_children_num === Infinity || String(num_of_children_num) !== num_of_children) {
-          this.setState ( {childrenNumError:' ( This should be number)'});
+          this.setState ( {errorMsg:'Children number should be number)'});
           return;
         }
         if ( num_of_children === 0) {
-          this.setState ( {childrenNumError:' ( Should be over 0 )'});
+          this.setState ( {errorMsg:'Children number should be over than 1'});
         }
       }
 
@@ -228,7 +215,7 @@ class ViewRegister extends React.Component {
         [KEY_EDUCATION]: education,
         [KEY_EXP_YEARS]: exp_years,
         [KEY_SKILL]: skill,
-        [KEY_NUM_OF_CHILDREN]: num_of_children
+        [KEY_NUM_OF_CHILDREN]: num_of_children,
       };
 
       const registrationFail = () => {
@@ -240,17 +227,19 @@ class ViewRegister extends React.Component {
       const registrationSuccess = () => {
 
         this.setState({ situation: situationSuccess });
+        // user profile save
+        
         window.location.href = '/';
 
       };
 
       const registrationTry = () => {
         console.log ( "registering...");
-        DatabaseDriver.registerUser(request)
+        DatabaseDriver.registerUser(request, this.selectedFile.current.files[0])
           .then((response) => {
 
             const errorCode = response[KEY_ERROR_CODE];
-
+            
             if (errorCode !== ErrorCodes['ERROR_NONE']) {
 
               registrationFail();
@@ -272,19 +261,10 @@ class ViewRegister extends React.Component {
       this.setState({ situation: situationTry }, registrationTry);
 
     };
-    const {locError, shortInfoError, ageError, educationError, expYearsError, childrenNumError} = state;
+    const {shortInfoError, ageError, educationError, expYearsError, childrenNumError} = state;
     const sitterBody = (
+      <>
       <div>
-        <div>
-          <div className="Layout_inputLabel">
-            <span> {labelLoc} </span>
-            <span style = {{color:'red'}}> { locError }</span>
-          </div>
-          <div className="Layout_inputField">
-            <input style = {{width:'100%'}}  type="text" onChange={ setValue('loc') }/>
-          </div>
-        </div>
-
         <div>
           <div className="Layout_inputLabel">
             <span> {labelShortInfo} </span>
@@ -294,7 +274,18 @@ class ViewRegister extends React.Component {
             <textarea style = {{width:'100%'}} onChange={ setValue('short_info') }/>
           </div>
         </div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span> {labelEducation} </span>
+            <span style = {{color:'red'}}> { educationError }</span>
+          </div>
+          <div className="Layout_inputField">
+            <input style = {{width:'100%'}} type="text" onChange={ setValue('education') }/>
+          </div>
+        </div>
+      </div>
 
+      <Row lg = "2" md = "2" sm = "1" xs = "1">
         <div>
           <div className="Layout_inputLabel">
             <span> {labelAge} </span>
@@ -314,28 +305,6 @@ class ViewRegister extends React.Component {
               <option value = "female">Female</option>
             </select>
         </div>
-
-        <div>
-          <div className="Layout_inputLabel">
-            <span> {labelEducation} </span>
-            <span style = {{color:'red'}}> { educationError }</span>
-          </div>
-          <div className="Layout_inputField">
-            <input style = {{width:'100%'}} type="text" onChange={ setValue('education') }/>
-          </div>
-        </div>
-
-
-        <div>
-          <div className="Layout_inputLabel">
-            <span> {labelExpYears} </span>
-            <span style = {{color:'red'}}> { expYearsError }</span>
-          </div>
-          <div className="Layout_inputField">
-            <input style = {{width:'100%'}} type="text" onChange={ setValue('exp_years') }/>
-          </div>
-        </div>        
-
         <div>
           <div className="Layout_inputLabel">
             <span> {labelSkills} </span>
@@ -347,25 +316,26 @@ class ViewRegister extends React.Component {
             </select>
           </div>
         </div>
-
-        <button style = {{marginTop:10}} className="Button_navigation" onClick={ actionSubmit }>{ labelRegister }</button>
-        <div className="Layout_alwaysFilled">{ situation }</div>
+        <div>
+          <div className="Layout_inputLabel">
+            <span> {labelExpYears} </span>
+            <span style = {{color:'red'}}> { expYearsError }</span>
+          </div>
+          <div className="Layout_inputField">
+            <input style = {{width:'100%'}} type="text" onChange={ setValue('exp_years') }/>
+          </div>
+        </div>        
+      </Row>
+      <div >
+          <Button style = {{marginTop:10, marginLeft:120, width:100}} color = "success" onClick={ actionSubmit }>{ labelRegister }</Button>
       </div>
+      <div className="Layout_alwaysFilled">{ situation }</div>
+      </>
     );
 
     const parentBody = (
       <div>
         <div>
-          <div>
-            <div className="Layout_inputLabel">
-              <span> {labelLoc} </span>
-              <span style = {{color:'red'}}> { locError }</span>
-            </div>
-            <div className="Layout_inputField">
-              <input style = {{width:'100%'}} type="text" onChange={ setValue('loc') }/>
-            </div>
-          </div>
-
           <div>
             <div className="Layout_inputLabel">
               <span> {labelShortInfo} </span>
@@ -384,79 +354,112 @@ class ViewRegister extends React.Component {
             <input style = {{width:'100%'}} type="text" onChange={ setValue('num_of_children') }/>
           </div>
         </div>        
-        <button style = {{marginTop:10}} className="Button_navigation" onClick={ actionSubmit }>{ labelRegister }</button>
+        <Button style = {{marginTop:10, marginLeft:120}} color="success" onClick={ actionSubmit }>{ labelRegister }</Button>
         <div className="Layout_alwaysFilled">{ situation }</div>
       </div>
     );
 
-    const {type, firstNameError, lastNameError, userNameError, emailError, pwdError} = state;
+    const {type, errorMsg} = state;
+
+    const onImgChange =() =>{
+      // Assuming only image
+      var file = this.selectedFile.current.files[0];
+      if ( file == null ) return;
+      var reader = new FileReader();
+      var url = reader.readAsDataURL(file);
     
+       reader.onloadend = function (e) {
+          this.setState({
+              imgSrc: [reader.result]
+          })
+        }.bind(this);
+      console.log(url) // Would see a path?
+    }
+    const fileUpload = () => {
+      console.log ( this.selectedFile);
+      this.selectedFile.current.click();
+    }
     const commonBody = (
+      <>
+      <Col className="ViewRegisterMainGate_title">
+        <span className="Title_styleA">{ titleRegister }</span>
+      </Col>
+      <Col className="ViewRegisterMainGate_title">
+        <span className="Title_styleA">{type}</span>
+      </Col>        
       <div>
-        <div className="ViewRegisterMainGate_title">
-          <span className="Title_styleA">{ titleRegister }</span>
-        </div>
-        <div>
+        <span style = {{color:'red'}}> { errorMsg }</span>
+      </div>
+      <ButtonGroup style = {{width:'100%'}}>
+        <Button color = "primary" onClick={ setType('babysitter')} active = {type === 'babysitter'}>{ labelBabysitter }</Button>
+        <Button color = "primary" onClick={ setType('parent') } active = {type === 'parent'}>{labelParent}</Button>
+      </ButtonGroup>
+      <div 
+        style = {{marginLeft:70, marginTop:30, width:210, height:210}}
+        onClick = {fileUpload}
+      >
+        <form>
+          <input 
+            hidden
+            ref={this.selectedFile} 
+            type="file" 
+            name="user[image]" 
+            onChange={onImgChange}/>
+        </form>
+        <span style = {{marginLeft:20}}>Select Profile Image</span>
+        <img src={this.state.imgSrc} style = {{width:180, height:180}} alt=""/>
+      </div>
+      <Row lg = "2" md = "2" sm = "1" xs = "1">
+        <Col>
           <div className="Layout_inputLabel">
             <span>{ labelFirstName }</span>
-            <span style = {{color:'red'}}> { firstNameError }</span>
           </div>
           <div className="Layout_inputField">
             <input style = {{width:'100%'}} type="text" onChange={ setValue('firstName') } required/>
           </div>
-        </div>
-        <div>
+        </Col>
+        <Col>
           <div className="Layout_inputLabel">
             <span>{ labelLastName }</span>
-            <span style = {{color:'red'}}> { lastNameError }</span>
           </div>
           <div className="Layout_inputField">
             <input style = {{width:'100%'}} type="text" onChange={ setValue('lastName') } />
           </div>
-        </div>
-        <div>
+        </Col>
+        <Col>
           <div className="Layout_inputLabel">
             <span>{ labelUsername }</span>
-            <span style = {{color:'red'}}> { userNameError }</span>
           </div>
           <div className="Layout_inputField">
             <input style = {{width:'100%'}} type="text" onChange={ setValue('username') } />
           </div>
-        </div>
-        <div>
+        </Col>
+        <Col>
           <div className="Layout_inputLabel">
             <span>{ labelEmail }</span>
-            <span style = {{color:'red'}}> { emailError }</span>
           </div>
           <div className="Layout_inputField">
             <input style = {{width:'100%'}} type="text" onChange={ setValue('email') }/>
           </div>
-        </div>
-        <div>
+        </Col>
+        <Col>
           <div className="Layout_inputLabel">
             <span>{ labelPassword }</span>
-            <span style = {{color:'red'}}> { pwdError }</span>
           </div>
           <div className="Layout_inputField">
             <input style = {{width:'100%'}} type="password" onChange={ setValue('password') }/>
           </div>
-        </div>
+        </Col>
         <div>
           <div className="Layout_inputLabel">
-            <span>{ labelType }</span>
+            <span> {labelLoc} </span>
           </div>
-          <div className="Layout_inputField Layout_radioRow">
-            <div className="Layout_radioBox">
-              <input type="radio" name="type" checked = {type === 'babysitter'} onChange={ setType('babysitter') } />
-              <span className="Layout_radioBoxLabel">{ labelBabysitter }</span>
-            </div>
-            <div className="Layout_radioBox">
-              <input type="radio" name="type" onChange={ setType('parent') } />
-              <span className="Layout_radioBoxLabel">{ labelParent }</span>
-            </div>
+          <div className="Layout_inputField">
+            <input style = {{width:'100%'}}  type="text" onChange={ setValue('loc') }/>
           </div>
-        </div>
-      </div>
+        </div>        
+      </Row>
+      </>
     );
 
     if ( type ==='babysitter') {
@@ -464,6 +467,7 @@ class ViewRegister extends React.Component {
         <div className="ViewRegisterMainGate">
           {commonBody}
           {sitterBody}
+          <img src="sitter.png" alt = "sitter" style = {{width:300, height:300, marginLeft:400, marginTop:-500}}></img>
         </div>
       )
       return (<ShellMainGate body={ body }/>);
@@ -472,6 +476,7 @@ class ViewRegister extends React.Component {
       <div className="ViewRegisterMainGate">
         {commonBody}
         {parentBody}
+        <img src="parents.png" alt = "sitter" style = {{width:300, height:300, marginLeft:400, marginTop:-500}}></img>
       </div>
     )    
     return (<ShellMainGate body={ body }/>);

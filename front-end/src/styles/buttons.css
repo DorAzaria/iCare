@@ -2,10 +2,9 @@
   background: #180781;
   border-radius: 8px;
   color: white;
-
-  padding: 8px;
-
+  padding: 6px;
   text-align: center;
+  font-size: 12px;
   text-decoration: none;
 }
 

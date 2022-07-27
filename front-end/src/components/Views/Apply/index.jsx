@@ -1,32 +1,33 @@
-import React from 'react';
+import React from "react";
 
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
-import AppContext from '@contexts/App';
+import AppContext from "@contexts/App";
 
-import ShellNavigation from '@components/Shells/Navigation';
-import PartialJobPost from '@components/Partials/JobPost';
-import ComponentHelpers from '@components/Helpers';
+import ShellNavigation from "@components/Shells/Navigation";
+import PartialJobPost from "@components/Partials/JobPost";
+import ComponentHelpers from "@components/Helpers";
 
-import DatabaseDriver from '@database/Driver';
+import DatabaseDriver from "@database/Driver";
 
-import AppKeys from '@shared/AppKeys';
-import ErrorCodes from '@shared/ErrorCodes';
-import Links from '@shared/Links';
+import AppKeys from "@shared/AppKeys";
+import ErrorCodes from "@shared/ErrorCodes";
+import Links from "@shared/Links";
 
-import './index.css';
+import "./index.css";
+
+import { Card, CardBody, CardHeader, CardFooter, Button } from "reactstrap";
 
 const { withSearchParams } = ComponentHelpers;
 
-const KEY_COVER_LETTER = AppKeys['COVER_LETTER'];
-const KEY_ERROR_CODE = AppKeys['ERROR_CODE'];
-const KEY_NUMBER_JOB = AppKeys['NUMBER_JOB'];
-const KEY_NUMBER_USER = AppKeys['NUMBER_USER'];
+const KEY_COVER_LETTER = AppKeys["COVER_LETTER"];
+const KEY_ERROR_CODE = AppKeys["ERROR_CODE"];
+const KEY_NUMBER_JOB = AppKeys["NUMBER_JOB"];
+const KEY_NUMBER_USER = AppKeys["NUMBER_USER"];
 
-const MAP_LINKS = Links['MAP_LINKS'];
+const MAP_LINKS = Links["MAP_LINKS"];
 
 class ViewApply extends React.Component {
-
   static contextType = AppContext;
 
   constructor(props) {
@@ -34,59 +35,46 @@ class ViewApply extends React.Component {
 
     this.state = {
       job: null,
-      situation: '',
-      coverLetter: '',
+      situation: "",
+      coverLetter: "",
     };
-
   }
 
   componentDidMount() {
-
     const { context } = this;
 
     const { user } = context;
 
     if (user) {
-
       this.loadJob();
-
     }
-
   }
 
-  loadJob () {
-
-    const {props } = this;
-
+  loadJob() {
+    const { props, context } = this;
+    const { user } = context;
     const { searchParams } = props;
 
     const key = searchParams.get(KEY_NUMBER_JOB);
 
     if (!key) {
-
       return;
-
     }
 
     const parameters = {
       [KEY_NUMBER_JOB]: key,
+      number_user: user.number,
     };
 
     DatabaseDriver.loadJobs(parameters)
       .then((job) => {
-
+        console.log("=======testing -->", job);
         this.setState({ job: job });
-
       })
-      .catch((error) => {
-
-
-      });
-
+      .catch((error) => {});
   }
 
-  render () {
-
+  render() {
     const { context, state } = this;
 
     const { strings, user } = context;
@@ -95,114 +83,124 @@ class ViewApply extends React.Component {
 
     // render for babysitters
     const renderB = () => {
-
       // the job is not loaded yet, show nothing
       if (!job) {
-
         return null;
-
       }
 
-      const situationFail = strings['MESSAGE_APPLY_FAIL'];
-      const situationSuccess = strings['MESSAGE_APPLY_SUCCESS'];
-      const situationTry = strings['MESSAGE_APPLY_TRY'];
+      const situationFail = strings["MESSAGE_APPLY_FAIL"];
+      const situationSuccess = strings["MESSAGE_APPLY_SUCCESS"];
+      const situationTry = strings["MESSAGE_APPLY_TRY"];
 
       const actionSubmit = () => {
-
         const { coverLetter } = state;
 
         const { number: numberUser } = user;
 
         const { [KEY_NUMBER_JOB]: numberJob } = job;
-  
+
         const request = {
           [KEY_NUMBER_USER]: numberUser,
           [KEY_NUMBER_JOB]: numberJob,
           [KEY_COVER_LETTER]: coverLetter,
         };
-  
-        const applyFail = () => {
-  
-          this.setState({ situation: situationFail });
-  
+
+        const applyFail = (errorCode) => {
+          if (errorCode === ErrorCodes["ERROR_GENERIC"]) {
+            this.setState({ situation: situationFail });
+          } else {
+            this.setState({
+              situation: "Failed ( You have already applied to this job.)",
+            });
+          }
         };
-  
+
         const applySuccess = () => {
-  
           this.setState({ situation: situationSuccess });
-  
         };
-  
+
         const applyTry = () => {
-  
           DatabaseDriver.applyUser(request)
             .then((response) => {
-  
               const errorCode = response[KEY_ERROR_CODE];
-  
-              if (errorCode !== ErrorCodes['ERROR_NONE']) {
-  
-                applyFail();
-  
+
+              if (errorCode !== ErrorCodes["ERROR_NONE"]) {
+                applyFail(errorCode);
               } else {
-  
                 applySuccess();
-  
               }
-  
-            }).catch((error) => {
-  
+            })
+            .catch((error) => {
               applyFail();
-  
             });
-  
         };
-  
+
         this.setState({ situation: situationTry }, applyTry);
-  
       };
 
       const setValue = (key) => (event) => {
-
         const element = event.target;
         const value = element.value;
         this.setState({ [key]: value });
-  
       };
 
+      const { user } = context;
       const body = (
-        <div className="ViewApplyBabysitter">
-          <div className="ViewApplyBabysitter_jobEntry">
-            <PartialJobPost job={ job }/>
+        <div className="ViewApplyBabysitter container">
+          <div
+            style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
+          >
+            <PartialJobPost job={job} user={user} page_type={"apply"} />
           </div>
-          <div className="ViewApplyBabysitter_application">
-            <h3>APPLICATION</h3>
-            <div>
-              <textarea onChange={ setValue('coverLetter') } rows={ 3 } cols={ 60 }></textarea>
-            </div>
-            <button onClick={ actionSubmit }>SUBMIT</button>
+          <div
+            style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}
+          >
+            <Card color="primary" outline className="application-letter">
+              <CardHeader>
+                <h4>APPLICATION</h4>
+              </CardHeader>
+              <CardBody style={{ margin: 0, padding: 10 }}>
+                <textarea
+                  onChange={setValue("coverLetter")}
+                  rows={4}
+                  cols={60}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "None",
+                    padding: 10,
+                  }}
+                ></textarea>
+              </CardBody>
+              <CardFooter>
+                <span>{situation}</span>
+                <Button
+                  color="success"
+                  className="btn-sm"
+                  onClick={actionSubmit}
+                  style={{ float: "right" }}
+                >
+                  SUBMIT
+                </Button>
+              </CardFooter>
+            </Card>
           </div>
-          <div>{ situation }</div>
         </div>
       );
 
       const links = MAP_LINKS[type];
 
-      return (<ShellNavigation body={ body } links={ links }/>);
-
+      return <ShellNavigation body={body} links={links} />;
     };
 
     // render redirection if the user is not logged in
     if (!user) {
-
-      return (<Navigate to="/"/>);
-
+      return <Navigate to="/" />;
     }
 
     const { type } = user;
     return renderB();
   }
-
 }
 
 export default withSearchParams(ViewApply);

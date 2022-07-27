@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from datastore.models.users import User
 
 import time
 
@@ -22,7 +22,6 @@ def single_comment(comment:Comment):
     user_from:Registration = driver_registrations.load_single_user(number_from)
     
     replys = driver_replys.load_replys ( number_comment)
-
     data = {
         keys.NUMBER_COMMENT: number_comment,
         keys.NUMBER_FROM: number_from,
@@ -30,12 +29,12 @@ def single_comment(comment:Comment):
         keys.DESCRIPTION: description,
         keys.POST_TIME: post_time,
         keys.NAME_FROM:user_from['username'],
-        keys.REPLYS: replys
+        keys.REPLYS: replys,
+        'userAvatar': user_from['userAvatar']
     }
     return data
 
 def comments_array(comments):
-
     array = []
     for comment in list(comments):
 
@@ -67,7 +66,7 @@ def save_comment(data):
     session_key = data[keys.SESSION]
 
     session = Session.objects.get(key=session_key)
-    user = User.objects.get(username=session.user)
+    user = User.objects.get(email=session.user)
 
     from_id = user.id
     job_id = data[keys.NUMBER_JOB]

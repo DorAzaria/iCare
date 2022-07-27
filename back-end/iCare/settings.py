@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^s1r%_90-+m-yks*rsgd6o80j+p_l28nad44euix+)cte6az=&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'notifications',
     'datastore',
-    'corsheaders'
+    'corsheaders',
+    'notifications_rest',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +117,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'datastore.User'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -125,12 +128,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'public', 'static'),
 ]
 
+SILENCED_SYSTEM_CHECKS = ["auth.W004"]
+
 # Media files (files uploaded by users)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/#serving-uploaded-files-in-development
 
-MEDIA_URL = f'/media/'
+MEDIA_URL = '/public/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -143,3 +148,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
+
+AUTHENTICATION_BACKENDS = [
+    'datastore.emailBackend.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

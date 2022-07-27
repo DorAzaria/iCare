@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, Navigate } from 'react-router-dom';
+import {Navigate } from 'react-router-dom';
 
 import AppContext from '@contexts/App';
 
@@ -14,6 +14,8 @@ import AppKeys from '@shared/AppKeys';
 import Links from '@shared/Links';
 
 import './index.css';
+
+import {Row} from 'reactstrap';
 
 const KEY_NUMBER_USER = AppKeys['NUMBER_USER']
 const KEY_NUMBER_FROM = AppKeys['NUMBER_FROM'];
@@ -73,7 +75,6 @@ class ViewWatches extends React.Component {
     }
 
   render () {
-
     const { context, state } = this;
 
     const { user } = context;
@@ -83,22 +84,15 @@ class ViewWatches extends React.Component {
 
       const { sitters } = state;
 
-      const { strings } = context;
-
-      const labelProfile = strings['LABEL_PROFILE'];
-
       const makeSitterElement = (sitter) => {
 
         const {
           [KEY_NUMBER_USER]: key,
         } = sitter;
 
-        const sitterProfileLink = `/sitter-profile?${ KEY_NUMBER_USER }=${ key }`;
-
         return (
           <div key={ key } className="ViewJobsBabysitter_jobEntry">
             <PartialSitter sitter={ sitter }/>
-            <Link to={ sitterProfileLink } className="Button_navigation">{labelProfile}</Link>
           </div>
         );
 
@@ -107,14 +101,14 @@ class ViewWatches extends React.Component {
       const elementsSitter= sitters.map(makeSitterElement);
       
       const body = (
-        <div className="ViewJobsBabysitter">
+        <div className="ViewJobsBabysitter container">
           <div className="ViewJobsBabysitter_all">
             <div className="ViewJobsBabysitter_titleAll">
               <span className="Title_styleA">My Watch List</span>
             </div>
-            <div className="ViewJobsBabysitter_listAll">
+            <Row lg = "2" md = "2" sm = "1" xs = "1">
               { elementsSitter }
-            </div>
+            </Row>
           </div>
         </div>
       );

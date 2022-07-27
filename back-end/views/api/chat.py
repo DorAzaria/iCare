@@ -18,12 +18,12 @@ def error_handler(request):
     return JsonResponse(data, safe=False)
 
 def get_handler(request):
-
     application_number = request.GET.get(keys.NUMBER_APPLICATION, None)
     chat_data = driver_chats.load_chat(application_number)
     return JsonResponse(chat_data, safe=False)
 
 def post_handler(request):
+    
     data = json.load(request)
 
     driver_chats.save_message(data)

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from datastore.models.users import User
 
 import time
 from datastore.models.registrations import Registration
@@ -20,8 +20,6 @@ def single_review(review:Review):
     post_time = review.post_time
 
     user_from:Registration = driver_registrations.load_single_user(number_from)
-    
-
     data = {
         keys.NUMBER_REVIEW: number_review,
         keys.NUMBER_FROM: number_from,
@@ -29,7 +27,8 @@ def single_review(review:Review):
         keys.RATING:rating,
         keys.DESCRIPTION: description,
         keys.POST_TIME: post_time,
-        keys.NAME_FROM:user_from['username']
+        keys.NAME_FROM:user_from['username'],
+        'userAvatar': user_from['userAvatar']
     }
     return data
 
@@ -55,7 +54,7 @@ def load_all_reviews():
 
 def load_reviews(to_number=None):
     if to_number is not None:
-        all_reviews = Review.objects.all().filter(to_id = to_number)
+        all_reviews = Review.objects.filter(to_id = to_number)
         all_data = reviews_array(all_reviews)
         return all_data
 
@@ -66,7 +65,7 @@ def save_review(data):
     session_key = data[keys.SESSION]
 
     session = Session.objects.get(key=session_key)
-    user = User.objects.get(username=session.user)
+    user = User.objects.get(email=session.user)
 
     from_id = user.id
     to_id = data[keys.NUMBER_TO]

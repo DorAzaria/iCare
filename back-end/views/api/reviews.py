@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from datastore.models.users import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -22,6 +22,8 @@ def get_handler(request):
 
     to_number = request.GET.get(keys.NUMBER_TO, None)
     review_number = request.GET.get(keys.NUMBER_REVIEW, None)
+
+    print("-------review_number------", to_number, review_number)
     if to_number is not None:
         reviews_data = driver_reviews.load_reviews(to_number)
         return JsonResponse(reviews_data, safe=False)

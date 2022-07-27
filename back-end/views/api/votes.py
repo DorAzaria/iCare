@@ -25,8 +25,9 @@ def get_handler(request):
     return JsonResponse(all_data, safe=False)
 
 def post_handler(request):
+    print("ddddddddddddddddddd")
     data = json.load(request)
-
+    print(data, "ddddddddddddddddddd")
     vote_data = driver_votes.save_vote(data)
     if vote_data is not None:
         return JsonResponse(vote_data, safe=False)
