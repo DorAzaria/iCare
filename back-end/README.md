@@ -22,4 +22,4 @@
 
 4. front-end
    npm install --legacy-peer-deps
-   yarn start
+   npm start
