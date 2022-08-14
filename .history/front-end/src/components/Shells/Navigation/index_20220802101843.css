@@ -1,0 +1,53 @@
+.profile-avatar {
+  width:40px;
+  height:40px;
+  border-radius:25px;
+  float:right;
+}
+
+.icare-navbar {
+  border-bottom: 1px solid lightyellow;
+  padding: 0.25rem 0;
+  background-color: #1d4354;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  margin-bottom: 35px;
+}
+
+.flex-grow-1 {
+  flex-grow: 1!important;
+}
+
+.logo-img {
+  width:50px;
+  height:50px;
+  border-radius:10px;
+}
+
+.card .content .time {
+  color: #1d4354!important;
+}
+.card .message .text {
+  color: #1d4354;
+  font-size: 12px;
+  padding: 0;
+  bottom: 3px;
+  width: 100%;
+  text-align: start;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.card .image img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.notifications .icon .image {
+  height: 28px!important;
+  width: 28px!important;
+  cursor: pointer;
+}
+
+.card {
+  padding: 0!important;
+}
