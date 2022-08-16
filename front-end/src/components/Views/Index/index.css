@@ -1,11 +1,9 @@
-* {box-sizing:border-box}
-
 /* Slideshow container */
 .slideshow-container {
   width:60%;
   position: relative;
   margin:auto;
-}
+ }
 
 /* Next & previous buttons */
 .prev, .next {

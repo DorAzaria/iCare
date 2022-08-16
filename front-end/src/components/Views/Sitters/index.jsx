@@ -46,7 +46,7 @@ class ViewSitters extends React.Component {
         sitters: [],
 
         checkAge:false,
-        minAge:0,
+        minAge:14,
         maxAge:0,
 
         checkGender:false,
@@ -178,7 +178,7 @@ class ViewSitters extends React.Component {
       const {checkAge, checkGender, checkSkill} = state;
       const filterSitterDiv = 
 
-        <div className = "filter-sitter-div" style={{ marginBottom: "10px", height: "280px"}}>
+        <div className = "filter-sitter-div" style={{ marginBottom: "60px", height: "320px",width:"1000x"}}>
         <div className="job-search" style={{ paddingBottom: "20px" }}>
           <div className="mt-1" >
             <span className="job-title">Search </span>
@@ -193,7 +193,7 @@ class ViewSitters extends React.Component {
             />
             <span style = {{marginLeft: '10px',color:'black', width:'120px', display:'inline-block'}}>Age Range: </span>
             <span> Min Age</span>
-            <input type = "text" className='filter_style' value = {minAge} style = {{width:100}} onChange = {changeFilterValue('minAge')}/>
+            <input type = "text" className='filter_style' value = {minAge} style = {{marginLeft: '10px', width:100}} onChange = {changeFilterValue('minAge')}/>
             <span style={{marginLeft: '30px',}}> ~Max Age</span>
             <input type = "text" className='filter_style' value = {maxAge} style = {{marginLeft: '10px', width:100}} onChange = {changeFilterValue('maxAge')}/>
           </div>
@@ -223,7 +223,7 @@ class ViewSitters extends React.Component {
           </div>            
           </div>
           <div style ={{marginLeft:290, marginTop: "20px"}}>
-            <Button color = "secondary" className='Button_navigation' onClick={ actionRefresh }>Search Sitter</Button>
+            <Button color = "secondary" className='Button_navigation' onClick={ actionRefresh } style ={{fontSize:"18px",marginLeft:"-40px",width:"150px",height:"40px"}}>Search</Button>
           </div> 
         </div>
 

@@ -8,7 +8,8 @@ import ShellMainGate from '@components/Shells/MainGate';
 import ShellNavigation from '@components/Shells/Navigation';
 
 import Links from '@shared/Links';
-import {Button, ButtonGroup, Row, Col , Container ,   Navbar,
+import {
+  Navbar,
   NavbarBrand, 
   Nav,
   NavLink,
@@ -18,7 +19,8 @@ import {Button, ButtonGroup, Row, Col , Container ,   Navbar,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,} from 'reactstrap';
+  DropdownItem,
+} from "reactstrap";
 import './index.css';
 
 
@@ -141,25 +143,25 @@ class ViewIndex extends React.Component {
         <>
         <header className="sticky-top icare-navbar">
         <Navbar
-          dark
-          style={{ height: 90}}
-          expand="md"
-          className="container-xxl"
+        dark
+        style={{ height: 90 }}
+        expand="md"
+        className="container-xxl"
         >
           <NavbarBrand href="/">
             <img alt="iCare" src="logo.png" className="logo-img" />
             
           </NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
 
           <div className="flex-grow-1">
-                
           <Nav className="mr-auto" navbar >
             <NavItem style={{paddingLeft: "26px",
-              marginBottom:"6px",}}>
+              marginBottom:"10px",}}>
             <Link className="Button_navigation" to="/register">{ labelRegister }</Link>
             </NavItem>
-            <NavItem style={{paddingLeft: "26px",
-              marginBottom:"6px", width: 'auto', }}>
+            <NavItem style={{paddingLeft: "24px",
+              marginBottom:"0px", width: 'auto', }}>
             <Link className="Button_navigation" to="/log-in">{ labelLogIn }</Link>
             </NavItem>
                   {/* <img src = { profileUrl ? profileUrl : 'logo.png'} className = "profile-avatar" alt = "user profile"></img> */}

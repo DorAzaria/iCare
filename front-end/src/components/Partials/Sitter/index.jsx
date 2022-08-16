@@ -57,66 +57,59 @@ class PartialSitter extends React.Component {
       : "logo.png";
 
     return (
-      <Col className="PartialSitter_singleSitter" key={key}>
-        <Card color="success" outline>
+      <Col className="PartialSitter_singleSitter" key = {key}>
+        <Card>
           <CardHeader>
             <img src={profileUrl} className="avatar" style={{float: "left"}} alt="profile user"></img>
             <div
               style={{
                 float: "left",
                 textAlign: "center",
-                marginLeft: "15px", 
+                marginLeft: "20px", 
                 color: "gray",
-                lineHeight: 1.1,
+                lineHeight: 1.5,
               }}
             >
-              <CardTitle style={{ color: "#626567", fontSize: 20 , fontWeight: '650'}}>
+              <CardTitle style={{ margin:"20px",color: "#626567", fontSize: 35 , fontWeight: '250'}}>
                 {username}
               </CardTitle>
-              <CardSubtitle style={{ color: "#626567", fontSize: 15 }}>
-                {age} years old
-              </CardSubtitle>
+
             </div>
             
-            <div style={{ float: "right",  color: "gray", lineHeight: 1.1,  marginTop: "10px"}}>
-                <div style={{ color: "#626567" , }}>
-                  Experience:
+            <div style={{ float: "right",  color: "gray", lineHeight: 1.5,  marginTop: "10px"}}>
+               <div style={{ color: "#626567" ,fontSize:"20px"}}>
+                  Gender :
+                  <span style={{ color: "black" , fontWeight: '640' }}> {genderName[gender]}</span>
+                </div>     
+               <div style={{ color: "#626567" ,fontSize:"20px"}}>
+                  Years old :
+                  <span style={{ color: "black" , fontWeight: '640' }}> {age}</span>
+                </div>
+                <div style={{ color: "#626567" ,fontSize:"20px"}}>
+                  Experience :
                   <span style={{ color: "black" , fontWeight: '640' }}> {exp_years} Years</span>
-                </div>
-                <div style={{ color: "#626567" }}>
-                  Education:
-                  <span style={{ color: "black" , fontWeight: '640' }}> {education}</span>
-                </div>
+                </div>                
+                
             </div>
           </CardHeader>
 
           <CardBody style={{ height: 150 }}>
-            <CardSubtitle tag="h6" style={{ paddingTop: 5 }}>
-              Information:
+            <CardSubtitle tag="h6" style={{color:'gray',fontFamily:"Calibri" ,fontSize:23, paddingTop: 4 }}>
+              Description:
             </CardSubtitle>
-            <CardTitle style={{ color: "darkgreen", fontSize: 14 }}>
+            <CardTitle style={{color:'black',fontFamily:"Calibri" ,fontSize:20, paddingTop: 4 }}>
               {description}
             </CardTitle>
           </CardBody>
           <CardFooter
             style={{
+              height:50,
               color: "black",
-              backgroundColor: "#dda0dd",
+              backgroundColor: "#CCDBEA",
               textAlign: "right",
             }}
           >
-            <span style={{ float: "left", paddingRight: 20 , }}>
-              {" "}
-              Skill:
-              <span style={{ color: "blue" , fontWeight: '640' }}> {child_care_str} </span>
-              <span style={{ color: "red" , fontWeight: '640' }}> {school_help_str} </span>
-            </span>
-            <span style={{ float: "left" }}>
-              {" "}
-              Gender:
-              <span style={{ color: "black", fontWeight: '640' }}> {genderName[gender]} </span>
-            </span>
-            <Link to={sitterProfileLink} className="Button_navigation">
+            <Link to={sitterProfileLink} className="btn btn-primary">
               Profile
             </Link>
           </CardFooter>
