@@ -177,43 +177,53 @@ class ViewSitters extends React.Component {
       const elementsSitter= sitters.map(makeSitterElement);
       const {checkAge, checkGender, checkSkill} = state;
       const filterSitterDiv = 
-        <div className = "filter-sitter-div">
+
+        <div className = "filter-sitter-div" style={{ marginBottom: "10px", height: "280px"}}>
+        <div className="job-search" style={{ paddingBottom: "20px" }}>
+          <div className="mt-1" >
+            <span className="job-title">Search </span>
+            <span className="job-title-A "> Sitters</span>
+          </div>
+        </div>
+        <div style={{marginLeft:"50px"}}>
           <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkAge}
               onChange = {checkToggle('checkAge')}
             />
-            <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Age Range: </span>
+            <span style = {{marginLeft: '10px',color:'black', width:'120px', display:'inline-block'}}>Age Range: </span>
             <span> Min Age</span>
             <input type = "text" className='filter_style' value = {minAge} style = {{width:100}} onChange = {changeFilterValue('minAge')}/>
-            <span> ~Max Age</span>
-            <input type = "text" className='filter_style' value = {maxAge} style = {{width:100}} onChange = {changeFilterValue('maxAge')}/>
+            <span style={{marginLeft: '30px',}}> ~Max Age</span>
+            <input type = "text" className='filter_style' value = {maxAge} style = {{marginLeft: '10px', width:100}} onChange = {changeFilterValue('maxAge')}/>
           </div>
+
           <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkGender}
               onChange = {checkToggle('checkGender')}
             />
-            <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Gender: </span>
+            <span style = {{marginLeft: '10px', color:'black', width:'120px', display:'inline-block'}}>Gender: </span>
             <select onChange = {selectFilterValue('gender')} className='filter_select_style'>
               <option value = "male">Male</option>
               <option value = "female">Female</option>
             </select>
           </div>
+
           <div className = "filter-sitter-row">
             <input type="checkbox"
               checked = {checkSkill}
               onChange = {checkToggle('checkSkill')}
             />
-            <span style = {{color:'blue', width:'120px', display:'inline-block'}}>Skills: </span>
+            <span style = {{marginLeft: '10px', color:'black', width:'120px', display:'inline-block'}}>Skills: </span>
             <select onChange={selectFilterValue('skill')} className='filter_select_style'>
               <option value = "child_care">Child Care</option>
               <option value = "school_help">School Help</option>
             </select>
           </div>            
-
-          <div style ={{marginLeft:250}}>
-            <Button color = "primary" className='btn-sm' onClick={ actionRefresh }>Search Sitter</Button>
+          </div>
+          <div style ={{marginLeft:290, marginTop: "20px"}}>
+            <Button color = "secondary" className='Button_navigation' onClick={ actionRefresh }>Search Sitter</Button>
           </div> 
         </div>
 
@@ -223,7 +233,7 @@ class ViewSitters extends React.Component {
             
             {filterSitterDiv}
             <div className="ViewJobsBabysitter_titleAll">
-              <span className="Title_styleA">{ titleAllSitters }</span>
+              <span className="Title_styleA" style={{ fontFamily: 'inherit'}}>{ titleAllSitters }</span>
             </div>
             <Row lg = "2" md = "2" sm = "1" xs = "1">
               { elementsSitter }

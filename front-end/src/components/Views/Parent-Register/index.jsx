@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AppContext from '@contexts/App';
-
+import { Link } from 'react-router-dom';
 import ShellMainGate from '@components/Shells/MainGate';
 import './index.css';
 import DatabaseDriver from '@database/Driver';
@@ -193,6 +193,11 @@ class ViewParentRegister extends React.Component {
         };
         const parentBody = (
             <Container>
+                            <div style={{textAlign: 'center'}}>
+            <Link className="ShellMainGate_headTitle" to="/">
+              <img alt = "iCare" src = "logo.png" style = {{marginTop: 50, marginLeft:-33 ,width:215, height:110}}/>
+            </Link>   
+            </div>
                 <Row className='justify-content-md-center'>
                     <div className="ViewRegisterMainGate parent-register-form">
                         <div className="ViewRegisterMainGate_title">

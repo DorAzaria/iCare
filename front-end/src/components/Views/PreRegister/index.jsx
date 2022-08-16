@@ -16,7 +16,14 @@ class PreViewRegister extends React.Component {
         const titleRegister = strings['TITLE_REGISTER'];
 
         const body = (
+            
             <Container>
+            <div style={{textAlign: 'center'}}>
+            <Link className="ShellMainGate_headTitle" to="/">
+              <img alt = "iCare" src = "logo.png" style = {{marginTop: 100, marginLeft:-33 ,width:215, height:110}}/>
+            </Link>   
+            </div>
+            
                 <Row className='justify-content-md-center'>
                     <div className="ViewLogInMainGate" style={{padding: '25px'}}>
                         <div className="ViewLogInMainGate_title">

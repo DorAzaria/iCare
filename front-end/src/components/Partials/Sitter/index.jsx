@@ -60,31 +60,36 @@ class PartialSitter extends React.Component {
       <Col className="PartialSitter_singleSitter" key={key}>
         <Card color="success" outline>
           <CardHeader>
-            <img src={profileUrl} className="avatar" alt="profile user"></img>
+            <img src={profileUrl} className="avatar" style={{float: "left"}} alt="profile user"></img>
             <div
               style={{
-                float: "right",
+                float: "left",
                 textAlign: "center",
+                marginLeft: "15px", 
                 color: "gray",
                 lineHeight: 1.1,
               }}
             >
-              <CardTitle style={{ color: "#626567", fontSize: 20 }}>
+              <CardTitle style={{ color: "#626567", fontSize: 20 , fontWeight: '650'}}>
                 {username}
               </CardTitle>
               <CardSubtitle style={{ color: "#626567", fontSize: 15 }}>
                 {age} years old
               </CardSubtitle>
             </div>
-            <div style={{ color: "darkblue" }}>
-              Experience:
-              <span style={{ color: "blue" }}> {exp_years} Years</span>
-            </div>
-            <div style={{ color: "darkblue" }}>
-              Education:
-              <span style={{ color: "blue" }}> {education}</span>
+            
+            <div style={{ float: "right",  color: "gray", lineHeight: 1.1,  marginTop: "10px"}}>
+                <div style={{ color: "#626567" , }}>
+                  Experience:
+                  <span style={{ color: "black" , fontWeight: '640' }}> {exp_years} Years</span>
+                </div>
+                <div style={{ color: "#626567" }}>
+                  Education:
+                  <span style={{ color: "black" , fontWeight: '640' }}> {education}</span>
+                </div>
             </div>
           </CardHeader>
+
           <CardBody style={{ height: 150 }}>
             <CardSubtitle tag="h6" style={{ paddingTop: 5 }}>
               Information:
@@ -95,21 +100,21 @@ class PartialSitter extends React.Component {
           </CardBody>
           <CardFooter
             style={{
-              color: "white",
-              backgroundColor: "lightskyblue",
+              color: "black",
+              backgroundColor: "#dda0dd",
               textAlign: "right",
             }}
           >
-            <span style={{ float: "left", paddingRight: 20 }}>
+            <span style={{ float: "left", paddingRight: 20 , }}>
               {" "}
               Skill:
-              <span style={{ color: "blue" }}> {child_care_str} </span>
-              <span style={{ color: "red" }}> {school_help_str} </span>
+              <span style={{ color: "blue" , fontWeight: '640' }}> {child_care_str} </span>
+              <span style={{ color: "red" , fontWeight: '640' }}> {school_help_str} </span>
             </span>
             <span style={{ float: "left" }}>
               {" "}
               Gender:
-              <span style={{ color: "yellow" }}> {genderName[gender]} </span>
+              <span style={{ color: "black", fontWeight: '640' }}> {genderName[gender]} </span>
             </span>
             <Link to={sitterProfileLink} className="Button_navigation">
               Profile

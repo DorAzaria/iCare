@@ -5,7 +5,7 @@ import AppContext from "@contexts/App";
 import ShellMainGate from "@components/Shells/MainGate";
 import "./index.css";
 import DatabaseDriver from "@database/Driver";
-
+import { Link } from 'react-router-dom';
 import AppKeys from "@shared/AppKeys";
 import ErrorCodes from "@shared/ErrorCodes";
 
@@ -198,6 +198,11 @@ class ViewBabySitterRegister extends React.Component {
     };
     const babySitterBody = (
       <Container>
+                    <div style={{textAlign: 'center'}}>
+            <Link className="ShellMainGate_headTitle" to="/">
+              <img alt = "iCare" src = "logo.png" style = {{marginTop: 50, marginLeft:-33 ,width:215, height:110}}/>
+            </Link>   
+            </div>
         <Row className="justify-content-md-center">
           <div className="ViewRegisterMainGate babysitter-register-form">
             <div className="ViewRegisterMainGate_title">

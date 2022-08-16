@@ -101,7 +101,7 @@ class ShellNavigation extends React.Component {
               color: "#5B5B5B",
               paddingLeft: "26px",
               marginBottom:"6px",
-              fontFamily: 'JetBrains Mono',
+              fontFamily: 'inherit',
             }}
           >
             {label}
