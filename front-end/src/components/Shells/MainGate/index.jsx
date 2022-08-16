@@ -24,7 +24,7 @@ class ShellMainGate extends React.Component {
       <div className="ShellMainGate">
         <div className="ShellMainGate_head">
             <Link className="ShellMainGate_headTitle" to="/">
-              <img alt = "iCare" src = "logo.png" style = {{width:200, height:150}}/>
+              <img alt = "iCare" src = "logo.png" style = {{marginLeft:-33 ,width:215, height:110}}/>
             </Link>            
         </div>
         <div className="ShellMainGate_body">{ body }</div>

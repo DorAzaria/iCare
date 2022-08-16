@@ -196,12 +196,11 @@ class ViewParentRegister extends React.Component {
                 <Row className='justify-content-md-center'>
                     <div className="ViewRegisterMainGate parent-register-form">
                         <div className="ViewRegisterMainGate_title">
-                            <span className="Title_styleA">Register Parent</span>
                         </div>
                         <div>
-                            <span style = {{color:'red'}}> { errorMsg }</span>
+                            <span style = {{fontFamily: 'JetBrains Mono',color:'red',marginBottom: '33px'}}> { errorMsg }</span>
                         </div>
-                        <Form style={{padding: '15px', width: '80%'}}>
+                        <Form style={{padding: '15px', width: '90%'}}>
                             <Row className='mb-3 pt-3'>
                                 <div className="ViewRegisterMainGate_title">
                                     <span className="Title_styleA">Account</span>
@@ -276,7 +275,7 @@ class ViewParentRegister extends React.Component {
                             </FormGroup>
                             <Row className='mt-4'>
                                 <Col sm={12} className='text-center'>
-                                    <button type='button' className='btn btn-parent' onClick={ actionSubmit } style={{minWidth: '150px'}}>{ labelRegister }</button>
+                                    <button type='button' className='btn btn-parent' onClick={ actionSubmit } style={{fontWeight:"bold", minWidth: '150px'}}>{ "Register" }</button>
                                 </Col>
                             </Row>
                             <div className="Layout_alwaysFilled">{ situation }</div>
@@ -289,7 +288,6 @@ class ViewParentRegister extends React.Component {
         const body = (
             <div style={{width: '450px'}}>
                 {parentBody}
-                <img src="parents.png" alt = "sitter" style = {{width:300, height:300, marginLeft:500, marginTop:-500}}></img>
             </div>
         )
         return (<ShellMainGate body={ body }/>);

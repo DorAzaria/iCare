@@ -206,9 +206,9 @@ class ViewLogIn extends React.Component {
                 </Row>
                 <Row className='mb-3'>
                   <Col sm={12} className="text-center" style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center'}}>
-                    <Button color = "dark" onClick={ actionSubmit } style={{minWidth: '150px'}}>{ labelLogIn }</Button>
+                    <Button onClick={ actionSubmit } style={{minWidth: '150px'}}>{ "Login" }</Button>
                     <Link to="/register">
-                      <button type='button' className='btn btn-register' style={{minWidth: '150px'}}>{labelRegister}</button>
+                      <button type='button' className='btn btn-register' style={{minWidth: '150px'}}>{"Register"}</button>
                     </Link>
                     
                   </Col>

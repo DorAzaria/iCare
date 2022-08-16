@@ -8,7 +8,7 @@ import DatabaseDriver from "@database/Driver";
 import AppKeys from "@shared/AppKeys";
 import {
   Navbar,
-  NavbarBrand,
+  NavbarBrand, 
   Nav,
   NavLink,
   NavbarToggler,
@@ -97,9 +97,11 @@ class ShellNavigation extends React.Component {
             key={key}
             href={link}
             style={{
-              backgroundColor: "#1d4354",
-              color: "white",
-              paddingLeft: "10px",
+              backgroundColor: "#dadada",
+              color: "#5B5B5B",
+              paddingLeft: "26px",
+              marginBottom:"-15px",
+              fontFamily: 'JetBrains Mono',
             }}
           >
             {label}
@@ -113,7 +115,7 @@ class ShellNavigation extends React.Component {
         <header className="sticky-top icare-navbar">
           <Navbar
             dark
-            style={{ height: 70 }}
+            style={{ height: 90 }}
             expand="md"
             className="container-xxl"
           >
@@ -135,7 +137,7 @@ class ShellNavigation extends React.Component {
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      marginRight: "10px",
+                      marginRight: "20px",
                     }}
                   >
                     <Notifications
@@ -143,9 +145,10 @@ class ShellNavigation extends React.Component {
                       width="300px"
                       cardOption={(data) => console.log(data)}
                       //markAsRead={data => console.log(data)}
-                      headerBackgroundColor="#a2b3bb"
+                      headerBackgroundColor="#ECD4FF"
                       header={{
                         title: "Notifications",
+                        fontFamily: 'JetBrains Mono',
                         option: { text: "View All", onClick: () => {} },
                       }}
                     />
@@ -161,7 +164,7 @@ class ShellNavigation extends React.Component {
                       tag="span"
                     >
                       <img
-                        src={user.avatar ? profileUrl : "logo.png"}
+                        src={user.avatar ? profileUrl : "EmptyProfile.jpg"}
                         className="profile-avatar"
                         alt="user profile"
                       ></img>

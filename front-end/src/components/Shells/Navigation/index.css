@@ -8,8 +8,8 @@
 .icare-navbar {
   border-bottom: 1px solid lightyellow;
   padding: 0.25rem 0;
-  background-color: #1d4354;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  background-color: #dadada;
+  box-shadow: rgba(244, 244, 244, 0.732) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   margin-bottom: 35px;
 }
 
@@ -18,18 +18,18 @@
 }
 
 .logo-img {
-  width:70px;
-  height:40px;
+  width:120px;
+  height:60px;
   border-radius:10px;
-  margin-left: 3em;
+  margin-left: -10;
 
 }
 
 .card .content .time {
-  color: #1d4354!important;
+  color: #dadada!important;
 }
 .card .message .text {
-  color: #1d4354;
+  color: #dadada;
   font-size: 12px;
   padding: 0;
   bottom: 3px;
@@ -40,12 +40,12 @@
   word-break: break-all;
 }
 .card .image img {
-  height: 40px;
+  height: 90px;
   width: 40px;
   border-radius: 50%;
 }
 .notifications .icon .image {
-  height: 28px!important;
+  height: 30px!important;
   width: 28px!important;
   cursor: pointer;
 }

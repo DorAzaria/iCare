@@ -18,29 +18,31 @@ class PreViewRegister extends React.Component {
         const body = (
             <Container>
                 <Row className='justify-content-md-center'>
-                    <div className="ViewLogInMainGate" style={{padding: '15px'}}>
+                    <div className="ViewLogInMainGate" style={{padding: '25px'}}>
                         <div className="ViewLogInMainGate_title">
-                            <span className="Title_styleA">{ titleRegister }</span>
+                            <span className="Title_styleA">{ titleRegister }
+                        
+                            </span>
                         </div>
                         <Row className='mt-5'>
                             <Col sm={6} className='text-center'>
                                 <div>
-                                    <img alt = "iCare" src = "parent.png" style = {{height:150}}/>
+                                    <img alt = "iCare" src = "mother.png" style = {{marginTop:-20,height:150}}/>
                                 </div>
                                 <div>
                                     <Link className="ShellMainGate_headTitle" to="/parent-register">
-                                        <button type='button' className='btn btn-pre-register' style={{minWidth: '150px'}}>Parent</button>
+                                        <button type='button' className='btn btn-pre-register' style={{marginTop:10,minWidth: '150px'}}>Parent</button>
                                     </Link> 
                                 </div>
                                 
                             </Col>
                             <Col sm={6} className='text-center'>
                                 <div>
-                                    <img alt = "iCare" src = "babysitter.png" style = {{height:150}}/>
+                                    <img alt = "iCare" src = "babysitter.png" style = {{marginTop:-20,height:150}}/>
                                 </div>
                                 <div>
                                     <Link className="ShellMainGate_headTitle" to="/babysitter-register">
-                                        <button type='button' className='btn btn-pre-register' style={{minWidth: '150px'}}>Babysitter</button>
+                                        <button type='button' className='btn btn-pre-register' style={{marginTop:10,minWidth: '150px'}}>Babysitter</button>
                                     </Link> 
                                 </div>
                             </Col>

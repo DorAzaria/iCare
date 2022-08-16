@@ -185,23 +185,22 @@ class ViewRequests extends React.Component {
       <div className="add-job-div">
         <Form>
           <FormGroup className = "add-job-row">
-            <Label for="title" style = {{color:'blue'}}>{ labelTitle } :</Label>
             <Input type="text" name="title" id="title" onChange={ setValue('title') } placeholder="Title" required />
           </FormGroup>
           <FormGroup className = "add-job-description-row">
-            <Label for="description" style = {{color:'blue'}}>{ labelDescription } :</Label>
-            <textarea style = {{width:'100%'}} id="description" name="description" className='form-control' onChange={ setValue('description') }></textarea>
+
+            <textarea style = {{width:'100%'}} id="description" name="description" className='form-control' onChange={ setValue('asd') }placeholder="Description"></textarea>
           </FormGroup>
           <Row>
             <Col sm={6}>
               <FormGroup className = "add-job-row">
-                <Label for="scheduleStart" style = {{color:'blue'}}>{ labelScheduleStart } :</Label>
+                <Label for="scheduleStart" style = {{color:'purple'}}>{ "Schedule Start" } :</Label>
                 <Input type="datetime-local" name="timeA" id="scheduleStart" onChange={ setTime('timeA') } required />
               </FormGroup>
             </Col>
             <Col sm={6}>
               <FormGroup className = "add-job-row">
-                <Label for="scheduleEnd" style = {{color:'blue'}}>{ labelScheduleEnd } :</Label>
+                <Label for="scheduleEnd" style = {{color:'purple'}}>{ "Schedule End" } :</Label>
                 <Input type="datetime-local" name="timeB" id="scheduleEnd" onChange={ setTime('timeB') } required />
               </FormGroup>
             </Col>
