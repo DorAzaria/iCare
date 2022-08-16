@@ -100,7 +100,7 @@ class ShellNavigation extends React.Component {
               backgroundColor: "#dadada",
               color: "#5B5B5B",
               paddingLeft: "26px",
-              marginBottom:"-15px",
+              marginBottom:"6px",
               fontFamily: 'JetBrains Mono',
             }}
           >
@@ -142,7 +142,7 @@ class ShellNavigation extends React.Component {
                   >
                     <Notifications
                       data={notifications}
-                      width="300px"
+                      width="600px"
                       cardOption={(data) => console.log(data)}
                       //markAsRead={data => console.log(data)}
                       headerBackgroundColor="#ECD4FF"
