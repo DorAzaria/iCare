@@ -201,10 +201,9 @@ class ViewBabySitterRegister extends React.Component {
         <Row className="justify-content-md-center">
           <div className="ViewRegisterMainGate babysitter-register-form">
             <div className="ViewRegisterMainGate_title">
-              <span className="Title_styleA">Register BabySitter</span>
             </div>
             <div>
-              <span style={{ color: "red" }}> {errorMsg}</span>
+              <span style = {{fontFamily: 'JetBrains Mono',color:'red'}}> { errorMsg }</span>
             </div>
             <Form style={{ padding: "15px", width: "80%" }}>
               <Row className="mb-3 pt-3">
@@ -395,9 +394,9 @@ class ViewBabySitterRegister extends React.Component {
                     type="button"
                     className="btn btn-baby"
                     onClick={actionSubmit}
-                    style={{ minWidth: "150px" }}
+                    style={{fontWeight:"bold", minWidth: "150px" }}
                   >
-                    BabySitter
+                    Register
                   </button>
                 </Col>
               </Row>
@@ -410,11 +409,6 @@ class ViewBabySitterRegister extends React.Component {
     const body = (
       <div style={{ width: "450px" }}>
         {babySitterBody}
-        <img
-          src="sitter.png"
-          alt="sitter"
-          style={{ width: 300, height: 300, marginLeft: 500, marginTop: -500 }}
-        ></img>
       </div>
     );
     return <ShellMainGate body={body} />;

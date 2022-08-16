@@ -98,7 +98,7 @@ const TITLE_LOG_IN = 'Log In';
 
 const TITLE_MY_JOBS = 'My Jobs';
 
-const TITLE_REGISTER = 'Register';
+const TITLE_REGISTER = 'Who Are you?';
 
 const TITLE_WELCOME = "Welcome to our website we offer blab la bla"
 
