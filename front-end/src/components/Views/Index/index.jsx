@@ -43,7 +43,7 @@ class ViewIndex extends React.Component {
       const {state } = this;
       const { slideIndex } = state;
       let bgs = [
-        {id:0, name:'bg0.jpg', imgStyle:'none', dotClass:''},
+        {id:0, name:'bg0.png', imgStyle:'none', dotClass:''},
         {id:1, name:'bg1.jpg', imgStyle:'none', dotClass:''},
         {id:2, name:'bg2.jpg', imgStyle:'none', dotClass:''},
         {id:3, name:'bg3.jpg', imgStyle:'none', dotClass:''},
