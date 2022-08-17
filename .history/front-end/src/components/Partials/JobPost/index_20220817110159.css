@@ -1,0 +1,26 @@
+.PartialSitter_singleSitter {
+  border-top: 1px solid plum;
+  border-left: 1px solid plum;
+  border-right: 3px solid plum;
+  border-bottom: 3px solid plum;
+  box-shadow: rgba(199, 11, 112, 0.25) 0px 13px 27px -5px, rgba(237, 96, 218, 0.3) 0px 8px 16px -8px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width:80px;
+  height:80px;
+  border-radius:40px;
+  float:right;
+}
+
+.heart-active {
+  color: #fb2705;
+  font-size: 22px;
+}
+
+.heart {
+  color: #192478;
+  font-size: 22px;
+}
