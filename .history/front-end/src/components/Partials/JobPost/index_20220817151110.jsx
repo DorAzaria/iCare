@@ -192,7 +192,7 @@ class PartialJobPost extends React.Component {
                   </span>
                 </div>
                 <div>
-                  <span style={{ fontSize: 14, color: "rgb(65 65 65)" , marginRight: 20 }}>
+                  <span style={{ fontSize: 14, color: "rgb(65 65 65)" , marginRight: 40 }}>
                     {truncate(description)}
                   </span>
                 </div>

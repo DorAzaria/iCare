@@ -86,7 +86,7 @@ class ShellNavigation extends React.Component {
     const { strings, user } = context;
 
     const profileUrl = SERVER_PROFILE_URL + user.avatar;
-    const parentProfileLink = `/parent-profile?${ KEY_NUMBER_USER }=${ user.number }`;
+    const parentProfileLink = `/parent-profile?${ KEY_NUMBER_USER }=${ user }`;
 
     //const appTitle = strings['TITLE_APP'];
     const navigationLinks = links.map((pair) => {

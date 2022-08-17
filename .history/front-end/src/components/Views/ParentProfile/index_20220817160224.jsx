@@ -367,7 +367,6 @@ class ViewParentProfile extends React.Component {
 
       return <ShellNavigation body={body} links={links} />;
     };
-    
     // render redirection if the user is not logged in
     if (!user) {
       return <Navigate to="/" />;
@@ -380,13 +379,7 @@ class ViewParentProfile extends React.Component {
         return renderA();
       }
 
-      case "parent": {
-        return renderA();
-      }
 
-      default: {
-        return <Navigate to="/" />;
-      }
     }
   }
 }

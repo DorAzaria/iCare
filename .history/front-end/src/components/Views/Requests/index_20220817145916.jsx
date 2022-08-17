@@ -195,7 +195,7 @@ class ViewRequests extends React.Component {
           </FormGroup>
           <FormGroup className = "add-job-description-row">
 
-            <textarea style = {{width:'100%'}} id="description" name="description" className='form-control' onChange={ setValue('description') }placeholder="Description"></textarea>
+            <textarea style = {{width:'100%'}} id="description" name="description" className='form-control' onChange={ setValue('asd') }placeholder="Description"></textarea>
           </FormGroup>
           <Row>
             <Col sm={6}>

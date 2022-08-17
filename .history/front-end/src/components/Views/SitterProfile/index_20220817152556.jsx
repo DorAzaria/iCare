@@ -6,7 +6,7 @@ import AppContext from "@contexts/App";
 
 import ShellNavigation from "@components/Shells/Navigation";
 
-import PartialParentProfile from "@components/Partials/ParentProfile";
+import PartialSitterProfile from "@components/Partials/SitterProfile";
 import PartialJobPost from "@components/Partials/JobPost";
 import PartialReview from "@components/Partials/Review";
 
@@ -15,18 +15,18 @@ import DatabaseDriver from "@database/Driver";
 import AppKeys from "@shared/AppKeys";
 import ErrorCodes from "@shared/ErrorCodes";
 import Links from "@shared/Links";
+import { Button } from "reactstrap";
 
 import "./index.css";
 
 import ComponentHelpers from "@components/Helpers";
-
-import { Button } from "reactstrap";
 
 const { withSearchParams } = ComponentHelpers;
 
 const KEY_NUMBER_USER = AppKeys["NUMBER_USER"];
 const KEY_NUMBER_TO = AppKeys["NUMBER_TO"];
 const KEY_NUMBER_PARENT = AppKeys["NUMBER_PARENT"];
+const KEY_NUMBER_FRIEND = AppKeys["NUMBER_FRIEND"];
 const KEY_NUMBER_JOB = AppKeys["NUMBER_JOB"];
 
 const KEY_NUMBER_REVIEW = AppKeys["NUMBER_REVIEW"];
@@ -39,7 +39,7 @@ const KEY_ERROR_CODE = AppKeys["ERROR_CODE"];
 
 const MAP_LINKS = Links["MAP_LINKS"];
 
-class ViewParentProfile extends React.Component {
+class ViewSitterProfile extends React.Component {
   static contextType = AppContext;
 
   constructor(props) {
@@ -48,7 +48,7 @@ class ViewParentProfile extends React.Component {
     this.state = {
       title: "",
       description: "",
-      rating: 0,
+      rating: 1,
       situation: "",
       sitter: null,
       reviews: [],
@@ -68,11 +68,12 @@ class ViewParentProfile extends React.Component {
 
   loadSitter() {
     const { props } = this;
+
     const { searchParams } = props;
 
     const numberUser = searchParams.get(KEY_NUMBER_USER);
     // const numberUser = user.number;
-    console.log("sitter", numberUser);
+
     const parameters = {
       [KEY_NUMBER_USER]: numberUser,
     };
@@ -91,6 +92,8 @@ class ViewParentProfile extends React.Component {
     const { searchParams } = props;
 
     const numberUser = searchParams.get(KEY_NUMBER_USER);
+    // const numberUser = user.number;
+
     let parameters;
 
     parameters = {
@@ -99,16 +102,21 @@ class ViewParentProfile extends React.Component {
 
     DatabaseDriver.loadReviews(parameters)
       .then((reviews) => {
-        console.log("Reviews");
-        console.log(reviews);
         this.setState({ reviews: reviews });
+        this.setState({ startPage: 0 });
+        this.setState({ curPage: 0 });
+        let nPage = parseInt((reviews.length + 4) / 5);
+        if (nPage === 0) nPage = 1;
+        this.setState({ nPage: nPage });
       })
       .catch((error) => {});
   }
   loadJobs() {
     const { props } = this;
     const { searchParams } = props;
+
     const numberUser = searchParams.get(KEY_NUMBER_USER);
+    // const numberUser = user.number
 
     let parameters;
 
@@ -118,8 +126,7 @@ class ViewParentProfile extends React.Component {
 
     DatabaseDriver.loadJobs(parameters)
       .then((jobs) => {
-        console.log("Jobs");
-        console.log(jobs);
+        console.log("this is job==>", jobs);
         this.setState({ jobs: jobs });
       })
       .catch((error) => {});
@@ -129,7 +136,9 @@ class ViewParentProfile extends React.Component {
     const { props, context } = this;
     const { searchParams } = props;
     const { description, rating } = this.state;
-    const { user } = context;
+    const { strings, user } = context;
+
+    const situationSuccess = strings["MESSAGE_JOBS_SUCCESS"];
 
     const number_to = searchParams.get(KEY_NUMBER_USER);
 
@@ -150,17 +159,18 @@ class ViewParentProfile extends React.Component {
         });
       } else {
         this.setState({
-          reviewStatus: "You have already left review to the parents",
+          reviewStatus: "You have already left review to this sitter",
         });
       }
     };
 
     const reviewSuccess = (response) => {
-      this.setState({
-        reviewStatus: "You have successfully left review to the parents",
-      });
+      this.setState({ situation: situationSuccess });
 
       // reload jobs to refresh "all jobs" list
+      this.setState({
+        reviewStatus: "You have successfully left review to the sitter",
+      });
       this.loadReviews();
     };
     console.log("saving...");
@@ -196,9 +206,53 @@ class ViewParentProfile extends React.Component {
       this.saveReview();
     };
 
+    const actionAddWatchList = () => {
+      const { props, context } = this;
+      const { searchParams } = props;
+      const { strings, user } = context;
+
+      const situationFail = strings["MESSAGE_JOBS_FAIL"];
+      const situationSuccess = strings["MESSAGE_JOBS_SUCCESS"];
+
+      const number_friend = searchParams.get(KEY_NUMBER_USER);
+
+      let request;
+      const { session } = user;
+      request = {
+        [KEY_SESSION]: session,
+        [KEY_NUMBER_FRIEND]: number_friend,
+      };
+
+      const watchFail = () => {
+        this.setState({ situation: situationFail });
+      };
+
+      const watchSuccess = (response) => {
+        console.log(response);
+
+        this.setState({ situation: situationSuccess });
+      };
+
+      DatabaseDriver.saveWatch(request)
+        .then((response) => {
+          const errorCode = response[KEY_ERROR_CODE];
+
+          if (errorCode !== ErrorCodes["ERROR_NONE"]) {
+            watchFail();
+          } else {
+            watchSuccess(response);
+          }
+        })
+        .catch((error) => {
+          watchFail();
+        });
+    };
+
     const makeJobElement = (job) => {
       const { [KEY_NUMBER_JOB]: key } = job;
       const key_job = "job_" + key;
+      const { context } = this;
+      const { user } = context;
       return (
         <PartialJobPost
           key={key_job}
@@ -220,8 +274,8 @@ class ViewParentProfile extends React.Component {
       if (page["number"] === page["current"]) {
         return (
           <a
-            key={key_page}
             href="#foo"
+            key={key_page}
             className="active"
             onClick={() => currentPage(page["number"])}
           >
@@ -231,8 +285,8 @@ class ViewParentProfile extends React.Component {
       } else {
         return (
           <a
-            key={key_page}
             href="#foo"
+            key={key_page}
             onClick={() => currentPage(page["number"])}
           >
             {page["number"] + 1}
@@ -285,8 +339,8 @@ class ViewParentProfile extends React.Component {
 
       const { strings } = context;
 
-      const titleParentReviews = strings["TITLE_PARENT_REVIEWS"];
-      const titleParentJobs = strings["TITLE_PARENT_JOBS"];
+      const titleSitterReviews = strings["TITLE_SITTER_REVIEWS"];
+      const titleSitterJobs = strings["TITLE_SITTER_JOBS"];
 
       let pageReviews = [];
       let startReview = curPage * 5;
@@ -311,55 +365,70 @@ class ViewParentProfile extends React.Component {
 
       const body = (
         <div className="ViewParentProfile container">
-          {<PartialParentProfile sitter={sitter} />}
-          <div className="leave-review-div">
-            <Button
-              color="secondary"
-              className="Button_navigation"
-              onClick={actionSaveReview}
-            >
-              Leave Review
-            </Button>
-            <span style={{ color: "black", paddingLeft: "30px" }}>Rating: </span>
-            <select style={{ width: "100px", marginBottom: 20  }} onChange={setValue("rating")}>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <span style={{ color: "black" }}>{reviewStatus}</span>
-            <textarea
-              style={{ width: "100%", border: "1px plum solid" }}
-              onChange={setValue("description")}
-            ></textarea>
-          </div>
-
-          <div style={{width: '80%', marginLeft: 130}}> 
-          <div className="ViewJobsBabysitter_titleAll mt-4">
-            <span className="Title_styleA">{titleParentReviews}</span>
-          </div>
-          <div className="ViewJobsBabysitter_listAll mt-4">
-            {elementsReview}
-          </div>
-          <div>
+          <div className="ViewJobsBabysitter_all">
+            {
+              <PartialSitterProfile
+                sitter={sitter}
+                actionAddWatchList={actionAddWatchList}
+              />
+            }
+            <div className="leave-review-div" style={{height: 140}}>
+              <Button
+                color="secondary"
+                className="Button_navigation"
+                onClick={actionSaveReview}
+              >
+                Leave Review
+              </Button>
+              <span style={{ color: "black", paddingLeft: "30px" }}>
+                Rating:{" "}
+              </span>
+              <select
+                style={{ width: "100px", marginRight: "20px" }}
+                onChange={setValue("rating")}
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <span style={{ color: "black" }}>{reviewStatus}</span>
+              <textarea
+                style={{ width: "100%", border: "1px solid plum", marginTop: 10 }}
+                onChange={setValue("description")}
+              ></textarea>
+            </div>
+            
+            <div style={{width: '80%', marginLeft: 130, marginTop: 20}}>
+            <div className="ViewJobsBabysitter_titleAll">
+              <span className="Title_styleA">{titleSitterReviews}</span>
+            </div>
+            <div className="ViewJobsBabysitter_listAll">{elementsReview}</div>
             <div className="pagination" style={{ float: "right" }}>
-              <a href="#foo" onClick={() => addPage(-1)}>
+              <a href="#foo" onClick={() => addPage(-1)} >
                 &laquo;
               </a>
               <span>{elementsPage}</span>
-              <a href="#foo" onClick={() => addPage(1)}>
+              <a href="#foo" onClick={() => addPage(1)} >
                 &raquo;
               </a>
-              <span style={{ color: "white" }}>!</span>
+              <span style={{ color: "white" }} >!</span>
             </div>
 
-            <div style={{ paddingTop: 30 }}>
-              <span className="Title_styleA">{titleParentJobs}</span>
+            <div className="ViewJobsBabysitter_listAll">
+              <div
+                className="ViewJobsBabysitter_titleAll"
+                style={{ width: "100%" }}
+              >
+                <p>
+                  <span className="Title_styleA">{titleSitterJobs}</span>
+                </p>
+              </div>
+              {elementsJob}
             </div>
-            <div className="ViewJobsBabysitter_listAll">{elementsJob}</div>
+            </div>
           </div>
-        </div>
         </div>
       );
 
@@ -367,7 +436,6 @@ class ViewParentProfile extends React.Component {
 
       return <ShellNavigation body={body} links={links} />;
     };
-    
     // render redirection if the user is not logged in
     if (!user) {
       return <Navigate to="/" />;
@@ -376,19 +444,21 @@ class ViewParentProfile extends React.Component {
     const { type } = user;
 
     switch (type) {
-      case "babysitter": {
-        return renderA();
-      }
-
       case "parent": {
         return renderA();
       }
 
+      case "babysitter": {
+        return renderA();
+        //return (<Navigate to="/"/>);
+      }
+
       default: {
-        return <Navigate to="/" />;
+        return renderA();
+        //return (<Navigate to="/"/>);
       }
     }
   }
 }
 
-export default withSearchParams(ViewParentProfile);
+export default withSearchParams(ViewSitterProfile);

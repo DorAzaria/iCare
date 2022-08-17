@@ -172,7 +172,7 @@ class ShellNavigation extends React.Component {
                       ></img>
                     </DropdownToggle>
                     <DropdownMenu end>
-                      <LinkContainer to={ parentProfileLink } replace>
+                      <LinkContainer to={ parentProfileLink } >
                         <DropdownItem
                           style={{ textDecoration: "none", color: "black" }}
                         >

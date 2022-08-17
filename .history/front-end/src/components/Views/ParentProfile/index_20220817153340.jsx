@@ -72,7 +72,7 @@ class ViewParentProfile extends React.Component {
 
     const numberUser = searchParams.get(KEY_NUMBER_USER);
     // const numberUser = user.number;
-    console.log("sitter", numberUser);
+    console.log("parent", numberUser);
     const parameters = {
       [KEY_NUMBER_USER]: numberUser,
     };
@@ -367,7 +367,6 @@ class ViewParentProfile extends React.Component {
 
       return <ShellNavigation body={body} links={links} />;
     };
-    
     // render redirection if the user is not logged in
     if (!user) {
       return <Navigate to="/" />;
@@ -381,7 +380,7 @@ class ViewParentProfile extends React.Component {
       }
 
       case "parent": {
-        return renderA();
+        return <Navigate to="/" />;
       }
 
       default: {
