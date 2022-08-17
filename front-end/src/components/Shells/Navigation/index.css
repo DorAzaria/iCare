@@ -1,8 +1,8 @@
 .profile-avatar {
-  width:40px;
-  height:40px;
-  border-radius:25px;
-  float:right;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
 }
 
 .icare-navbar {

@@ -167,6 +167,7 @@ class ShellNavigation extends React.Component {
                         src={user.avatar ? profileUrl : "EmptyProfile.jpg"}
                         className="profile-avatar"
                         alt="user profile"
+
                       ></img>
                     </DropdownToggle>
                     <DropdownMenu end>

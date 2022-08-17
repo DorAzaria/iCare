@@ -33,6 +33,8 @@ class ViewProfile extends React.Component {
 
     this.state = {
       imgSrc: null,
+      firstName: "",
+      lastName: "",
       have_children: 0,
       have_drive_license: 0,
       have_experience_special: 0,
@@ -527,7 +529,7 @@ class ViewProfile extends React.Component {
               <Row>
                 <Col sm={4} className="right-line">
                   <div className="mb-3">
-                    <span className="Title_styleA">Edit Profile</span>
+                    <span className="Title_styleA">{"Hello " + user.firstName +" " + user.lastName}</span>
                   </div>
                   <div className="mb-2">
                     <span className="Title_style mb-2">Description</span>
@@ -1449,7 +1451,7 @@ class ViewProfile extends React.Component {
                     <img
                       alt="iCare"
                       src={this.state.imgSrc ? this.state.imgSrc : "empty.png"}
-                      style={{ height: 180 }}
+                      style={{height: 200}}
                     />
                   </div>
                   <div
@@ -1552,7 +1554,7 @@ class ViewProfile extends React.Component {
               <Row>
                 <Col sm={4} className="right-line">
                   <div className="mb-3">
-                    <span className="Title_styleA">Edit Profile</span>
+                  <span className="Title_styleA">{"Hello " + user.firstName +" " + user.lastName}</span>
                   </div>
                   <div className="mb-2">
                     <span className="Title_style mb-2">Description</span>
@@ -2474,7 +2476,7 @@ class ViewProfile extends React.Component {
                     <img
                       alt="iCare"
                       src={this.state.imgSrc ? this.state.imgSrc : "empty.png"}
-                      style={{ height: 180 }}
+                      style={{height:200}}
                     />
                   </div>
                   <div
