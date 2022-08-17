@@ -1,2 +1,0 @@
-API_DISPATCHER = r'^api/.*$'
-GENERAL_REDIRECTOR = r'^.*$'
