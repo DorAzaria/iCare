@@ -34,6 +34,7 @@
 ## Technologies
 * OS: Windows
 * Python 3.8.5 (Django)
+* NodeJS
 * React
 * Boostrap
 * SQLite3
