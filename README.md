@@ -1,6 +1,6 @@
 # iCare WebApp
 
-## Install:
+## Installation
 
 1. Install Python or Anaconda on your PC.
 2. (Terminal A): Go to back-end folder via terminal and do the following commands:
@@ -28,3 +28,11 @@
 
    ``` python manage.py createsuperuser ``` 
 
+
+## Technologies
+* Python 3.8.5 (Django)
+* React
+* Boostrap
+* SQLite3
+* JavaScript
+* HTML & CSS
