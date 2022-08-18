@@ -247,7 +247,9 @@ class ViewJobs extends React.Component {
             <div className="me-3 ms-3 mt-4">
               <Row lg="2" md="2" sm="1" xs="1">
                 {elementsJob}
+                
               </Row>
+              
             </div>
           </div>
         </div>

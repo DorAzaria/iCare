@@ -178,7 +178,7 @@ class ViewSitters extends React.Component {
       const {checkAge, checkGender, checkSkill} = state;
       const filterSitterDiv = 
 
-        <div className = "filter-sitter-div" style={{ marginBottom: "60px", height: "320px"}}>
+        <div className = "filter-sitter-div" style={{ marginBottom: "60px", height: "350px"}}>
         <div className="job-search" style={{ paddingBottom: "20px" }}>
           <div className="mt-1" >
             <span className="job-title">Search </span>
@@ -187,7 +187,7 @@ class ViewSitters extends React.Component {
         </div>
         
         <div style={{marginLeft:"250px"}}>
-          <div className = "filter-sitter-row">
+          <div className = "filter-sitter-row" style={{marginLeft:"50px"}}>
             <input type="checkbox"
               checked = {checkAge}
               onChange = {checkToggle('checkAge')}
@@ -199,7 +199,9 @@ class ViewSitters extends React.Component {
             <input type = "text" className='filter_style' value = {maxAge} style = {{marginLeft: '10px', width:100}} onChange = {changeFilterValue('maxAge')}/>
           </div>
 
-          <div className = "filter-sitter-row">
+          <hr style={{marginRight: 230, marginTop: -10}}></hr>
+
+          <div className = "filter-sitter-row" style={{marginLeft:"150px"}}>
             <input type="checkbox"
               checked = {checkGender}
               onChange = {checkToggle('checkGender')}
@@ -210,8 +212,8 @@ class ViewSitters extends React.Component {
               <option value = "female">Female</option>
             </select>
           </div>
-
-          <div className = "filter-sitter-row">
+          <hr style={{marginRight: 230, marginTop: -10}}></hr>
+          <div className = "filter-sitter-row" style={{marginLeft:"150px"}}>
             <input type="checkbox"
               checked = {checkSkill}
               onChange = {checkToggle('checkSkill')}
@@ -222,7 +224,9 @@ class ViewSitters extends React.Component {
               <option value = "school_help">School Help</option>
             </select>
           </div>            
+          <hr style={{marginRight: 230, marginTop: -10}}></hr>
           </div>
+          
           <div style ={{marginLeft:510, marginTop: "10px"}}>
             <Button color = "secondary" className='Button_navigation' onClick={ actionRefresh } style ={{fontSize:"18px",marginLeft:"-40px",width:"150px",height:"40px"}}>Search</Button>
           </div> 

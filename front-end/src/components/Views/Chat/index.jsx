@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  Col,
   CardSubtitle,
 } from "reactstrap";
 
@@ -206,6 +207,9 @@ class ViewChat extends React.Component {
                   className="avatar"
                   alt="usr profile"
                 ></img>
+
+                
+
                 <div
                   style={{ float: "right", textAlign: "center", color: "gray", marginTop: 30, marginRight: 20}}
                 >
@@ -221,6 +225,10 @@ class ViewChat extends React.Component {
                 >
                   {title}
                 </CardTitle>
+
+                <Button color="success" style={{padding: 8, marginLeft: 550, marginTop: -68, width:200}} onClick={actionRefresh}>
+              PAY NOW
+            </Button>
               </CardHeader>
               <CardBody style={{ height: 550 }}>
                 <div className="ViewChat_messages">{elementMessages}</div>
@@ -239,10 +247,12 @@ class ViewChat extends React.Component {
               
             </Card>
 
-            <Button className="Button_navigation" color="secondary" style={{padding: 8, marginLeft: 500, marginTop: 10, width:200}} onClick={actionRefresh}>
+
+            <Button className="Button_navigation" color="secondary" style={{padding: 8, marginLeft: 570, marginTop: 25, width:200}} onClick={actionRefresh}>
               REFRESH
             </Button>
 
+            
           </div>
         </div>
       );

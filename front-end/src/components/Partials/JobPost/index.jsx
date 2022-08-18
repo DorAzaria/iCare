@@ -182,22 +182,12 @@ class PartialJobPost extends React.Component {
               </span>
             </div>
           </CardHeader>
-          <CardBody style={{ height: 100 }}>
-            <div>
-              <div className="text-end" style={{float: "left"}}>
-                <div>
-                  <span style={{ fontSize: 14, color: "rgb(65 65 65)" }}>
-                    {" "}
-                    Information{" "}
-                  </span>
-                </div>
-                <div>
-                  <span style={{ fontSize: 14, color: "rgb(65 65 65)" , marginRight: 20 }}>
-                    {truncate(description)}
-                  </span>
-                </div>
-              </div>
-            </div>
+          <CardBody style={{ }}>
+
+          <CardSubtitle tag = "h6" style ={{paddingTop:5, color: 'gray'}}>Information:</CardSubtitle>
+          <CardTitle style={{color:'black',fontFamily:"Calibri" ,fontSize:20, paddingTop: 4 }}>
+              {description}
+            </CardTitle>
           </CardBody>
 
           <CardFooter

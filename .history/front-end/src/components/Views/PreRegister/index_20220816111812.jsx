@@ -38,7 +38,7 @@ class PreViewRegister extends React.Component {
                             </Col>
                             <Col sm={6} className='text-center'>
                                 <div>
-                                    <img alt = "iCare" src = "babysitter.png" style = {{marginTop:-20,height:150}}/>
+                                    <img alt = "iCare" src = "babysitter.png" style = {{marginTop:-27,height:150}}/>
                                 </div>
                                 <div>
                                     <Link className="ShellMainGate_headTitle" to="/babysitter-register">

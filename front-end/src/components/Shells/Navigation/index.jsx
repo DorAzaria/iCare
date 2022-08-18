@@ -86,12 +86,20 @@ class ShellNavigation extends React.Component {
     const { strings, user } = context;
 
     const profileUrl = SERVER_PROFILE_URL + user.avatar;
-    const parentProfileLink = `/parent-profile?${ KEY_NUMBER_USER }=${ user.number }`;
+
+    // const parentProfileLink = `/parent-profile?${ KEY_NUMBER_USER }=${ user.number }`;
+    const parentProfileLink  = `/parent-profile?${ KEY_NUMBER_USER }=${ user.number }` ;
+    var checker = "check";
 
     //const appTitle = strings['TITLE_APP'];
     const navigationLinks = links.map((pair) => {
       const { key, link } = pair;
       const label = strings[key];
+      
+      if(key == 'LABEL_FAMILIES') {
+        checker = "true";
+      }
+
       return (
         <NavItem>
           <NavLink
@@ -172,13 +180,24 @@ class ShellNavigation extends React.Component {
                       ></img>
                     </DropdownToggle>
                     <DropdownMenu end>
+                      
+                      {checker === "true" &&                       
+                        <LinkContainer to={ `/sitter-profile?${ KEY_NUMBER_USER }=${ user.number }` } replace>
+                        <DropdownItem
+                          style={{ textDecoration: "none", color: "black" }}
+                        >
+                         Profile
+                        </DropdownItem>
+                      </LinkContainer>}
+
+                      {checker !== "true" &&                       
                       <LinkContainer to={ parentProfileLink } replace>
                         <DropdownItem
                           style={{ textDecoration: "none", color: "black" }}
                         >
                          Profile
                         </DropdownItem>
-                      </LinkContainer>
+                      </LinkContainer>}
 
                       <LinkContainer to="/profile" replace>
                         <DropdownItem

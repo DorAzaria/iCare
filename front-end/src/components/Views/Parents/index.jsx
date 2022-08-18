@@ -164,13 +164,13 @@ class ViewParents extends React.Component {
                 <span className="job-title-A "> Families</span>
               </div>
           </div>
-          <div style ={{marginLeft: 410}} >
+          <div style ={{marginLeft: 450}} >
             <input type="checkbox"
               checked = {check_children}
               onChange = {checkToggle('check_children')}
               
             />
-            <span style = {{color:'black', width:'250px', display:'inline-block' , marginLeft: 10}}>Number of Children: </span>
+            <span style = {{color:'black', width:'250px', display:'inline-block' , marginLeft: 20}}>Number of Children: </span>
             <select onChange={selectFilterValue('num_of_children')}>
               <option value = "1">1</option>
               <option value = "2">2</option>
@@ -185,7 +185,7 @@ class ViewParents extends React.Component {
             </select>
           </div>            
 
-          <div style ={{marginLeft:495, marginTop:20}}>
+          <div style ={{marginLeft:540, marginTop:20}}>
             <Button color = "secondary" style={{width: 150}} className='Button_navigation' onClick={ actionRefresh }>Search Parents</Button>
           </div> 
       

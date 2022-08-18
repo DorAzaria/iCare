@@ -1,7 +1,7 @@
 import React from 'react';
 import AppKeys from '@shared/AppKeys';
 import './index.css';
-import { Card, CardHeader,CardTitle, CardSubtitle, CardBody, Button } from 'reactstrap';
+import { Card, CardHeader,CardTitle, CardSubtitle, CardBody, Button, CardText } from 'reactstrap';
 import {Link} from 'react-router-dom';
 
 const KEY_USER_NAME = AppKeys['USERNAME'];
@@ -55,9 +55,14 @@ class PartialChatRequest extends React.Component {
             { chatLink }
           </div>
         </CardHeader>        
-        <CardBody className='text-end'>
-          <CardSubtitle style ={{paddingTop:5, fontSize: 14}}>Cover Letter:</CardSubtitle>
-          <CardTitle style = {{color:'black', fontSize: 14}}>{ coverLetter }</CardTitle>
+        <CardBody >
+
+
+        <CardSubtitle tag = "h6" style ={{ color: 'gray'}}>Cover Letter:</CardSubtitle>
+          <CardTitle style={{color:'black',fontFamily:"Calibri" ,fontSize:20}}>
+              {coverLetter}
+          </CardTitle>
+        
         </CardBody>
       </Card>
     );

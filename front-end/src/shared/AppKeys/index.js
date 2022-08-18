@@ -66,6 +66,13 @@ const EXP_YEARS = 'exp_years';
 const SHORT_INFO = 'short_info';
 const LOC = 'loc';
 const RATING = 'rating';
+const SMOKING = 'smoking';
+const HAVE_CHILDREN = 'have_children';
+const DRIVE_LICENSE = 'have_drive_license';
+const REMOTELY = 'remotely';
+const SPECIAL_EXPERIENCE = 'have_experience_special';
+const HELP_TYPE = 'help_type';
+const CHILD_TYPE = 'child_type';
 
 //review
 const NUMBER_REVIEW = 'number_review';
@@ -144,11 +151,19 @@ const AppKeys = Object.freeze({
   PRICE,
   GENDER,
   CHILD_CARE,
+  SMOKING,
   SCHOOL_HELP,
   EXP_YEARS,
   SHORT_INFO,
   LOC,
   RATING,
+  HAVE_CHILDREN,
+  DRIVE_LICENSE,
+  REMOTELY,
+  SPECIAL_EXPERIENCE,
+  HELP_TYPE,
+  CHILD_TYPE,
+
 
   NUMBER_TO,
   NUMBER_FROM,

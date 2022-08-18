@@ -43,7 +43,6 @@ class ViewParentRegister extends React.Component {
           type: 'parent',
           age:0,
           gender:0,
-    
           errorMsg:'',
         };
         this.selectedFile = React.createRef(null);

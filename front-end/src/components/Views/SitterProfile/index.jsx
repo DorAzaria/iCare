@@ -15,7 +15,7 @@ import DatabaseDriver from "@database/Driver";
 import AppKeys from "@shared/AppKeys";
 import ErrorCodes from "@shared/ErrorCodes";
 import Links from "@shared/Links";
-import { Button } from "reactstrap";
+import { Button , Table,} from "reactstrap";
 
 import "./index.css";
 
@@ -38,6 +38,7 @@ const KEY_DESCRIPTION = AppKeys["DESCRIPTION"];
 const KEY_ERROR_CODE = AppKeys["ERROR_CODE"];
 
 const MAP_LINKS = Links["MAP_LINKS"];
+
 
 class ViewSitterProfile extends React.Component {
   static contextType = AppContext;
@@ -63,7 +64,30 @@ class ViewSitterProfile extends React.Component {
   componentDidMount() {
     this.loadSitter();
     this.loadReviews();
+    this.loadUserSchedule();
     this.loadJobs();
+  }
+
+  loadUserSchedule() {
+    const { props } = this;
+
+    const { searchParams } = props;
+
+    const numberUser = searchParams.get(KEY_NUMBER_USER);
+    // const numberUser = user.number;
+
+    
+
+    const parameters = {
+      [KEY_NUMBER_USER]: numberUser,
+    };
+    DatabaseDriver.loadUserSchedule(parameters)
+      .then((schedules) => {
+        this.setState(JSON.parse(schedules)[0].fields);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   loadSitter() {
@@ -76,6 +100,7 @@ class ViewSitterProfile extends React.Component {
 
     const parameters = {
       [KEY_NUMBER_USER]: numberUser,
+      
     };
 
     DatabaseDriver.loadUsers(parameters)
@@ -90,8 +115,8 @@ class ViewSitterProfile extends React.Component {
   loadReviews() {
     const { props } = this;
     const { searchParams } = props;
-
     const numberUser = searchParams.get(KEY_NUMBER_USER);
+    
     // const numberUser = user.number;
 
     let parameters;
@@ -149,6 +174,7 @@ class ViewSitterProfile extends React.Component {
       [KEY_NUMBER_TO]: number_to,
       [KEY_DESCRIPTION]: description,
       [KEY_RATING]: rating,
+      
     };
 
     const reviewFail = (errorCode) => {
@@ -202,6 +228,7 @@ class ViewSitterProfile extends React.Component {
       this.setState({ [key]: value });
     };
 
+    
     const actionSaveReview = () => {
       this.saveReview();
     };
@@ -337,10 +364,42 @@ class ViewSitterProfile extends React.Component {
       const { reviews, sitter, jobs, reviewStatus, startPage, curPage, nPage } =
         state;
 
-      const { strings } = context;
+      const { 
+        strings, 
+        fri_aft: fri_aft,
+        fri_eve: fri_eve,
+        fri_mor: fri_mor,
+        fri_nig: fri_nig,
+        mon_aft: mon_aft,
+        mon_eve: mon_eve,
+        mon_mor: mon_mor,
+        mon_nig: mon_nig,
+        sat_aft: sat_aft,
+        sat_eve: sat_eve,
+        sat_mor: sat_mor,
+        sat_nig: sat_nig,
+        sun_aft: sun_aft,
+        sun_eve: sun_eve,
+        sun_mor: sun_mor,
+        sun_nig: sun_nig,
+        thu_aft: thu_aft,
+        thu_eve: thu_eve,
+        thu_mor: thu_mor,
+        thu_nig: thu_nig,
+        tue_aft: tue_aft,
+        tue_eve: tue_eve,
+        tue_mor: tue_mor,
+        tue_nig: tue_nig,
+        wed_aft: wed_aft,
+        wed_eve: wed_eve,
+        wed_mor: wed_mor,
+        wed_nig: wed_nig,
+      } = context;
 
       const titleSitterReviews = strings["TITLE_SITTER_REVIEWS"];
       const titleSitterJobs = strings["TITLE_SITTER_JOBS"];
+
+      const sun_mor_str = sun_mor ? "✔" : "";
 
       let pageReviews = [];
       let startReview = curPage * 5;
@@ -372,6 +431,81 @@ class ViewSitterProfile extends React.Component {
                 actionAddWatchList={actionAddWatchList}
               />
             }
+
+            <div className="ViewJobsBabysitter_titleAll" style={{marginTop: 40}}>
+              <span className="Title_styleA" style={{width: '80%', marginLeft: 130, marginTop: 20}}>Availability</span>
+            </div>
+
+            <div className="leave-review-div" style={{height: 390}}>
+                <Table striped>
+                <thead>
+                  <tr>
+                    <th> </th>
+                    <th style={{textAlign: 'center'}}>Morning</th>
+                    <th style={{textAlign: 'center'}}>Afternoon</th>
+                    <th style={{textAlign: 'center'}}>Evening</th>
+                    <th style={{textAlign: 'center'}}>Night</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Sunday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Monday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Tuesday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Wednsday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Thursday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Friday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Saturday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_nig ? "✔" : ""}</td>
+                  </tr>
+                </tbody>
+
+                </Table>
+            </div>
+            
+            <div className="ViewJobsBabysitter_titleAll" style={{marginTop: 40}}>
+              <span className="Title_styleA" style={{width: '80%', marginLeft: 130, marginTop: 20}}>{titleSitterReviews}</span>
+            </div>
+
             <div className="leave-review-div" style={{height: 140}}>
               <Button
                 color="secondary"
@@ -401,9 +535,7 @@ class ViewSitterProfile extends React.Component {
             </div>
             
             <div style={{width: '80%', marginLeft: 130, marginTop: 20}}>
-            <div className="ViewJobsBabysitter_titleAll">
-              <span className="Title_styleA">{titleSitterReviews}</span>
-            </div>
+
             <div className="ViewJobsBabysitter_listAll">{elementsReview}</div>
             <div className="pagination" style={{ float: "right" }}>
               <a href="#foo" onClick={() => addPage(-1)} >

@@ -113,6 +113,7 @@ class ViewProfile extends React.Component {
     const numberUser = user.number;
     this.setState({ user_number: numberUser });
   }
+  
   loadUserSchedule() {
     const { context } = this;
     const { user } = context;

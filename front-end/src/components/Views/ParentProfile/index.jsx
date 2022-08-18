@@ -20,7 +20,7 @@ import "./index.css";
 
 import ComponentHelpers from "@components/Helpers";
 
-import { Button } from "reactstrap";
+import { Button , Table} from "reactstrap";
 
 const { withSearchParams } = ComponentHelpers;
 
@@ -63,8 +63,32 @@ class ViewParentProfile extends React.Component {
   componentDidMount() {
     this.loadSitter();
     this.loadReviews();
+    this.loadUserSchedule();
     this.loadJobs();
   }
+
+  loadUserSchedule() {
+    const { props } = this;
+
+    const { searchParams } = props;
+
+    const numberUser = searchParams.get(KEY_NUMBER_USER);
+    // const numberUser = user.number;
+
+    
+
+    const parameters = {
+      [KEY_NUMBER_USER]: numberUser,
+    };
+    DatabaseDriver.loadUserSchedule(parameters)
+      .then((schedules) => {
+        this.setState(JSON.parse(schedules)[0].fields);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 
   loadSitter() {
     const { props } = this;
@@ -283,7 +307,36 @@ class ViewParentProfile extends React.Component {
       const { reviews, sitter, jobs, reviewStatus, startPage, curPage, nPage } =
         state;
 
-      const { strings } = context;
+      const { strings,
+        fri_aft: fri_aft,
+        fri_eve: fri_eve,
+        fri_mor: fri_mor,
+        fri_nig: fri_nig,
+        mon_aft: mon_aft,
+        mon_eve: mon_eve,
+        mon_mor: mon_mor,
+        mon_nig: mon_nig,
+        sat_aft: sat_aft,
+        sat_eve: sat_eve,
+        sat_mor: sat_mor,
+        sat_nig: sat_nig,
+        sun_aft: sun_aft,
+        sun_eve: sun_eve,
+        sun_mor: sun_mor,
+        sun_nig: sun_nig,
+        thu_aft: thu_aft,
+        thu_eve: thu_eve,
+        thu_mor: thu_mor,
+        thu_nig: thu_nig,
+        tue_aft: tue_aft,
+        tue_eve: tue_eve,
+        tue_mor: tue_mor,
+        tue_nig: tue_nig,
+        wed_aft: wed_aft,
+        wed_eve: wed_eve,
+        wed_mor: wed_mor,
+        wed_nig: wed_nig,
+       } = context;
 
       const titleParentReviews = strings["TITLE_PARENT_REVIEWS"];
       const titleParentJobs = strings["TITLE_PARENT_JOBS"];
@@ -312,6 +365,81 @@ class ViewParentProfile extends React.Component {
       const body = (
         <div className="ViewParentProfile container">
           {<PartialParentProfile sitter={sitter} />}
+
+          <div className="ViewJobsBabysitter_titleAll" style={{marginTop: 40}}>
+              <span className="Title_styleA" style={{width: '80%', marginLeft: 130, marginTop: 20}}>Availability</span>
+            </div>
+
+            <div className="leave-review-div" style={{height: 390}}>
+                <Table striped>
+                <thead>
+                  <tr>
+                    <th> </th>
+                    <th style={{textAlign: 'center'}}>Morning</th>
+                    <th style={{textAlign: 'center'}}>Afternoon</th>
+                    <th style={{textAlign: 'center'}}>Evening</th>
+                    <th style={{textAlign: 'center'}}>Night</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Sunday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sun_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Monday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.mon_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Tuesday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.tue_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Wednsday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.wed_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Thursday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.thu_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Friday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.fri_nig ? "✔" : ""}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={{textAlign: 'center'}}>Saturday</th>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_mor ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_aft ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_eve ? "✔" : ""}</td>
+                    <td style={{textAlign: 'center'}}>{this.state.sat_nig ? "✔" : ""}</td>
+                  </tr>
+                </tbody>
+
+                </Table>
+            </div>
+
+            <div className="ViewJobsBabysitter_titleAll" style={{marginTop: 40}}>
+              <span className="Title_styleA" style={{width: '80%', marginLeft: 130, marginTop: 20}}>{titleParentReviews}</span>
+            </div>
+
           <div className="leave-review-div">
             <Button
               color="secondary"
@@ -336,9 +464,7 @@ class ViewParentProfile extends React.Component {
           </div>
 
           <div style={{width: '80%', marginLeft: 130}}> 
-          <div className="ViewJobsBabysitter_titleAll mt-4">
-            <span className="Title_styleA">{titleParentReviews}</span>
-          </div>
+
           <div className="ViewJobsBabysitter_listAll mt-4">
             {elementsReview}
           </div>

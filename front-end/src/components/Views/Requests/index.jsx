@@ -269,7 +269,9 @@ class ViewRequests extends React.Component {
               </Col>
               <Col>
                 <div className="ViewRequestsParent_applications">
+                  <span style={{position: 'absolute', marginLeft: 170, width: '100%', height: '100%', marginTop: 90}}>Waiting for an application</span>
                   { elementsApplication }
+                  
                 </div>
               </Col>
             </Row>
